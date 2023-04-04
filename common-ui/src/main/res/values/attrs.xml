@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <attr name="comm_ui_startcolor" format="color"/>
+    <attr name="comm_ui_endcolor" format="color"/>
+    <attr name="comm_ui_corners_radius" format="dimension"/>
+    <attr name="comm_ui_angle" format="integer"/>
+    <attr name="comm_ui_stroke_width" format="dimension"/>
+    <attr name="comm_ui_stroke_color" format="color"/>
+    <attr name="comm_ui_solid_color" format="color"/>
+    <attr name="comm_ui_top_left_radius" format="dimension"/>
+    <attr name="comm_ui_top_right_radius" format="dimension"/>
+    <attr name="comm_ui_bottom_left_radius" format="dimension"/>
+    <attr name="comm_ui_bottom_right_radius" format="dimension"/>
+
+    <declare-styleable name="GradientTextView">
+        <attr name="comm_ui_startcolor"/>
+        <attr name="comm_ui_endcolor"/>
+        <attr name="comm_ui_corners_radius"/>
+        <attr name="comm_ui_angle"/>
+        <attr name="comm_ui_top_left_radius"/>
+        <attr name="comm_ui_top_right_radius"/>
+        <attr name="comm_ui_bottom_left_radius"/>
+        <attr name="comm_ui_bottom_right_radius"/>
+    </declare-styleable>
+
+    <declare-styleable name="GradientConstraintLayout">
+        <attr name="comm_ui_startcolor"/>
+        <attr name="comm_ui_endcolor"/>
+        <attr name="comm_ui_corners_radius"/>
+        <attr name="comm_ui_angle"/>
+    </declare-styleable>
+
+    <declare-styleable name="ShapeView">
+        <attr name="comm_ui_stroke_width"/>
+        <attr name="comm_ui_stroke_color"/>
+        <attr name="comm_ui_solid_color"/>
+        <attr name="comm_ui_corners_radius"/>
+        <attr name="comm_ui_top_left_radius"/>
+        <attr name="comm_ui_top_right_radius"/>
+        <attr name="comm_ui_bottom_left_radius"/>
+        <attr name="comm_ui_bottom_right_radius"/>
+    </declare-styleable>
+
+
+    <declare-styleable name="NestedScrollerLayoutParams">
+        <attr name="comm_ui_isConsecutive" format="boolean"/>
+        <attr name="comm_ui_isNestedScroll" format="boolean"/>
+        <attr name="comm_ui_isSticky" format="boolean"/>
+        <attr name="comm_ui_isTriggerScroll" format="boolean"/>
+        <attr name="comm_ui_isSink" format="boolean"/>
+        <attr name="comm_ui_align" format="enum">
+            <enum name="LEFT" value="1"/>
+            <enum name="RIGHT" value="2"/>
+            <enum name="CENTER" value="3"/>
+        </attr>
+        <attr name="comm_ui_scrollChildViewId" format="reference"/>
+    </declare-styleable>
+
+    <declare-styleable name="ClearEditText">
+        <attr name="comm_ui_mask" format="string"/>
+        <attr name="comm_ui_mask_fill" format="string"/>
+        <attr name="comm_ui_char_representation" format="string"/>
+    </declare-styleable>
+
+    <declare-styleable name="MoneyEditText">
+        <attr name="comm_ui_symbol_text_size" format="dimension"/>
+        <attr name="comm_ui_base_text_size" format="dimension"/>
+    </declare-styleable>
+
+    <declare-styleable name="SwitchView">
+        <attr name="hasShadow" format="boolean"/>
+        <attr name="primaryColor" format="color"/>
+        <attr name="primaryColorDark" format="color"/>
+        <attr name="isOpened" format="boolean"/>
+    </declare-styleable>
+
+    <declare-styleable name="CusRoundImageView">
+        <attr name="comm_ui_corners_radius"/>
+        <attr name="comm_ui_top_left_radius"/>
+        <attr name="comm_ui_top_right_radius"/>
+        <attr name="comm_ui_bottom_left_radius"/>
+        <attr name="comm_ui_bottom_right_radius"/>
+        <attr name="comm_ui_stroke_width"/>
+        <attr name="comm_ui_stroke_color"/>
+    </declare-styleable>
+
+    <declare-styleable name="BadgeView">
+        <attr name="badgeRadius" format="dimension" />
+        <attr name="showBorder" format="boolean" />
+        <attr name="number" format="integer" />
+        <attr name="comm_ui_text_color" format="color" />
+        <attr name="comm_ui_bg_color" format="color" />
+        <attr name="comm_ui_border_color" format="color" />
+    </declare-styleable>
+
+    <declare-styleable name="RatioImageView">
+        <attr name="comm_ui_aspect_ratio" format="float"/>
+    </declare-styleable>
+
+    <declare-styleable name="ImageViewGroup">
+        <attr name="comm_ui_span_count" format="integer"/>
+        <attr name="comm_ui_space" format="dimension"/>
+        <attr name="comm_ui_max_count" format="dimension"/>
+        <attr name="comm_ui_single_img_max_width" format="dimension"/>
+        <attr name="comm_ui_single_img_max_height" format="dimension"/>
+    </declare-styleable>
+
+    <declare-styleable name="TextDrawable">
+        <attr name="icon_width" format="dimension" />
+        <attr name="icon_height" format="dimension" />
+    </declare-styleable>
+
+</resources>

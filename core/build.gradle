@@ -1,0 +1,96 @@
+plugins {
+    id 'com.android.library'
+    id 'org.jetbrains.kotlin.android'
+    id 'kotlin-kapt'
+    id 'dagger.hilt.android.plugin'
+    id 'com.google.android.libraries.mapsplatform.secrets-gradle-plugin'
+    id 'com.vanniktech.maven.publish'
+}
+
+android {
+    compileSdk compile_sdk_version
+
+    defaultConfig {
+        minSdk min_sdk_version
+        targetSdk target_sdk_version
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles "consumer-rules.pro"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+
+        debug {
+
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+
+    buildFeatures {
+        viewBinding true
+    }
+}
+
+dependencies {
+    api kotlinLibrary
+    api androidXLibrary
+    api materialLibrary
+
+    api lifecycleLibrary
+    api coroutinesLibrary
+
+    api networkLibrary
+
+    //下拉刷新
+    api ptrRefreshLibrary
+
+    //multidex
+    implementation "androidx.multidex:multidex:$multidex_version"
+
+    //moshi json解析
+    api "com.squareup.moshi:moshi-kotlin:$moshi_version"
+    kapt "com.squareup.moshi:moshi-kotlin-codegen:$moshi_version"
+
+    //hilt
+    api "com.google.dagger:hilt-android:$dagger_hilt_version"
+    kapt "com.google.dagger:hilt-android-compiler:$dagger_hilt_version"
+
+    //router
+    api("com.alibaba:arouter-api:$arouter_version") {
+        exclude group: 'com.android.support'
+    }
+
+    api "com.yqritc:recyclerview-flexibledivider:1.4.0"
+
+    //dataStore
+    implementation "androidx.datastore:datastore-preferences:$data_store_version"
+
+    //网络调试
+    implementation stethoLibray
+
+    testImplementation testLibraries
+    androidTestImplementation androidTestLibraries
+
+    implementation "com.njgdmm.lib:alert-dialog:1.1.0"
+}
+
+secrets {
+    defaultPropertiesFileName = "defaults.properties"
+
+    ignoreList.add("keystore.*")
+    ignoreList.add("ignore*")
+}
+
+apply from:"../release-sonatype.gradle"

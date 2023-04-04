@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="comm_ui_badge_color">#ff0000</color>
+    <color name="comm_ui_badge_text_color">#ffffff</color>
+    <color name="comm_ui_badge_border_color">#ffffff</color>
+</resources>

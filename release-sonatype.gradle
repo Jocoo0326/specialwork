@@ -1,0 +1,18 @@
+// gradlew publishToMavenLocal
+// gradlew publish --no-daemon --no-parallel
+
+publishing {
+    repositories {
+        maven {
+            allowInsecureProtocol = true
+            def releasesRepoUrl = RELEASE_REPO
+            def snapshotsRepoUrl = SNAPSHOTS_REPO
+            url = version.endsWith('SNAPSHOT') ? snapshotsRepoUrl : releasesRepoUrl
+
+            credentials {
+                username = mavenCentralUsername
+                password = mavenCentralPassword
+            }
+        }
+    }
+}

@@ -1,0 +1,178 @@
+ext {
+
+    //全局配置
+    compile_sdk_version = 32
+    target_sdk_version = 32
+    min_sdk_version = 21
+
+    // Android Plugin
+    androidGradlePluginVersion = '7.0.4'
+
+    // Kotlin
+    kotlin_version = "1.7.0"
+    ktlint_version = "10.2.1"
+    coroutines_version = "1.6.0"
+
+    jacoco_version = "0.8.7"
+
+    // Android
+    appcompat_version = "1.3.1"
+    core_ktx_version = "1.7.0"
+    constraint_layout_version = "2.1.3"
+    swipe_refresh_layout_version = "1.1.0"
+    recycler_view_version = "1.2.1"
+    workmanager_version = '2.7.1'
+    lifecycle_version = "2.4.1"
+    security_crypto_version = '1.1.0-alpha03'
+    room_version = "2.4.2"
+    data_store_version = '1.0.0'
+    legacy_support_version = "1.0.0"
+    capturable_version = "1.0.2"
+    glide_version = "4.13.2"
+
+    // Design
+    material_design_version = "1.5.0"
+
+    // Lottie Animation (Compose)
+    lottie_compose_version = "5.0.3"
+
+    // DI
+    dagger_hilt_version = "2.42"
+
+    // Networking
+    retrofit_version = "2.9.0"
+    okhttp_version = "4.9.3"
+
+    // Moshi
+    moshi_version = "1.13.0"
+
+    // Other utility
+    leak_canary_version = "2.8.1"
+    javax_inject_version = "1"
+
+    //route
+    arouter_version = "1.5.2"
+
+    multidex_version = "2.0.1"
+
+    // Accompanist
+    accompanist_version = "0.23.1"
+
+    // Testing
+    junit_version = "4.13.2"
+    kotest_version = "5.1.0"
+    mockk_version = "1.12.3"
+    android_junit_version = "1.1.3"
+    espresso_version = "3.4.0"
+
+
+    kotlinLibrary = [
+            "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+    ]
+
+    networkLibrary = [
+            "com.squareup.retrofit2:retrofit:$retrofit_version",
+            "com.squareup.retrofit2:converter-moshi:$retrofit_version",
+            "com.squareup.okhttp3:logging-interceptor:$okhttp_version"
+    ]
+
+    androidXLibrary = [
+            "androidx.core:core-ktx:$core_ktx_version",
+            "androidx.appcompat:appcompat:$appcompat_version",
+            "androidx.recyclerview:recyclerview:$recycler_view_version",
+            "androidx.cardview:cardview:1.0.0",
+            "androidx.constraintlayout:constraintlayout:$constraint_layout_version",
+            "androidx.activity:activity-ktx:1.4.0",
+            "androidx.fragment:fragment-ktx:1.4.1"
+    ]
+
+    materialLibrary = [
+            'com.google.android.material:material:1.5.0'
+    ]
+
+    toolsLibrary = [
+            //网络调试工具
+            "com.facebook.stetho:stetho:1.6.0",
+            "com.facebook.stetho:stetho-okhttp3:1.6.0"
+    ]
+
+
+    leakcanaryLibrary = [
+            //内存泄漏检测
+            "com.squareup.leakcanary:leakcanary-android:2.7"
+    ]
+
+
+    thirdLibrary = [
+            //腾讯x5
+            "com.njgdmm.lib:x5-webview:1.0.3",
+    ]
+
+    uiLibrary = [
+            "com.superluo:textbannerview:1.0.5",
+//            'io.github.youth5201314:banner:2.2.2',
+            'com.github.CymChad:BaseRecyclerViewAdapterHelper:3.0.8'
+    ]
+
+    ptrRefreshLibrary = [
+            'io.github.scwang90:refresh-layout-kernel:2.0.5',
+            'io.github.scwang90:refresh-header-classics:2.0.5',
+            'io.github.scwang90:refresh-footer-classics:2.0.5'
+    ]
+
+    lifecycleLibrary = [
+            "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version",
+            "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycle_version"
+    ]
+
+    coroutinesLibrary = [
+            "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines_version"
+    ]
+
+    routerLibrary = [
+            "com.alibaba:arouter-api:$arouter_version"
+    ]
+
+    commonComponentLibrary = [
+
+    ]
+
+    librariesAnnotationProcessor = [
+            "com.alibaba:arouter-compiler:$arouter_version",
+            "com.squareup.moshi:moshi-kotlin-codegen:$moshi_version",
+            "com.google.dagger:hilt-android-compiler:$dagger_hilt_version",
+//            "com.github.bumptech.glide:compiler:$glide_version"
+    ]
+
+    nanjingLibraries = [
+            "com.njgdmm.lib:core:1.0.5",
+    ]
+
+    stethoLibray = [
+            //网络调试
+            'com.facebook.stetho:stetho:1.6.0',
+            'com.facebook.stetho:stetho-okhttp3:1.6.0'
+    ]
+
+    testLibraries = [
+            "junit:junit:$junit_version",
+            // Coroutines testing
+            "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutines_version",
+
+            //  Architecture Components testing libraries
+//            "androidx.arch.core:core-testing:2.1.0",
+    ]
+
+    androidTestLibraries = [
+            "junit:junit:$junit_version",
+            "androidx.test.ext:junit:$android_junit_version",
+
+            // Espresso
+            "androidx.test.espresso:espresso-core:$espresso_version",
+            "androidx.test.espresso:espresso-contrib:$espresso_version",
+            "androidx.test.espresso:espresso-intents:$espresso_version",
+
+            //  Architecture Components testing libraries
+            "androidx.arch.core:core-testing:2.1.0",
+    ]
+}
