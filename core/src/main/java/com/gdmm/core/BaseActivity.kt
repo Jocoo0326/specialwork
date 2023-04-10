@@ -3,8 +3,11 @@ package com.gdmm.core
 import android.app.Dialog
 import android.graphics.Color
 import android.os.Bundle
+import android.view.MotionEvent
+import android.view.MotionEvent.ACTION_UP
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewbinding.ViewBinding
+import com.blankj.utilcode.util.KeyboardUtils
 import com.gdmm.core.extensions.setStatusBar
 import com.gdmm.core.util.DoubleClickExitDetector
 
@@ -39,6 +42,14 @@ abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
     }
 
     abstract fun getViewBinding(): VB
+
+    override fun onTouchEvent(event: MotionEvent?): Boolean {
+        if (event != null && event.action == ACTION_UP) {
+            KeyboardUtils.hideSoftInput(window)
+            window.decorView.requestFocus()
+        }
+        return super.onTouchEvent(event)
+    }
 
     override fun onBackPressed() {
         if (isDoubleClickExit()) {

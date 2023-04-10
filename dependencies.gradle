@@ -1,15 +1,15 @@
 ext {
 
     //全局配置
-    compile_sdk_version = 32
-    target_sdk_version = 32
+    compile_sdk_version = 31
+    target_sdk_version = 31
     min_sdk_version = 21
 
     // Android Plugin
     androidGradlePluginVersion = '7.0.4'
 
     // Kotlin
-    kotlin_version = "1.7.0"
+    kotlin_version = "1.8.0"
     ktlint_version = "10.2.1"
     coroutines_version = "1.6.0"
 
@@ -44,7 +44,7 @@ ext {
     okhttp_version = "4.9.3"
 
     // Moshi
-    moshi_version = "1.13.0"
+    moshi_version = "1.14.0"
 
     // Other utility
     leak_canary_version = "2.8.1"
@@ -109,9 +109,14 @@ ext {
     ]
 
     uiLibrary = [
-            "com.superluo:textbannerview:1.0.5",
+//            "com.superluo:textbannerview:1.0.5",
 //            'io.github.youth5201314:banner:2.2.2',
-            'com.github.CymChad:BaseRecyclerViewAdapterHelper:3.0.8'
+            'com.github.CymChad:BaseRecyclerViewAdapterHelper:3.0.8',
+            'com.github.getActivity:Toaster:12.2',
+            'com.github.li-xiaojun:XPopup:2.9.19',
+            'com.github.tbruyelle:rxpermissions:0.12',
+            'io.reactivex.rxjava3:rxjava:3.0.4',
+            'com.blankj:utilcodex:1.31.1',
     ]
 
     ptrRefreshLibrary = [

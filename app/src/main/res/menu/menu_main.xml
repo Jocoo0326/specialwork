@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/menu_home"
+        android:icon="@drawable/svg_menu_home"
+        android:title="首页"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/menu_device"
+        android:icon="@drawable/svg_menu_device"
+        android:title="设备管理"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/menu_monitor"
+        android:icon="@drawable/svg_menu_monitor"
+        android:title="过程监控"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/menu_staff"
+        android:icon="@drawable/svg_menu_staff"
+        android:title="人员管理"
+        app:showAsAction="never" />
+</menu>
