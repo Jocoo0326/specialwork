@@ -58,4 +58,5 @@
     <color name="btn_action_txt_disable">#ffffffff</color>
     <color name="btn_action_txt_normal">#ffffffff</color>
     <color name="btn_action_txt_pressed">#ffffffff</color>
+    <color name="colorStatusBar">#FF800000</color>
 </resources>

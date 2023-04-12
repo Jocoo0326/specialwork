@@ -11,6 +11,9 @@ class StaffFragment : BaseFragment<FragmentStaffBinding, StaffState, StaffViewMo
     override val viewModel: StaffViewModel by viewModels()
 
     override fun initView(savedInstanceState: Bundle?) {
+        binding.toolbar.setNavigationOnClickListener {
+            requireActivity().onBackPressed()
+        }
     }
 
     override fun bindListener() {

@@ -1,8 +1,10 @@
 package com.jocoo.swork.ui.main
 
 import android.os.Bundle
+import androidx.core.content.ContextCompat
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.gdmm.core.BaseActivity
+import com.gdmm.core.extensions.setStatusBar
 import com.jocoo.swork.R
 import com.jocoo.swork.data.NavHub
 import com.jocoo.swork.databinding.ActivityMainBinding
@@ -20,6 +22,11 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setStatusBar(
+            statusBarColor = ContextCompat.getColor(this, R.color.colorStatusBar),
+            darkTheme = false,
+            isFullscreen = false
+        )
         initView()
     }
 
