@@ -117,6 +117,7 @@ ext {
             'com.github.tbruyelle:rxpermissions:0.12',
             'io.reactivex.rxjava3:rxjava:3.0.4',
             'com.blankj:utilcodex:1.31.1',
+            'com.github.liangjingkanji:BRV:1.4.1',
     ]
 
     ptrRefreshLibrary = [

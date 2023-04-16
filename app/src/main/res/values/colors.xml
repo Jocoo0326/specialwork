@@ -59,4 +59,19 @@
     <color name="btn_action_txt_normal">#ffffffff</color>
     <color name="btn_action_txt_pressed">#ffffffff</color>
     <color name="colorStatusBar">#FF800000</color>
+    <color name="divider_line">#ffe1e1e1</color>
+    <color name="divider_line_deep">#ffdddddd</color>
+    <color name="textColorDisable">#ffc0c0c0</color>
+    <color name="textColorHint">#ffc7c7cd</color>
+    <color name="textColorPrimary">#ff212121</color>
+    <color name="textColorSecondary">#ff757575</color>
+    <color name="textColorSubTitle">#ff333333</color>
+    <color name="textColorTertiary">#ff94979e</color>
+    <color name="textColorThemePrimary">#ff002a3a</color>
+    <color name="textColorThemeSecondary">#ff81999e</color>
+    <color name="textColorTips">#ff999999</color>
+    <color name="textColorTitle">#ff212121</color>
+    <color name="title_bar_bg">#fff8f8f8</color>
+    <color name="title_bar_bottom_line">#ffe0e0e0</color>
+    <color name="title_bar_txt">#ff333333</color>
 </resources>
