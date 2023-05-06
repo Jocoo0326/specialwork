@@ -18,8 +18,6 @@ import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -200,16 +198,18 @@ fun AppCompatActivity.getStatusBarHeight(): Int {
 
 fun AppCompatActivity.setupActionBar(
     toolbar: Toolbar,
-    title: String,
+    title: String? = null,
     elevation: Int = 0,
     bgColor: Int = Color.WHITE,
     onBackClick: (View) -> Unit = { finish() }
 ) {
     with(toolbar) {//toolbar
         setBackgroundColor(bgColor)
-        val mTitleTextView =
-            findViewById<TextView>(R.id.toolbar_title)
-        mTitleTextView.text = title
+        if (title != null) {
+            val mTitleTextView =
+                findViewById<TextView>(R.id.toolbar_title)
+            mTitleTextView.text = title
+        }
         setSupportActionBar(toolbar)
         setNavigationOnClickListener {
             onBackClick(it)
@@ -221,5 +221,12 @@ fun AppCompatActivity.setupActionBar(
         this.elevation = elevation.toFloat()
         setDisplayHomeAsUpEnabled(true)
         setDisplayShowTitleEnabled(false)
+    }
+}
+
+fun AppCompatActivity.simpleActionBar(toolbar: Toolbar) {
+    setSupportActionBar(toolbar)
+    toolbar.setNavigationOnClickListener {
+        finish()
     }
 }

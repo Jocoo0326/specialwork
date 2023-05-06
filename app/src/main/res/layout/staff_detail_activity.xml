@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:tag="layout/staff_detail_activity_0">
+
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@id/toolbar"
+        android:layout_width="0.0dip"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:elevation="@dimen/dp_4"
+        android:minHeight="?actionBarSize"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:navigationIcon="@drawable/svg_arrow_back"
+        app:title="人员信息"
+        app:titleCentered="true" />
+
+    <LinearLayout
+        android:layout_width="0.0dip"
+        android:layout_height="0.0dip"
+        android:divider="@drawable/shape_divider_line"
+        android:orientation="vertical"
+        android:showDividers="middle"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolbar">
+
+        <com.jocoo.swork.widget.SegmentItem
+            style="@style/SegmentItem.Common"
+            android:layout_marginTop="@dimen/dp_16"
+            android:tag="binding_1"
+            app:segmentLeftText="姓名" />
+
+        <com.jocoo.swork.widget.SegmentItem
+            style="@style/SegmentItem.Common"
+            android:tag="binding_2"
+            app:segmentLeftText="人脸识别状态" />
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_weight="1.0" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_enter_face_id"
+            style="@style/Button.BottomAction.Primary"
+            android:layout_margin="@dimen/dp_36"
+            android:layout_weight="0.0"
+            android:tag="binding_3"
+            android:text="人脸信息录入" />
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

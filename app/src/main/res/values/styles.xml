@@ -52,4 +52,48 @@
         <item name="android:textSize">@dimen/sp_14</item>
         <item name="android:textColor">@color/textColorPrimary</item>
     </style>
+    <style name="Button.Action.Primary" parent="@style/Widget.MaterialComponents.Button">
+        <item name="android:textSize">@dimen/sp_18</item>
+        <item name="android:paddingTop">@dimen/dp_6</item>
+        <item name="android:paddingBottom">@dimen/dp_6</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:minWidth">0.0dip</item>
+        <item name="android:minHeight">0.0dip</item>
+        <item name="android:insetTop">0.0dip</item>
+        <item name="android:insetBottom">0.0dip</item>
+        <item name="android:paddingStart">@dimen/dp_16</item>
+        <item name="android:paddingEnd">@dimen/dp_16</item>
+        <item name="android:backgroundTint">@drawable/button_action</item>
+        <item name="cornerRadius">@dimen/dp_6</item>
+    </style>
+
+    <style name="SegmentItem.Default" parent="@style/Empty">
+        <item name="android:background">@android:color/white</item>
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="segmentArrow">@null</item>
+        <item name="segmentLeftImageWidth">0.0dip</item>
+        <item name="segmentLeftTextColor">#ff212121</item>
+        <item name="segmentLeftTextSize">14.0sp</item>
+        <item name="segmentPaddingBottom">0.0dip</item>
+        <item name="segmentPaddingLeft">12.0dip</item>
+        <item name="segmentPaddingRight">12.0dip</item>
+        <item name="segmentPaddingTop">0.0dip</item>
+        <item name="segmentRightImageWidth">0.0dip</item>
+        <item name="segmentRightTextColor">#ff757575</item>
+        <item name="segmentRightTextGravity">right</item>
+        <item name="segmentRightTextSize">14.0sp</item>
+    </style>
+    <style name="SegmentItem.Common" parent="@style/Empty">
+        <item name="android:background">@color/white</item>
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">@dimen/dp_50</item>
+        <item name="segmentLeftTextColor">@color/textColorPrimary</item>
+        <item name="segmentLeftTextSize">@dimen/sp_16</item>
+        <item name="segmentPaddingLeft">@dimen/dp_24</item>
+        <item name="segmentPaddingRight">@dimen/dp_24</item>
+        <item name="segmentRightTextColor">@color/textColorPrimary</item>
+        <item name="segmentRightTextSize">@dimen/sp_16</item>
+    </style>
 </resources>

@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:parentTag="androidx.constraintlayout.widget.ConstraintLayout">
+
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/layout_segment_item"
+        android:layout_width="0.0dip"
+        android:layout_height="0.0dip"
+        android:background="?android:selectableItemBackground"
+        android:fitsSystemWindows="true"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/left_image"
+            android:layout_width="18.0dip"
+            android:layout_height="fill_parent"
+            android:scaleType="centerInside" />
+
+        <TextView
+            android:id="@+id/left_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:maxWidth="160.0dip"
+            android:singleLine="true"
+            android:textColor="#ff212121"
+            android:textColorHint="#ffc7c7cd"
+            android:textSize="@dimen/dp_14" />
+
+        <TextView
+            android:id="@+id/right_text"
+            android:layout_width="0.0dip"
+            android:layout_height="fill_parent"
+            android:layout_weight="1.0"
+            android:background="@android:color/transparent"
+            android:gravity="end|center"
+            android:singleLine="true"
+            android:textColor="#ff757575"
+            android:textColorHint="#ffc7c7cd"
+            android:textSize="@dimen/dp_14" />
+
+        <EditText
+            android:id="@+id/right_edit_text"
+            android:layout_width="0.0dip"
+            android:layout_height="fill_parent"
+            android:layout_weight="1.0"
+            android:background="@android:color/transparent"
+            android:gravity="end|center"
+            android:paddingStart="4.0dip"
+            android:paddingEnd="0.0dip"
+            android:singleLine="true"
+            android:textColor="#ff757575"
+            android:textColorHint="#ffc7c7cd"
+            android:textSize="@dimen/dp_14"
+            android:visibility="gone" />
+
+        <ImageView
+            android:id="@+id/right_image"
+            android:layout_width="18.0dip"
+            android:layout_height="fill_parent"
+            android:scaleType="centerInside" />
+
+        <ImageView
+            android:id="@+id/arrow"
+            android:layout_width="6.0dip"
+            android:layout_height="fill_parent"
+            android:layout_marginStart="4.0dip"
+            android:layout_marginEnd="0.0dip"
+            android:scaleType="fitCenter" />
+    </LinearLayout>
+</merge>
