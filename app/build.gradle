@@ -26,18 +26,72 @@ android {
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
+
+        flavorDimensions "api"
+    }
+
+    def keystorePropertiesFile = rootProject.file("keystore.properties")
+    def keystoreProperties = new Properties()
+    keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+    signingConfigs {
+        releaseConfig {
+            keyAlias keystoreProperties['keyAlias']
+            keyPassword keystoreProperties['keyPassword']
+            storeFile file(keystoreProperties['storeFile'])
+            storePassword keystoreProperties['storePassword']
+        }
     }
 
     buildTypes {
         debug {
             minifyEnabled false
-//            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
+
+        uat {
+            matchingFallbacks = ['debug']
+            minifyEnabled false
+            signingConfig signingConfigs.releaseConfig
+        }
+
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.releaseConfig
         }
     }
+
+//    productFlavors {
+//        cn {
+//            dimension "api"
+//            buildConfigField("String", "BASE_URL", "\"http://php7.zh133.com\"")
+//            buildConfigField("String", "ZENDESK_LIVE_CHAT_ACCOUNT_KEY", "\"sARxKoaa9eEorGfx17UcTQpiLh7DnuvC\"")
+//        }
+
+//        us {
+//            dimension "api"
+//            buildConfigField("String", "BASE_URL", "\"https://venue.hopou.com\"")
+//            buildConfigField("String", "ZENDESK_LIVE_CHAT_ACCOUNT_KEY", "\"sARxKoaa9eEorGfx17UcTQpiLh7DnuvC\"")
+//        }
+//    }
+
+    applicationVariants.all { variant ->
+        if (variant.buildType.name.equalsIgnoreCase("debug")) return
+        variant.outputs.all {
+            outputFileName = outputFileName.replace(".apk",
+                "-V${variant.versionName}-C${variant.versionCode}-${currentTimestamp()}.apk")
+            outputFileName = outputFileName.replace("app", "specialwork")
+            variant.getPackageApplicationProvider().get().outputDirectory = new File(getHomeDirectory(apk_dir))
+        }
+    }
+
+    lintOptions {
+        checkReleaseBuilds false
+        // Or, if you prefer, you can continue to check for errors in release builds,
+        // but continue the build even when errors are found:
+        abortOnError false
+    }
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
@@ -49,6 +103,14 @@ android {
     buildFeatures {
         viewBinding true
     }
+}
+
+static def getHomeDirectory(String name) {
+    return "${System.properties['user.home']}${File.separator}${name}"
+}
+
+static def currentTimestamp() {
+    return new Date().format("yyyyMMddHHmm")
 }
 
 dependencies {

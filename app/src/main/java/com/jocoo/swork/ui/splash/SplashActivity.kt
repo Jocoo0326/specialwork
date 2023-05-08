@@ -68,28 +68,24 @@ class SplashActivity : BaseCompatActivity<ActivitySplashBinding, SplashState, Sp
     }
 
     override fun initView(savedInstanceState: Bundle?) {
+        rp = rxPermission.request(*permissions)
+            .compose(RxLifecycleAndroid.bindActivity(behaviorSubject))
+            .subscribe { permitted ->
+                if (!permitted) {
+                    Toaster.show("权限获取失败，请手动获取")
+                }
+                viewModel.countDown()
+            }
     }
 
     override fun bindListener() {
         viewModel.state.observeWithLifecycle(this, minActiveState = Lifecycle.State.CREATED) {
             if (it.countDownSeconds == 0) {
-                rp = rxPermission.request(*permissions)
-                    .compose(RxLifecycleAndroid.bindActivity(behaviorSubject))
-                    .subscribe { permitted ->
-                        if (permitted) {
-                            startActivity(Intent(this, LoginActivity::class.java))
-                            finish()
-                        } else {
-                            startActivity(Intent(this, LoginActivity::class.java))
-                            Toaster.show("权限获取失败，请手动获取")
-                            finish()
-                        }
-                    }
-//                ARouter.getInstance().build(NavHub.MAIN).navigation()
+                startActivity(Intent(this, LoginActivity::class.java))
+                finish()
             }
             mBinding.tvCd.text = "(${it.countDownSeconds})"
         }
-        viewModel.countDown()
     }
 
     override fun onViewStateChange(state: SplashState) {
