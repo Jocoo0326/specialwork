@@ -1,32 +1,29 @@
-package com.jocoo.swork.ui.staff
+package com.jocoo.swork.ui.user.usercenter
 
-import com.blankj.utilcode.util.SPUtils
+import com.blankj.utilcode.util.AppUtils
 import com.gdmm.core.BaseApplication
 import com.gdmm.core.BaseViewModel
 import com.gdmm.core.State
 import com.gdmm.core.network.SessionManager
-import com.jocoo.swork.data.PREF_KEY_ACCOUNT
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
-
-data class StaffState(
-    val name: String? = "",
-    val account: String? = ""
+data class UserCenterState(
+    val name: String? = null,
+    val version: String? = null
 ) : State
 
 @HiltViewModel
-class StaffViewModel @Inject constructor(
+class UserCenterViewModel @Inject constructor(
 
-) : BaseViewModel<StaffState>(StaffState()) {
+) : BaseViewModel<UserCenterState>(UserCenterState()) {
 
-    fun fetchUserInfo() {
+    fun fetchBaseInfo() {
         val sm = SessionManager.getInstance(BaseApplication.applicationContext())
-        val account = SPUtils.getInstance().getString(PREF_KEY_ACCOUNT, "")
         setState { state ->
             state.copy(
                 name = sm.userInfo?.org_name,
-                account = account
+                version = "v${AppUtils.getAppVersionName()}"
             )
         }
     }

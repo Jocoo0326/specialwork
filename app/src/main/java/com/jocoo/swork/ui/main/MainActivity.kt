@@ -12,8 +12,10 @@ import com.jocoo.swork.ui.device.DeviceFragment
 import com.jocoo.swork.ui.home.HomeFragment
 import com.jocoo.swork.ui.monitor.MonitorFragment
 import com.jocoo.swork.ui.staff.StaffFragment
+import dagger.hilt.android.AndroidEntryPoint
 
 @Route(path = NavHub.MAIN_INDEX, name = "")
+@AndroidEntryPoint
 class MainActivity : BaseActivity<ActivityMainBinding>() {
 
     override fun isDoubleClickExit(): Boolean {

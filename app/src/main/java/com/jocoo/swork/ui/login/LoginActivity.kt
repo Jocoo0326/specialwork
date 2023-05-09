@@ -37,8 +37,10 @@ class LoginActivity : BaseCompatActivity<ActivityLoginBinding, LoginState, Login
             viewModel.login(account, pwd, savePwd)
         }
         viewModel.loginFlow.observeWithLifecycle(this) {
-            ARouter.getInstance().build(NavHub.MAIN_INDEX).navigation()
-            finish()
+            if (it) {
+                ARouter.getInstance().build(NavHub.MAIN_INDEX).navigation()
+                finish()
+            }
         }
     }
 

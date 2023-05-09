@@ -2,6 +2,8 @@ package com.jocoo.swork.bean
 
 import com.drake.brv.item.ItemExpand
 import com.drake.brv.item.ItemHover
+import com.gdmm.core.network.UserInfoItem
+import com.squareup.moshi.JsonClass
 
 
 data class StaffGroupItem(
@@ -24,4 +26,10 @@ data class StaffChildItem(
 data class StaffItem(
     var workerId: String? = null,
     var workerName: String? = null,
+)
+
+@JsonClass(generateAdapter = true)
+data class LoginItem(
+    var token: String? = null,
+    var user_info: UserInfoItem? = null
 )

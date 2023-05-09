@@ -29,7 +29,7 @@ interface Callback {
 data class BaseResponse(
     @Json(name = "errno")
     override val error: Int = -1,
-    @Json(name = "errmsg")
+    @Json(name = "msg")
     override val msg: String? = null,
     @JsonString override val data: String? = null
 ) : Callback {

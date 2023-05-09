@@ -3,6 +3,7 @@ package com.gdmm.core.network
 import android.content.Context
 import android.content.SharedPreferences
 import com.gdmm.core.BaseApplication
+import com.squareup.moshi.JsonClass
 import okhttp3.Interceptor
 import okhttp3.Response
 
@@ -12,7 +13,7 @@ class AuthInterceptor : Interceptor {
         val requestBuilder = chain.request().newBuilder()
 
         SessionManager.getInstance(BaseApplication.applicationContext()).authToken?.let {
-            requestBuilder.addHeader("Authorization", it)
+            requestBuilder.addHeader("X-Token", it)
         }
         return chain.proceed(requestBuilder.build())
     }
@@ -54,9 +55,12 @@ class SessionManager private constructor(context: Context) {
             prefs.edit().putString(USER_LOGIN_TYPE, value).apply()
         }
 
+    var userInfo: UserInfoItem? = null
+
     fun clearAll() {
         loginType = ""
         authToken = null
+        userInfo = null
     }
 
     /**
@@ -68,3 +72,18 @@ class SessionManager private constructor(context: Context) {
         return !authToken.isNullOrEmpty()
     }
 }
+
+@JsonClass(generateAdapter = true)
+data class UserInfoItem(
+    var user_id: String? = null,
+    var phone: String? = null,
+    var org_id: String? = null,
+    var name: String? = null,
+    var org_type: String? = null,
+    var org_name: String? = null,
+    var bigscreen_name: String? = null,
+    var area_id: String? = null,
+    var dep_name: String? = null,
+    var group_name: String? = null,
+    var area_name: String? = null,
+)

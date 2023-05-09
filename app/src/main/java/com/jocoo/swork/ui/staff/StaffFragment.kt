@@ -16,7 +16,9 @@ import com.jocoo.swork.data.NavHub
 import com.jocoo.swork.databinding.FragmentStaffBinding
 import com.jocoo.swork.databinding.StaffItemBinding
 import com.jocoo.swork.databinding.StaffItemHeaderBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class StaffFragment : BaseFragment<FragmentStaffBinding, StaffState, StaffViewModel>() {
     override val viewModel: StaffViewModel by viewModels()
 
@@ -25,8 +27,9 @@ class StaffFragment : BaseFragment<FragmentStaffBinding, StaffState, StaffViewMo
             requireActivity().onBackPressed()
         }
         binding.apply {
-            tvCompany.text = "福建三明金氟化工科技有限公司"
-            userName.text = "登录帐号: 13700001111"
+            clUserInfo.setOnClickListener {
+                ARouter.getInstance().build(NavHub.USER_CENTER).navigation()
+            }
             recyclerView.linear().divider {
                 setColorRes(R.color.divider_line)
             }.setup {
@@ -81,6 +84,7 @@ class StaffFragment : BaseFragment<FragmentStaffBinding, StaffState, StaffViewMo
                 }
             )
         }
+        viewModel.fetchUserInfo()
     }
 
     override fun bindListener() {
@@ -93,7 +97,10 @@ class StaffFragment : BaseFragment<FragmentStaffBinding, StaffState, StaffViewMo
     ) = FragmentStaffBinding.inflate(inflater, container, false)
 
     override fun onViewStateChange(state: StaffState) {
-
+        binding.apply {
+            tvCompany.text = state.name
+            userName.text = "登录帐号: ${state.account}"
+        }
     }
 
 

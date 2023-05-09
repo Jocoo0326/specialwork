@@ -6,6 +6,8 @@ import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.drawable.Drawable
 import android.util.AttributeSet
+import android.util.TypedValue
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -13,7 +15,7 @@ import com.gdmm.mmui.wdiget.dp2px
 import com.jocoo.swork.R
 import com.jocoo.swork.databinding.LayoutSegmentItemBinding
 
-class SegmentItem constructor(
+class SegmentItem @JvmOverloads constructor(
     context: Context,
     attributeSet: AttributeSet? = null,
     defStyleAttr: Int = 0
@@ -87,7 +89,8 @@ class SegmentItem constructor(
             typedArray.getDimensionPixelSize(R.styleable.SegmentItem_segmentRightImageWidth, 0)
         leftImage = typedArray.getDrawable(R.styleable.SegmentItem_segmentLeftImage)
         rightImage = typedArray.getDrawable(R.styleable.SegmentItem_segmentRightImage)
-        rightTextGravity = typedArray.getInt(R.styleable.SegmentItem_segmentRightTextGravity, 5)
+        rightTextGravity =
+            typedArray.getInt(R.styleable.SegmentItem_segmentRightTextGravity, Gravity.RIGHT)
         mPaddingLeft =
             typedArray.getDimensionPixelOffset(R.styleable.SegmentItem_segmentPaddingLeft, 0)
         mPaddingTop =
@@ -128,6 +131,14 @@ class SegmentItem constructor(
         mBinding.arrow.setImageDrawable(arrow)
     }
 
+    fun setRightText(rightText: CharSequence?) {
+        if (editable) {
+            mBinding.rightEditText.setText(rightText)
+        } else {
+            mBinding.rightText.text = rightText
+        }
+    }
+
     fun setRightText(
         rightText: String?,
         rightTextHint: String?,
@@ -141,17 +152,17 @@ class SegmentItem constructor(
                 setText(rightText)
                 hint = rightTextHint
                 setHintTextColor(rightTextHintColor)
-                textSize = rightTextSize
+                setTextSize(TypedValue.COMPLEX_UNIT_PX, rightTextSize)
                 setTextColor(rightTextColor)
-                gravity = rightTextGravity
+                gravity = rightTextGravity or Gravity.CENTER_VERTICAL
             }
         } else {
             mBinding.rightText.apply {
                 text = rightText
                 hint = rightTextHint
-                textSize = rightTextSize
+                setTextSize(TypedValue.COMPLEX_UNIT_PX, rightTextSize)
                 setTextColor(rightTextColor)
-                gravity = rightTextGravity
+                gravity = rightTextGravity or Gravity.CENTER_VERTICAL
             }
         }
     }
@@ -171,7 +182,7 @@ class SegmentItem constructor(
             }
             hint = leftTextHint
             setHintTextColor(leftTextHintColor)
-            textSize = leftTextSize
+            setTextSize(TypedValue.COMPLEX_UNIT_PX, leftTextSize)
             setTextColor(leftTextColor)
         }
     }
@@ -196,6 +207,7 @@ class SegmentItem constructor(
         } else {
             mBinding.rightImage.apply {
                 visibility = View.VISIBLE
+                setImageDrawable(rightImage)
                 val lp = layoutParams
                 lp.width = rightImageWidth
                 layoutParams = lp

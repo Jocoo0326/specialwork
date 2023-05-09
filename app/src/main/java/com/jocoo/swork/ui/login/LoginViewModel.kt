@@ -1,13 +1,16 @@
 package com.jocoo.swork.ui.login
 
+import android.content.Context
 import com.blankj.utilcode.util.SPUtils
 import com.gdmm.core.BaseViewModel
 import com.gdmm.core.State
-import com.jocoo.swork.data.ApiService
+import com.gdmm.core.network.SessionManager
+import com.jocoo.swork.data.ApiRepo
 import com.jocoo.swork.data.PREF_KEY_ACCOUNT
 import com.jocoo.swork.data.PREF_KEY_PWD
 import com.jocoo.swork.data.PREF_KEY_SAVE_PWD
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
@@ -21,7 +24,8 @@ data class LoginState(
 
 @HiltViewModel
 class LoginViewModel @Inject constructor(
-    private val api: ApiService
+    private val repo: ApiRepo,
+    @ApplicationContext private val appContext: Context
 ) : BaseViewModel<LoginState>(LoginState()) {
 
     fun fetchLastAccountInfo() {
@@ -40,8 +44,15 @@ class LoginViewModel @Inject constructor(
     }
 
     fun login(account: String, pwd: String, savePwd: Boolean = false) {
-        saveAccountInfo(account, pwd, savePwd)
-        _loginFlow.tryEmit(true)
+        launchAndCollectIn(repo.login(account, pwd)) {
+            onSuccess = {
+                saveAccountInfo(account, pwd, savePwd)
+                val sm = SessionManager.getInstance(appContext)
+                sm.authToken = it.token
+                sm.userInfo = it.user_info
+                _loginFlow.tryEmit(true)
+            }
+        }
     }
 
     private val _loginFlow = MutableSharedFlow<Boolean>(
