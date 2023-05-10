@@ -1,11 +1,8 @@
 package com.jocoo.swork.data
 
 import com.gdmm.core.network.Php
-import com.jocoo.swork.bean.LoginItem
-import com.jocoo.swork.bean.MMVoid
-import retrofit2.http.Field
-import retrofit2.http.FormUrlEncoded
-import retrofit2.http.POST
+import com.jocoo.swork.bean.*
+import retrofit2.http.*
 
 interface ApiService {
 
@@ -24,5 +21,26 @@ interface ApiService {
         @Field("old_pwd") oldPwd: String,
         @Field("new_pwd") newPwd: String
     ): MMVoid
+
+    @Php
+    @GET("apps/user/get_department_list.html")
+    suspend fun getDepartmentList(
+        @Query("page") pageNum: Int,
+        @Query("limit") pageSize: Int,
+        @Query("parent_id") parentId: String
+    ): PageItem<WorkUnitItem>
+
+    @Php
+    @GET("apps/user/get_contractor_list.html")
+    suspend fun getContractorList(
+        @Query("page") pageNum: Int,
+        @Query("limit") pageSize: Int
+    ): PageItem<WorkUnitItem>
+
+    @Php
+    @GET("apps/user/get_operator_list.html")
+    suspend fun getOperatorList(
+        @QueryMap params: Map<String, String>
+    ): PageItem<OperatorInfo>
 
 }

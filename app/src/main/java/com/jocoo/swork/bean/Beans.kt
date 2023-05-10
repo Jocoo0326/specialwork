@@ -19,10 +19,6 @@ data class StaffGroupItem(
     override var itemHover: Boolean = true
 }
 
-data class StaffChildItem(
-    var name: String? = null
-)
-
 data class StaffItem(
     var workerId: String? = null,
     var workerName: String? = null,
@@ -36,3 +32,23 @@ data class LoginItem(
 
 @JsonClass(generateAdapter = true)
 class MMVoid
+
+@JsonClass(generateAdapter = true)
+data class WorkUnitItem(
+    var id: String? = null,
+    var name: String? = null
+)
+
+@JsonClass(generateAdapter = true)
+data class PageItem<T>(
+    var lists: List<T>? = null,
+)
+
+@JsonClass(generateAdapter = true)
+data class OperatorInfo(
+    var id: String? = null,
+    var name: String? = null,
+    var contractor_id: String? = null,
+    var is_face: Int? = 0,
+    var contractor_name: String? = null
+)

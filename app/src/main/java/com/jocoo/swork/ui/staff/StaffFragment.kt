@@ -7,11 +7,13 @@ import androidx.fragment.app.viewModels
 import com.alibaba.android.arouter.launcher.ARouter
 import com.drake.brv.utils.divider
 import com.drake.brv.utils.linear
+import com.drake.brv.utils.models
 import com.drake.brv.utils.setup
 import com.gdmm.core.BaseFragment
+import com.hjq.toast.Toaster
 import com.jocoo.swork.R
-import com.jocoo.swork.bean.StaffChildItem
 import com.jocoo.swork.bean.StaffGroupItem
+import com.jocoo.swork.bean.WorkUnitItem
 import com.jocoo.swork.data.NavHub
 import com.jocoo.swork.databinding.FragmentStaffBinding
 import com.jocoo.swork.databinding.StaffItemBinding
@@ -35,56 +37,30 @@ class StaffFragment : BaseFragment<FragmentStaffBinding, StaffState, StaffViewMo
             }.setup {
                 addType<StaffGroupItem>(R.layout.staff_item_header)
                 R.id.staffItemHeader.onClick {
-                    expandOrCollapse()
+                    if (this.modelPosition == 0) {
+                        Toaster.show("公司部门")
+                    }
                 }
-                R.id.staffItem.onClick {
-                    ARouter.getInstance().build(NavHub.STAFF_LIST).navigation()
+                R.id.btnDetail.onClick {
+                    ARouter.getInstance().build(NavHub.STAFF_LIST)
+                        .navigation()
                 }
-                addType<StaffChildItem>(R.layout.staff_item)
+                addType<WorkUnitItem>(R.layout.staff_item)
                 onBind {
                     when (val model = getModel<Any>()) {
                         is StaffGroupItem -> {
-                            getBinding<StaffItemHeaderBinding>().tvTitle.text =
-                                model.name
+                            getBinding<StaffItemHeaderBinding>().tvTitle.text = model.name
                         }
 
-                        is StaffChildItem -> {
-                            getBinding<StaffItemBinding>().tvName.text =
-                                model.name
+                        is WorkUnitItem -> {
+                            getBinding<StaffItemBinding>().tvName.text = model.name
                         }
                     }
                 }
-            }.models = mutableListOf(
-                StaffGroupItem("公司部门").also { it ->
-                    it.itemSublist = listOf(
-                        StaffChildItem("福建三明金氟化工科技有限公司1"),
-                        StaffChildItem("福建三明金氟化工科技有限公司2"),
-                        StaffChildItem("福建三明金氟化工科技有限公司3"),
-                        StaffChildItem("福建三明金氟化工科技有限公司4"),
-                        StaffChildItem("福建三明金氟化工科技有限公司5"),
-                        StaffChildItem("福建三明金氟化工科技有限公司6"),
-                        StaffChildItem("福建三明金氟化工科技有限公司7"),
-                    )
-                },
-                StaffGroupItem("承包商").also {
-                    it.itemSublist = listOf(
-                        StaffChildItem("承包商1"),
-                        StaffChildItem("承包商2"),
-                        StaffChildItem("承包商3"),
-                        StaffChildItem("承包商4"),
-                        StaffChildItem("承包商5"),
-                        StaffChildItem("承包商6"),
-                        StaffChildItem("承包商7"),
-                        StaffChildItem("承包商8"),
-                        StaffChildItem("承包商9"),
-                        StaffChildItem("承包商10"),
-                        StaffChildItem("承包商11"),
-                        StaffChildItem("承包商12"),
-                    )
-                }
-            )
+            }
         }
         viewModel.fetchUserInfo()
+        viewModel.fetchData()
     }
 
     override fun bindListener() {
@@ -92,14 +68,14 @@ class StaffFragment : BaseFragment<FragmentStaffBinding, StaffState, StaffViewMo
     }
 
     override fun getViewBinding(
-        inflater: LayoutInflater,
-        container: ViewGroup?
+        inflater: LayoutInflater, container: ViewGroup?
     ) = FragmentStaffBinding.inflate(inflater, container, false)
 
     override fun onViewStateChange(state: StaffState) {
         binding.apply {
             tvCompany.text = state.name
             userName.text = "登录帐号: ${state.account}"
+            recyclerView.models = state.staffGroupList?.toList()
         }
     }
 

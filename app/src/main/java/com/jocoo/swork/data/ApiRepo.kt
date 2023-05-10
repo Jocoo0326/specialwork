@@ -19,4 +19,25 @@ class ApiRepo @Inject constructor(
     fun changePassword(oldPwd: String, newPwd: String) = flow {
         emit(ApiResponse.success(apiService.changePassword(oldPwd, newPwd)))
     }.safeApiCall(ioDispatcher)
+
+    fun getDepartmentList(
+        pageNum: Int,
+        pageSize: Int,
+        parentId: String
+    ) = flow {
+        emit(ApiResponse.success(apiService.getDepartmentList(pageNum, pageSize, parentId)))
+    }.safeApiCall(ioDispatcher)
+
+    fun getContractorList(
+        pageNum: Int,
+        pageSize: Int
+    ) = flow {
+        emit(ApiResponse.success(apiService.getContractorList(pageNum, pageSize)))
+    }.safeApiCall(ioDispatcher)
+
+    fun getOperatorList(
+        params: Map<String, String>
+    ) = flow {
+        emit(ApiResponse.success(apiService.getOperatorList(params)))
+    }.safeApiCall(ioDispatcher)
 }

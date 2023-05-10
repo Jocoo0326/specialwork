@@ -21,6 +21,15 @@ import dagger.hilt.android.AndroidEntryPoint
 class StaffListActivity :
     BaseCompatActivity<StaffListActivityBinding, StaffListState, StaffListViewModel>() {
 
+    @JvmField
+    var name: String = ""
+
+    @JvmField
+    var type: Int = 0 //0-department 1-contractor
+
+    @JvmField
+    var id: String = ""
+
     override val viewModel: StaffListViewModel by viewModels()
 
     override fun initView(savedInstanceState: Bundle?) {
@@ -37,11 +46,9 @@ class StaffListActivity :
                     getBinding<StaffListItemBinding>().tvName.text =
                         getModel<StaffItem>().workerName
                 }
-            }.models = listOf(
-                StaffItem(workerName = "张三"),
-                StaffItem(workerName = "李四"),
-            )
+            }
         }
+        viewModel.fetchOperatorList(type, name, id)
     }
 
     override fun bindListener() {
