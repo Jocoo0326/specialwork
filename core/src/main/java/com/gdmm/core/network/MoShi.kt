@@ -30,7 +30,10 @@ class JsonStringJsonAdapterFactory : JsonAdapter.Factory {
     }
 }
 
-fun <T : Callback> transformInterface(inputStream: InputStream, clazz: Class<T>): Pair<String, InputStream> {
+fun <T : Callback> transformInterface(
+    inputStream: InputStream,
+    clazz: Class<T>
+): Pair<String, InputStream> {
     val moshi = Moshi.Builder()
         .add(JsonStringJsonAdapterFactory())
         .build()
@@ -38,9 +41,10 @@ fun <T : Callback> transformInterface(inputStream: InputStream, clazz: Class<T>)
     val response = moshi.adapter(clazz)
         .fromJson(inputStream.source().buffer())
     if (response?.isSuccess == true) {
-        val data = response.data ?: "{}"//
+        val data =
+            if (response.data.isNullOrEmpty() || response.data == "\"\"") "{}" else response.data
         val key = if (response.data == null) "{}" else ""//用作Json解析失败时,比较是否需要尝试再解析一次
-        return Pair<String, InputStream>(key, data.byteInputStream())
+        return Pair<String, InputStream>(key, data!!.byteInputStream())
     }
     throw ApiError(response?.error ?: -1, response?.msg)
 }

@@ -33,3 +33,6 @@ data class LoginItem(
     var token: String? = null,
     var user_info: UserInfoItem? = null
 )
+
+@JsonClass(generateAdapter = true)
+class MMVoid

@@ -8,6 +8,7 @@ import com.gdmm.core.BaseCompatActivity
 import com.gdmm.core.extensions.simpleActionBar
 import com.jocoo.swork.data.NavHub
 import com.jocoo.swork.databinding.ActivityUserCenterBinding
+import com.jocoo.swork.util.reLogin
 import dagger.hilt.android.AndroidEntryPoint
 
 @Route(path = NavHub.USER_CENTER)
@@ -22,6 +23,9 @@ class UserCenterActivity :
             simpleActionBar(toolbar)
             siChangePassword.setOnClickListener {
                 ARouter.getInstance().build(NavHub.CHANGE_PASSWD).navigation()
+            }
+            btnLogout.setOnClickListener {
+                reLogin()
             }
         }
         viewModel.fetchBaseInfo()

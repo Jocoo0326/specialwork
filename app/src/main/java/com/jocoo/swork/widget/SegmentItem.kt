@@ -10,6 +10,7 @@ import android.util.TypedValue
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
+import android.widget.EditText
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.gdmm.mmui.wdiget.dp2px
 import com.jocoo.swork.R
@@ -247,5 +248,9 @@ class SegmentItem @JvmOverloads constructor(
                 mPaint
             )
         }
+    }
+
+    fun getRightEditText(): EditText {
+        return mBinding.rightEditText
     }
 }

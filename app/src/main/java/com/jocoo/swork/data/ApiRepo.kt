@@ -16,4 +16,7 @@ class ApiRepo @Inject constructor(
         emit(ApiResponse.success(apiService.login(username, passwd)))
     }.safeApiCall(ioDispatcher)
 
+    fun changePassword(oldPwd: String, newPwd: String) = flow {
+        emit(ApiResponse.success(apiService.changePassword(oldPwd, newPwd)))
+    }.safeApiCall(ioDispatcher)
 }

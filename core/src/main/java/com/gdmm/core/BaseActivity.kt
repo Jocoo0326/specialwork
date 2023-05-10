@@ -46,7 +46,7 @@ abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
     override fun onTouchEvent(event: MotionEvent?): Boolean {
         if (event != null && event.action == ACTION_UP) {
             KeyboardUtils.hideSoftInput(window)
-            window.decorView.requestFocus()
+//            window.decorView.requestFocus()
         }
         return super.onTouchEvent(event)
     }
