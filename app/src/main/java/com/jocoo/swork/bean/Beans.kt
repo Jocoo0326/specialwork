@@ -19,11 +19,6 @@ data class StaffGroupItem(
     override var itemHover: Boolean = true
 }
 
-data class StaffItem(
-    var workerId: String? = null,
-    var workerName: String? = null,
-)
-
 @JsonClass(generateAdapter = true)
 data class LoginItem(
     var token: String? = null,
@@ -36,7 +31,9 @@ class MMVoid
 @JsonClass(generateAdapter = true)
 data class WorkUnitItem(
     var id: String? = null,
-    var name: String? = null
+    var name: String? = null,
+    var isDepartment: Boolean = false,
+    var isSelected: Boolean = false
 )
 
 @JsonClass(generateAdapter = true)

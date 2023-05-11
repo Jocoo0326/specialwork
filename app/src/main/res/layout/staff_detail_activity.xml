@@ -32,12 +32,14 @@
         app:layout_constraintTop_toBottomOf="@id/toolbar">
 
         <com.jocoo.swork.widget.SegmentItem
+            android:id="@+id/si_name"
             style="@style/SegmentItem.Common"
             android:layout_marginTop="@dimen/dp_16"
             android:tag="binding_1"
             app:segmentLeftText="姓名" />
 
         <com.jocoo.swork.widget.SegmentItem
+            android:id="@+id/si_face"
             style="@style/SegmentItem.Common"
             android:tag="binding_2"
             app:segmentLeftText="人脸识别状态" />

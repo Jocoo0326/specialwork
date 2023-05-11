@@ -3,6 +3,8 @@ package com.gdmm.core.network
 import android.content.Context
 import android.content.SharedPreferences
 import com.gdmm.core.BaseApplication
+import com.gdmm.core.util.fromJson
+import com.gdmm.core.util.toJson
 import com.squareup.moshi.JsonClass
 import okhttp3.Interceptor
 import okhttp3.Response
@@ -29,6 +31,7 @@ class SessionManager private constructor(context: Context) {
         const val USER_PHONE = "user_phone"
         const val USER_ISSETPWDS = "user_is_setpwds"
         const val STATION_ID = "station_id"
+        const val USER_INFO_KEY = "user_info_key"
 
         @Volatile
         private var instance: SessionManager? = null
@@ -55,7 +58,15 @@ class SessionManager private constructor(context: Context) {
             prefs.edit().putString(USER_LOGIN_TYPE, value).apply()
         }
 
-    var userInfo: UserInfoItem? = null
+    var userInfo: UserInfoItem?
+        get() {
+            val jsonStr = prefs.getString(USER_INFO_KEY, "{}")
+            return fromJson(jsonStr, UserInfoItem::class.java)
+        }
+        set(value) {
+            val jsonStr = toJson(value)
+            prefs.edit().putString(USER_INFO_KEY, jsonStr).apply()
+        }
 
     fun clearAll() {
         loginType = ""

@@ -10,14 +10,18 @@ import com.drake.brv.utils.linear
 import com.drake.brv.utils.models
 import com.drake.brv.utils.setup
 import com.gdmm.core.BaseFragment
-import com.hjq.toast.Toaster
 import com.jocoo.swork.R
 import com.jocoo.swork.bean.StaffGroupItem
 import com.jocoo.swork.bean.WorkUnitItem
+import com.jocoo.swork.data.COMM_KEY_1
+import com.jocoo.swork.data.COMM_KEY_2
+import com.jocoo.swork.data.COMM_KEY_3
 import com.jocoo.swork.data.NavHub
 import com.jocoo.swork.databinding.FragmentStaffBinding
 import com.jocoo.swork.databinding.StaffItemBinding
 import com.jocoo.swork.databinding.StaffItemHeaderBinding
+import com.jocoo.swork.widget.DepartmentTreeDialog
+import com.lxj.xpopup.XPopup
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -38,11 +42,26 @@ class StaffFragment : BaseFragment<FragmentStaffBinding, StaffState, StaffViewMo
                 addType<StaffGroupItem>(R.layout.staff_item_header)
                 R.id.staffItemHeader.onClick {
                     if (this.modelPosition == 0) {
-                        Toaster.show("公司部门")
+                        XPopup.Builder(requireContext())
+                            .enableDrag(false)
+                            .dismissOnTouchOutside(true)
+                            .asCustom(
+                                DepartmentTreeDialog(
+                                    requireContext(),
+                                    viewModel,
+                                    viewLifecycleOwner
+                                ) {
+                                    viewModel.changeCurDepartment(it)
+                                })
+                            .show()
                     }
                 }
                 R.id.btnDetail.onClick {
+                    val model = getModel<WorkUnitItem>()
                     ARouter.getInstance().build(NavHub.STAFF_LIST)
+//                        .withString(COMM_KEY_1, model.name)
+                        .withInt(COMM_KEY_2, if (model.isDepartment) 0 else 1)
+                        .withString(COMM_KEY_3, model.id)
                         .navigation()
                 }
                 addType<WorkUnitItem>(R.layout.staff_item)
