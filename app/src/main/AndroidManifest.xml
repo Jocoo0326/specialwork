@@ -34,6 +34,12 @@
         android:theme="@style/Theme.SpecialWork"
         tools:ignore="LockedOrientationActivity">
         <activity
+            android:name=".work.audit.WorkAuditActivity"
+            android:exported="false" />
+        <activity
+            android:name=".work.preview.WorkPreviewActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.splash.SplashActivity"
             android:exported="true"
             android:screenOrientation="portrait">
