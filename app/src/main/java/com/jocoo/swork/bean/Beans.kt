@@ -1,5 +1,6 @@
 package com.jocoo.swork.bean
 
+import android.graphics.Color
 import com.drake.brv.item.ItemExpand
 import com.drake.brv.item.ItemHover
 import com.gdmm.core.network.UserInfoItem
@@ -48,4 +49,47 @@ data class OperatorInfo(
     var contractor_id: String? = null,
     var is_face: Int? = 0,
     var contractor_name: String? = null
+)
+
+@JsonClass(generateAdapter = true)
+data class HomeRes(
+    var rate_type_total: List<HomeItem>? = null
+)
+
+@JsonClass(generateAdapter = true)
+data class HomeItem(
+    var name: String? = null,
+    var total: Int? = 0,
+    var id: Int? = 0,
+    var data: List<WorkTypeInfo>? = null,
+    var bgResId: Int? = 0,
+    var contentColor: Int? = Color.BLACK
+)
+
+@JsonClass(generateAdapter = true)
+data class WorkTypeInfo(
+    var name: String? = null,
+    var type_id: Int? = 0,
+    var total: Int? = 0,
+    var bgResId: Int? = 0,
+)
+
+@JsonClass(generateAdapter = true)
+data class WorkInfo(
+    var id: String? = null,
+    var org_id: String? = null,
+    var type_id: Int? = 0,
+    var no: String? = null,
+    var rate: String? = null,
+    var apply_time: String? = null,
+    var content: String? = null,
+    var place: String? = null,
+    var start_time: String? = null,
+    var end_time: String? = null,
+    var department_id: String? = null,
+    var created: String? = null,
+    var type_name: String? = null,
+    var rate_name: String? = null,
+    var department_name: String? = null,
+    var created_time: String? = null,
 )

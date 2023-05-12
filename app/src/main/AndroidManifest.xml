@@ -34,9 +34,6 @@
         android:theme="@style/Theme.SpecialWork"
         tools:ignore="LockedOrientationActivity">
         <activity
-            android:name=".ui.staff.detail.StaffDetailActivity"
-            android:exported="false" />
-        <activity
             android:name=".ui.splash.SplashActivity"
             android:exported="true"
             android:screenOrientation="portrait">
@@ -64,6 +61,18 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.user.changepassword.ChangePasswordActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".work.list.WorkListActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".work.type.WorkTypeActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.staff.detail.StaffDetailActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
     </application>

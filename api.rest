@@ -19,7 +19,7 @@ GET :url/apps/user/get_contractor_list.html
 :xtoken
 
 #
-GET :url/apps/user/get_operator_list.html?name=\u4e00\u7ea7\u90e8\u95e801&department_id=1
+GET :url/apps/user/get_operator_list.html
 :xtoken
 
 #
@@ -32,3 +32,11 @@ POST :url/apps/user/change_pwd.html
 :xtoken
 old_pwd=asdasd2
 new_pwd=asdasd1
+
+#
+GET :url/apps/statistic/index.html
+:xtoken
+
+#
+GET :url/apps/ticket/get_list.html?pageType=audit&type_id=1&page=1&limit=10
+:xtoken

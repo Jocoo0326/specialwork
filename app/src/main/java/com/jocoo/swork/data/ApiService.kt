@@ -43,4 +43,13 @@ interface ApiService {
         @QueryMap params: Map<String, String>
     ): PageItem<OperatorInfo>
 
+    @Php
+    @GET("apps/statistic/index.html")
+    suspend fun getStatistic(): HomeRes
+
+    @Php
+    @GET("apps/ticket/get_list.html")
+    suspend fun getTicketList(
+        @QueryMap params: Map<String, String>
+    ): PageItem<WorkInfo>
 }
