@@ -50,4 +50,10 @@ class ApiRepo @Inject constructor(
     ) = flow {
         emit(ApiResponse.success(apiService.getTicketList(params)))
     }.safeApiCall(ioDispatcher)
+
+    fun getTicketInfo(
+        id: String
+    ) = flow {
+        emit(ApiResponse.success(apiService.getTicketInfo(id)))
+    }.safeApiCall(ioDispatcher)
 }

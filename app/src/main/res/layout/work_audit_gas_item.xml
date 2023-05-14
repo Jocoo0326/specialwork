@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginHorizontal="@dimen/dp_16"
+    android:layout_marginVertical="@dimen/dp_8"
+    android:layout_marginLeft="@dimen/dp_16"
+    android:layout_marginTop="@dimen/dp_8"
+    android:layout_marginRight="@dimen/dp_16"
+    android:layout_marginBottom="@dimen/dp_8"
+    android:tag="layout/work_audit_gas_item_0"
+    app:cardCornerRadius="@dimen/dp_6"
+    app:cardElevation="0dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/dp_12">
+
+        <LinearLayout
+            android:id="@+id/ll_title"
+            android:layout_width="0.0dip"
+            android:layout_height="wrap_content"
+            android:divider="@drawable/shape_divider_transparent_6dp"
+            android:orientation="vertical"
+            android:showDividers="middle"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/tv_people"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:tag="binding_1"
+                android:textAppearance="@style/Text.Subtitle1.Primary"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tv_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:tag="binding_2"
+                android:textAppearance="@style/Text.Subtitle1.Primary"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </LinearLayout>
+
+        <com.google.android.flexbox.FlexboxLayout
+            android:id="@+id/ll_gas_info"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_10"
+            android:background="#fff6f7f9"
+            android:paddingVertical="@dimen/dp_10"
+            android:paddingTop="@dimen/dp_10"
+            android:paddingBottom="@dimen/dp_10"
+            app:alignItems="flex_start"
+            app:dividerDrawableHorizontal="@drawable/shape_divider_transparent_20dp"
+            app:flexDirection="row"
+            app:flexWrap="wrap"
+            app:justifyContent="flex_start"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ll_title"
+            app:showDividerHorizontal="middle">
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:lineSpacingMultiplier="1.4"
+                android:tag="binding_3"
+                android:textAppearance="@style/Text.Body2.Primary"
+                app:layout_flexBasisPercent="36.0%" />
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:lineSpacingMultiplier="1.4"
+                android:tag="binding_4"
+                android:textAppearance="@style/Text.Body2.Primary"
+                app:layout_flexBasisPercent="29.999996%" />
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:lineSpacingMultiplier="1.4"
+                android:tag="binding_5"
+                android:textAppearance="@style/Text.Body2.Primary"
+                app:layout_flexBasisPercent="29.999996%" />
+
+            <TextView
+                android:id="@+id/tv_gas_group"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:lineSpacingMultiplier="1.4"
+                android:tag="binding_6"
+                android:textAppearance="@style/Text.Body2.Primary"
+                app:layout_flexBasisPercent="36.0%" />
+
+            <TextView
+                android:id="@+id/tv_gas_standard"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:lineSpacingMultiplier="1.4"
+                android:tag="binding_7"
+                android:textAppearance="@style/Text.Body2.Primary"
+                app:layout_flexBasisPercent="29.999996%" />
+
+            <TextView
+                android:id="@+id/tv_gas_location"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:lineSpacingMultiplier="1.4"
+                android:tag="binding_8"
+                android:textAppearance="@style/Text.Body2.Primary"
+                app:layout_flexBasisPercent="29.999996%" />
+        </com.google.android.flexbox.FlexboxLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_action"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_10"
+            android:divider="@drawable/shape_divider_transparent_20dp"
+            android:orientation="horizontal"
+            android:showDividers="middle"
+            android:visibility="visible"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ll_gas_info">
+
+            <TextView
+                android:id="@+id/tv_modify"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:paddingHorizontal="@dimen/dp_12"
+                android:paddingVertical="@dimen/dp_6"
+                android:paddingLeft="@dimen/dp_12"
+                android:paddingTop="@dimen/dp_6"
+                android:paddingRight="@dimen/dp_12"
+                android:paddingBottom="@dimen/dp_6"
+                android:text="修改"
+                android:textColor="@color/colorPrimary"
+                android:textSize="@dimen/sp_16" />
+
+            <TextView
+                android:id="@+id/tv_delete"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:paddingHorizontal="@dimen/dp_12"
+                android:paddingVertical="@dimen/dp_6"
+                android:paddingLeft="@dimen/dp_12"
+                android:paddingTop="@dimen/dp_6"
+                android:paddingRight="@dimen/dp_12"
+                android:paddingBottom="@dimen/dp_6"
+                android:text="删除"
+                android:textColor="@color/colorPrimary"
+                android:textSize="@dimen/sp_16" />
+        </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.cardview.widget.CardView>

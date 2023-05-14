@@ -52,4 +52,11 @@ interface ApiService {
     suspend fun getTicketList(
         @QueryMap params: Map<String, String>
     ): PageItem<WorkInfo>
+
+    @Php
+    @GET("apps/ticket/get_info.html")
+    suspend fun getTicketInfo(
+        @Query("ticket_id") id: String
+    ): TicketInfoRes
+
 }

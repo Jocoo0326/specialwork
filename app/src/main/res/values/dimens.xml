@@ -158,4 +158,6 @@
     <dimen name="sp_50">50dp</dimen>
     <dimen name="dp_150">150dp</dimen>
     <dimen name="dp_200">200dp</dimen>
+    <dimen name="dp_400">400dp</dimen>
+    <dimen name="dp_0">0dp</dimen>
 </resources>

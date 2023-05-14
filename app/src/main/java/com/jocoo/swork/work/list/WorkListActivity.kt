@@ -9,6 +9,7 @@ import com.chad.library.adapter.base.viewholder.BaseViewHolder
 import com.drake.brv.utils.divider
 import com.gdmm.core.BaseCompatActivity
 import com.gdmm.core.extensions.simpleActionBar
+import com.jocoo.swork.R
 import com.jocoo.swork.bean.WorkInfo
 import com.jocoo.swork.data.COMM_KEY_1
 import com.jocoo.swork.data.COMM_KEY_2
@@ -55,6 +56,22 @@ class WorkListActivity :
                 viewModel.getTicketList(workMode, typeId)
             }
             mAdapter = WorkListAdapter(workMode)
+            mAdapter.setOnItemChildClickListener { _, view, pos ->
+                if (view.id == R.id.btn_audit) {
+                    val data = mAdapter.data[pos]
+                    if (workMode == WorkMode.Todo_Id) {
+                        ARouter.getInstance().build(NavHub.WORK_AUDIT)
+                            .withInt(COMM_KEY_1, typeId)
+                            .withString(COMM_KEY_2, data.id)
+                            .navigation()
+                    } else {
+                        ARouter.getInstance().build(NavHub.WORK_PREVIEW)
+                            .withInt(COMM_KEY_1, typeId)
+                            .withString(COMM_KEY_2, data.id)
+                            .navigation()
+                    }
+                }
+            }
             recyclerView.divider {
                 setDivider(10, true)
                 startVisible = true

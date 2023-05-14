@@ -93,3 +93,115 @@ data class WorkInfo(
     var department_name: String? = null,
     var created_time: String? = null,
 )
+
+@JsonClass(generateAdapter = true)
+data class TicketInfoRes(
+    var info: TicketDetailInfo
+)
+
+@JsonClass(generateAdapter = true)
+data class TicketDetailInfo(
+    val id: String? = null,
+    val parent_id: String? = null,
+    val org_id: String? = null,
+    val type_id: Int? = 0,
+    val no: String? = null,
+    val rate: String? = null,
+    val department_id: String? = null,
+    val apply_time: String? = null,
+    val guardian: String? = null,
+    val content: String? = null,
+    val place: String? = null,
+    val special_content: SpecialContent? = null,
+    val work_unit_type: Int? = 0,
+    val work_unit_id: Int? = 0,
+    val charge_type: Int? = 0,
+    val charge_operator_id: Int? = 0,
+    val relevance_ticket_types: List<String>? = null,
+    val relevance_ticket_ids: List<String>? = null,
+    val worker_ids: List<String>? = null,
+    val cert_ids: String? = null,
+    val risk_res: String? = null,
+    val check_res: String? = null,
+    val data_get_type: String? = null,
+    val start_time: String? = null,
+    val end_time: String? = null,
+    val audit_department_ids: String? = null,
+    val amendment: String? = null,
+    val disclosure_sign: String? = null,
+    val accept_disclosure_sign: String? = null,
+    val author: String? = null,
+    val status: String? = null,
+    val created: String? = null,
+    val modified: String? = null,
+    val createdBy: String? = null,
+    val modifiedBy: String? = null,
+    val department_name: String? = null,
+    val work_unit_name: String? = null,
+    val charge_operator_name: String? = null,
+    val workers: List<Worker>? = null,
+    val special_content_list: List<SpecialContentList>? = null,
+    val checkList: List<CheckList>? = null,
+    val addCheckList: List<AddCheckList>? = null,
+    val startEndTime: List<String>? = null,
+    val created_time: String? = null,
+    val modified_time: String? = null,
+    val org_name: String? = null,
+    val processOpinions: List<ProcessOpinion>? = null,
+)
+
+@JsonClass(generateAdapter = true)
+data class AddCheckList(
+    val content: String? = null,
+    val author: String? = null,
+    val id: Int? = 0,
+    val isHas: Int? = 0,
+    val checkRes: String? = null,
+    val sign: String? = null
+)
+
+@JsonClass(generateAdapter = true)
+data class CheckList(
+    val id: String? = null,
+    val content: String? = null,
+    val isHas: String? = "0",
+    val checkRes: String? = null,
+    val sign: String? = null
+)
+
+@JsonClass(generateAdapter = true)
+data class ProcessOpinion(
+    val id: Int? = 0,
+    val name: String? = null,
+    val field: String? = null,
+    val content: String? = null,
+    val sign: String? = null,
+)
+
+@JsonClass(generateAdapter = true)
+data class SpecialContent(
+    val fire_rank: String? = null,
+    val way: String? = null,
+    val blueprint: String? = null,
+    val medium: String? = null,
+    val temperature: String? = null,
+    val pressure: String? = null,
+    val material: String? = null,
+    val specifications: String? = null,
+    val number: String? = null,
+    val author_name: String? = null,
+    val author_time: String? = null,
+)
+
+@JsonClass(generateAdapter = true)
+data class SpecialContentList(
+    val name: String? = null,
+    val value: String? = null,
+)
+
+@JsonClass(generateAdapter = true)
+data class Worker(
+    val operatorID: String? = null,
+    val name: String? = null,
+    val worker_type: String? = null,
+)

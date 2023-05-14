@@ -14,6 +14,10 @@ class WorkListAdapter(
     R.layout.work_list_item
 ), LoadMoreModule {
 
+    init {
+        addChildClickViewIds(R.id.btn_audit)
+    }
+
     override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
         super.onAttachedToRecyclerView(recyclerView)
         setEmptyView(R.layout.layout_empty_view)

@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:tag="layout/work_audit_safetymeasures_fragment_0">
+
+    <LinearLayout
+        android:id="@id/ll_th"
+        android:layout_width="0.0dip"
+        android:layout_height="wrap_content"
+        android:background="@color/table_header_grey"
+        android:divider="@drawable/shape_divider_line_black"
+        android:dividerPadding="@dimen/dp_0"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingVertical="@dimen/dp_12"
+        android:paddingTop="@dimen/dp_12"
+        android:paddingBottom="@dimen/dp_12"
+        android:showDividers="none"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:layout_width="@dimen/dp_50"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="选择"
+            android:textAppearance="@style/Text.Subtitle1.Primary" />
+
+        <TextView
+            android:layout_width="@dimen/dp_50"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="序号"
+            android:textAppearance="@style/Text.Subtitle1.Primary" />
+
+        <TextView
+            android:layout_width="0.0dip"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.0"
+            android:gravity="center"
+            android:text="安全措施"
+            android:textAppearance="@style/Text.Subtitle1.Primary" />
+
+        <TextView
+            android:layout_width="@dimen/dp_50"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="是否\n涉及"
+            android:textAppearance="@style/Text.Subtitle1.Primary" />
+
+        <TextView
+            android:layout_width="@dimen/dp_80"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="签名"
+            android:textAppearance="@style/Text.Subtitle1.Primary" />
+    </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@id/recycler_view"
+        android:layout_width="0.0dip"
+        android:layout_height="0.0dip"
+        android:orientation="vertical"
+        android:tag="binding_1"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintBottom_toTopOf="@id/ll_action"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ll_th" />
+
+    <com.google.android.flexbox.FlexboxLayout
+        android:id="@id/ll_action"
+        android:layout_width="0.0dip"
+        android:layout_height="wrap_content"
+        android:clipToPadding="false"
+        android:padding="@dimen/dp_24"
+        app:dividerDrawableVertical="@drawable/shape_divider_transparent_12dp"
+        app:flexDirection="row"
+        app:flexWrap="nowrap"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:showDividerVertical="middle">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@id/btn_audit"
+            style="@style/Button.BottomAction.Primary"
+            android:tag="binding_2"
+            android:text="审核"
+            app:layout_flexGrow="1.0" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@id/btn_done"
+            style="@style/Button.BottomAction.Primary"
+            android:tag="binding_3"
+            android:text="下一步"
+            app:layout_flexGrow="1.0" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_cancel_audit"
+            style="@style/Button.BottomAction.Primary"
+            android:tag="binding_4"
+            android:text="取消"
+            app:layout_flexGrow="1.0" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@id/btn_confirm"
+            style="@style/Button.BottomAction.Primary"
+            android:tag="binding_5"
+            android:text="确认"
+            app:layout_flexGrow="1.0" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@id/btn_cancel"
+            style="@style/Button.BottomAction.Primary"
+            android:tag="binding_6"
+            android:text="作废"
+            app:layout_flexGrow="1.0" />
+    </com.google.android.flexbox.FlexboxLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

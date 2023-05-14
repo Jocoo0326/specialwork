@@ -120,6 +120,11 @@ ext {
             'com.github.liangjingkanji:BRV:1.4.1',
             'com.trello.rxlifecycle4:rxlifecycle:4.0.2',
             'com.trello.rxlifecycle4:rxlifecycle-android:4.0.2',
+            'com.afollestad.material-dialogs:core:3.3.0',
+            'com.github.lygttpod:SuperTextView:2.4.6',
+            'com.kyanogen.signatureview:signature-view:1.2',
+            'com.google.android.flexbox:flexbox:3.0.0',
+            "com.github.bumptech.glide:glide:$glide_version"
     ]
 
     ptrRefreshLibrary = [
@@ -149,7 +154,7 @@ ext {
             "com.alibaba:arouter-compiler:$arouter_version",
             "com.squareup.moshi:moshi-kotlin-codegen:$moshi_version",
             "com.google.dagger:hilt-android-compiler:$dagger_hilt_version",
-//            "com.github.bumptech.glide:compiler:$glide_version"
+            "com.github.bumptech.glide:compiler:$glide_version"
     ]
 
     nanjingLibraries = [

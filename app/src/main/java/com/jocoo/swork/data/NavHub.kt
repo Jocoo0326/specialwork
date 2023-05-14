@@ -14,4 +14,6 @@ object NavHub {
     private const val WORK = "/work"
     const val WORK_TYPE = "$WORK/work_type"
     const val WORK_LIST = "$WORK/work_list"
+    const val WORK_AUDIT = "$WORK/work_audit"
+    const val WORK_PREVIEW = "$WORK/work_preview"
 }
