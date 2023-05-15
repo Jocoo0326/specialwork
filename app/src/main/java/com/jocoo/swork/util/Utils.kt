@@ -2,6 +2,7 @@ package com.jocoo.swork.util
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.Bitmap
 import android.graphics.Color
 import android.view.Gravity
 import android.view.ViewGroup
@@ -22,6 +23,7 @@ import com.jocoo.swork.data.enum.WorkType
 import com.jocoo.swork.ui.login.LoginActivity
 import com.lxj.xpopup.XPopup
 import com.lxj.xpopup.util.SmartGlideImageLoader
+import java.io.ByteArrayOutputStream
 
 fun Context.reLogin() {
     startActivity(Intent(this, LoginActivity::class.java).also {
@@ -36,6 +38,7 @@ fun hasGas(workTypeId: Int): Boolean {
         WorkType.Fire_Id, WorkType.LimitSpace_Id, WorkType.Electric_Id -> {
             true
         }
+
         else -> false
     }
 }
@@ -69,23 +72,240 @@ fun fillBaseInfo(workTypeId: Int, ll: LinearLayout, info: TicketDetailInfo?) {
 }
 
 fun fillRoadBaseInfo(ll: LinearLayout, info: TicketDetailInfo) {
-
+    makeCard(ll) {
+        make2Col(it, "企业名称", info.org_name)
+        make2Col(it, "作业申请单位", info.department_name)
+        make2Col(it, "作业申请时间", info.apply_time)
+        make2Col(it, "作业单位", info.work_unit_name)
+        make2Col(it, "作业负责人", info.charge_operator_name)
+        make2Col(it, "监护人", info.guardian)
+        make2Col(it, "作业内容", info.content)
+        make2Col(it, "编号", info.no)
+        make2Col(it, "作业地点", info.place)
+    }
+    if (!info.special_content_list.isNullOrEmpty()) {
+        makeCard(ll) {
+            info.special_content_list.forEach { it1 ->
+                if (it1.name == "简图") {
+                    make2Col(
+                        it,
+                        it1.name,
+                        "",
+                        "https://t7.baidu.com/it/u=1797337163,4088130314&fm=193&f=GIF"/*it1.value*/
+                    )
+                } else {
+                    make2Col(it, it1.name, it1.value)
+                }
+            }
+        }
+    }
+    if (!info.workers.isNullOrEmpty()) {
+        makeCard(ll) {
+            makeHeader(it, "作业人", "", "所属单位")
+            info.workers.forEach { it1 ->
+                make2Col(it, it1.name, it1.worker_type)
+            }
+        }
+    }
+    if (!info.relevance_tickets.isNullOrEmpty()) {
+        makeCard(ll) {
+            makeHeader(it, "关联作业类型", "", "作业票编号")
+            info.relevance_tickets.forEach { it1 ->
+                make2Col(it, it1.type_name, it1.no)
+            }
+        }
+    }
+    makeCard(ll) {
+        make2Col(it, "风险辨识结果", info.risk_res)
+        make2Col(it, "审核部门", info.auditDepartmentStr)
+        make2Col(it, "作业实施时间", "自 ${info.start_time}\n至 ${info.end_time}")
+    }
 }
 
 fun fillConstructionBaseInfo(ll: LinearLayout, info: TicketDetailInfo) {
-
+    makeCard(ll) {
+        make2Col(it, "企业名称", info.org_name)
+        make2Col(it, "作业申请单位", info.department_name)
+        make2Col(it, "作业申请时间", info.apply_time)
+        make2Col(it, "作业单位", info.work_unit_name)
+        make2Col(it, "作业负责人", info.charge_operator_name)
+        make2Col(it, "监护人", info.guardian)
+        make2Col(it, "作业内容", info.content)
+        make2Col(it, "编号", info.no)
+        make2Col(it, "作业地点", info.place)
+    }
+    if (!info.special_content_list.isNullOrEmpty()) {
+        makeCard(ll) {
+            info.special_content_list.forEach { it1 ->
+                if (it1.name == "简图") {
+                    make2Col(it, it1.name, "", it1.value)
+                } else {
+                    make2Col(it, it1.name, it1.value)
+                }
+            }
+        }
+    }
+    if (!info.workers.isNullOrEmpty()) {
+        makeCard(ll) {
+            makeHeader(it, "作业人", "", "所属单位")
+            info.workers.forEach { it1 ->
+                make2Col(it, it1.name, it1.worker_type)
+            }
+        }
+    }
+    if (!info.relevance_tickets.isNullOrEmpty()) {
+        makeCard(ll) {
+            makeHeader(it, "关联作业类型", "", "作业票编号")
+            info.relevance_tickets.forEach { it1 ->
+                make2Col(it, it1.type_name, it1.no)
+            }
+        }
+    }
+    makeCard(ll) {
+        make2Col(it, "风险辨识结果", info.risk_res)
+        make2Col(it, "审核部门", info.auditDepartmentStr)
+        make2Col(it, "作业实施时间", "自 ${info.start_time}\n至 ${info.end_time}")
+    }
 }
 
 fun fillElectricBaseInfo(ll: LinearLayout, info: TicketDetailInfo) {
+    makeCard(ll) {
+        make2Col(it, "企业名称", info.org_name)
+        make2Col(it, "作业申请单位", info.department_name)
+        make2Col(it, "作业申请时间", info.apply_time)
+        make2Col(it, "作业单位", info.work_unit_name)
+        make2Col(it, "作业负责人", info.charge_operator_name)
+        make2Col(it, "负责人证书类型", info.charge_operator_name)
+        make2Col(it, "负责人证书编号", info.charge_operator_name)
+        make2Col(it, "监护人", info.guardian)
+        make2Col(it, "作业内容", info.content)
+        make2Col(it, "编号", info.no)
+        make2Col(it, "作业地点", info.place)
+    }
+    if (!info.special_content_list.isNullOrEmpty()) {
+        makeCard(ll) {
+            info.special_content_list.forEach { it1 ->
+                make2Col(it, it1.name, it1.value)
+            }
+        }
+    }
+    if (!info.certs.isNullOrEmpty()) {
+        makeCard(ll) {
+            makeHeader(it, "作业人", "证书编号", "证书类型")
+            info.certs.forEach { it1 ->
+                make3Col(it, it1.name, it1.cert_no, it1.cert_type)
+            }
+        }
+    }
+    if (!info.relevance_tickets.isNullOrEmpty()) {
+        makeCard(ll) {
+            makeHeader(it, "关联作业类型", "", "作业票编号")
+            info.relevance_tickets.forEach { it1 ->
+                make2Col(it, it1.type_name, it1.no)
+            }
+        }
+    }
+    makeCard(ll) {
+        make2Col(it, "风险辨识结果", info.risk_res)
+        make2Col(it, "审核部门", info.auditDepartmentStr)
+        make2Col(
+            it, "数据采集类型", when (info.data_get_type) {
+                "1" -> {
+                    "自动采集"
+                }
 
+                "2" -> {
+                    "手动填写"
+                }
+
+                else -> {
+                    ""
+                }
+            }
+        )
+        make2Col(it, "作业实施时间", "自 ${info.start_time}\n至 ${info.end_time}")
+    }
 }
 
 fun fillLiftingBaseInfo(ll: LinearLayout, info: TicketDetailInfo) {
-
+    makeCard(ll) {
+        make2Col(it, "企业名称", info.org_name)
+        make2Col(it, "作业申请单位", info.department_name)
+        make2Col(it, "作业申请时间", info.apply_time)
+        make2Col(it, "作业单位", info.work_unit_name)
+        make2Col(it, "作业负责人", info.charge_operator_name)
+        make2Col(it, "监护人", info.guardian)
+        make2Col(it, "编号", info.no)
+    }
+    if (!info.special_content_list.isNullOrEmpty()) {
+        makeCard(ll) {
+            info.special_content_list.forEach { it1 ->
+                make2Col(it, it1.name, it1.value)
+            }
+        }
+    }
+    if (!info.workers.isNullOrEmpty()) {
+        makeCard(ll) {
+            makeHeader(it, "作业人", "", "所属单位")
+            info.workers.forEach { it1 ->
+                make2Col(it, it1.name, it1.worker_type)
+            }
+        }
+    }
+    if (!info.relevance_tickets.isNullOrEmpty()) {
+        makeCard(ll) {
+            makeHeader(it, "关联作业类型", "", "作业票编号")
+            info.relevance_tickets.forEach { it1 ->
+                make2Col(it, it1.type_name, it1.no)
+            }
+        }
+    }
+    makeCard(ll) {
+        make2Col(it, "风险辨识结果", info.risk_res)
+        make2Col(it, "审核部门", info.auditDepartmentStr)
+        make2Col(it, "作业实施时间", "自 ${info.start_time}\n至 ${info.end_time}")
+    }
 }
 
 fun fillHeightBaseInfo(ll: LinearLayout, info: TicketDetailInfo) {
-
+    makeCard(ll) {
+        make2Col(it, "企业名称", info.org_name)
+        make2Col(it, "作业申请单位", info.department_name)
+        make2Col(it, "作业申请时间", info.apply_time)
+        make2Col(it, "作业单位", info.work_unit_name)
+        make2Col(it, "作业负责人", info.charge_operator_name)
+        make2Col(it, "监护人", info.guardian)
+        make2Col(it, "作业内容", info.content)
+        make2Col(it, "编号", info.no)
+    }
+    if (!info.special_content_list.isNullOrEmpty()) {
+        makeCard(ll) {
+            info.special_content_list.forEach { it1 ->
+                make2Col(it, it1.name, it1.value)
+            }
+        }
+    }
+    if (!info.workers.isNullOrEmpty()) {
+        makeCard(ll) {
+            makeHeader(it, "作业人", "", "所属单位")
+            info.workers.forEach { it1 ->
+                make2Col(it, it1.name, it1.worker_type)
+            }
+        }
+    }
+    if (!info.relevance_tickets.isNullOrEmpty()) {
+        makeCard(ll) {
+            makeHeader(it, "关联作业类型", "", "作业票编号")
+            info.relevance_tickets.forEach { it1 ->
+                make2Col(it, it1.type_name, it1.no)
+            }
+        }
+    }
+    makeCard(ll) {
+        make2Col(it, "风险辨识结果", info.risk_res)
+        make2Col(it, "审核部门", info.auditDepartmentStr)
+        make2Col(it, "作业实施时间", "自 ${info.start_time}\n至 ${info.end_time}")
+    }
 }
 
 fun fillPullingBlockingBaseInfo(ll: LinearLayout, info: TicketDetailInfo) {
@@ -98,44 +318,58 @@ fun fillPullingBlockingBaseInfo(ll: LinearLayout, info: TicketDetailInfo) {
         make2Col(it, "监护人", info.guardian)
         make2Col(it, "作业内容", info.content)
         make2Col(it, "编号", info.no)
-        make2Col(it, "设备管道名称", info.no)
+        make2Col(it, "设备管道名称", info.place)
     }
     makeCard(ll) {
         makeHeader(it, "管道参数", "盲板参数", "操作人")
-        var l = SpanUtils().append("介质").setBold().append(info.special_content?.medium ?: "")
-            .appendLine()
-        var c = SpanUtils().append("材质").setBold().append(info.special_content?.material ?: "")
-            .appendLine()
-        var r = SpanUtils().append("编制人").setBold().append(info.special_content?.author_name ?: "")
-            .appendLine()
+        var l = SpanUtils().appendLine("介质").setBold()
+            .append(info.special_content?.medium ?: "")
+            .create()
+        var c = SpanUtils().appendLine("材质").setBold()
+            .append(info.special_content?.material ?: "")
+            .create()
+        var r = SpanUtils().appendLine("编制人").setBold()
+            .append(info.special_content?.author_name ?: "")
+            .create()
         make3Col(it, l.toString(), c.toString(), r.toString())
+        l = SpanUtils().appendLine("温度").setBold()
+            .append(info.special_content?.temperature ?: "")
+            .create()
+        c = SpanUtils().appendLine("规格").setBold()
+            .append(info.special_content?.specifications ?: "")
+            .create()
+        r = SpanUtils().appendLine("时间").setBold()
+            .append(info.special_content?.author_time ?: "")
+            .create()
+        make3Col(it, l.toString(), c.toString(), r.toString())
+        l = SpanUtils().appendLine("压力").setBold()
+            .append(info.special_content?.pressure ?: "")
+            .create()
+        c = SpanUtils().appendLine("编号").setBold()
+            .append(info.special_content?.number ?: "")
+            .create()
+        make3Col(it, l.toString(), c.toString(), "")
+        make2Col(it, "盲板位置图", "", info.special_content?.blueprint)
     }
-    makeCard(ll) {
-        makeHeader(it, "作业人", "", "所属单位")
-        info.workers?.forEach { it1 ->
-            make2Col(it, it1.name, it1.worker_type)
+    if (!info.workers.isNullOrEmpty()) {
+        makeCard(ll) {
+            makeHeader(it, "作业人", "", "所属单位")
+            info.workers.forEach { it1 ->
+                make2Col(it, it1.name, it1.worker_type)
+            }
+        }
+    }
+    if (!info.relevance_tickets.isNullOrEmpty()) {
+        makeCard(ll) {
+            makeHeader(it, "关联作业类型", "", "作业票编号")
+            info.relevance_tickets.forEach { it1 ->
+                make2Col(it, it1.type_name, it1.no)
+            }
         }
     }
     makeCard(ll) {
-        makeHeader(it, "关联作业类型", "", "作业票编号")
-        make2Col(it, "123", "456")
-    }
-    makeCard(ll) {
         make2Col(it, "风险辨识结果", info.risk_res)
-        make2Col(it, "审核部门", info.place)
-        make2Col(
-            it, "数据采集类型", when (info.data_get_type) {
-                "1" -> {
-                    "自动采集"
-                }
-                "2" -> {
-                    "手动填写"
-                }
-                else -> {
-                    ""
-                }
-            }
-        )
+        make2Col(it, "审核部门", info.auditDepartmentStr)
         make2Col(it, "作业实施时间", "自 ${info.start_time}\n至 ${info.end_time}")
     }
 }
@@ -151,32 +385,42 @@ fun fillLimitSpaceBaseInfo(ll: LinearLayout, info: TicketDetailInfo) {
         make2Col(it, "作业内容", info.content)
         make2Col(it, "编号", info.no)
     }
-    makeCard(ll) {
-        info.special_content_list?.forEach { it1 ->
-            make2Col(it, it1.name, it1.value)
+    if (!info.special_content_list.isNullOrEmpty()) {
+        makeCard(ll) {
+            info.special_content_list.forEach { it1 ->
+                make2Col(it, it1.name, it1.value)
+            }
         }
     }
-    makeCard(ll) {
-        makeHeader(it, "作业人", "", "所属单位")
-        info.workers?.forEach { it1 ->
-            make2Col(it, it1.name, it1.worker_type)
+    if (!info.workers.isNullOrEmpty()) {
+        makeCard(ll) {
+            makeHeader(it, "作业人", "", "所属单位")
+            info.workers.forEach { it1 ->
+                make2Col(it, it1.name, it1.worker_type)
+            }
         }
     }
-    makeCard(ll) {
-        makeHeader(it, "关联作业类型", "", "作业票编号")
-        make2Col(it, "123", "456")
+    if (!info.relevance_tickets.isNullOrEmpty()) {
+        makeCard(ll) {
+            makeHeader(it, "关联作业类型", "", "作业票编号")
+            info.relevance_tickets.forEach { it1 ->
+                make2Col(it, it1.type_name, it1.no)
+            }
+        }
     }
     makeCard(ll) {
         make2Col(it, "风险辨识结果", info.risk_res)
-        make2Col(it, "审核部门", info.place)
+        make2Col(it, "审核部门", info.auditDepartmentStr)
         make2Col(
             it, "数据采集类型", when (info.data_get_type) {
                 "1" -> {
                     "自动采集"
                 }
+
                 "2" -> {
                     "手动填写"
                 }
+
                 else -> {
                     ""
                 }
@@ -203,26 +447,36 @@ fun fillFireBaseInfo(ll: LinearLayout, info: TicketDetailInfo) {
             make2Col(it, it1.name, it1.value)
         }
     }
-    makeCard(ll) {
-        makeHeader(it, "动火人", "证书编号", "证书类型")
-        make3Col(it, "123", "1234", "12345")
+    if (!info.certs.isNullOrEmpty()) {
+        makeCard(ll) {
+            makeHeader(it, "动火人", "证书编号", "证书类型")
+            info.certs.forEach { it1 ->
+                make3Col(it, it1.name, it1.cert_no, it1.cert_type)
+            }
+        }
     }
-    makeCard(ll) {
-        makeHeader(it, "关联作业类型", "", "作业票编号")
-        make2Col(it, "123", "456")
+    if (!info.relevance_tickets.isNullOrEmpty()) {
+        makeCard(ll) {
+            makeHeader(it, "关联作业类型", "", "作业票编号")
+            info.relevance_tickets.forEach { it1 ->
+                make2Col(it, it1.type_name, it1.no)
+            }
+        }
     }
 
     makeCard(ll) {
         make2Col(it, "风险辨识结果", info.risk_res)
-        make2Col(it, "审核部门", info.place)
+        make2Col(it, "审核部门", info.auditDepartmentStr)
         make2Col(
             it, "数据采集类型", when (info.data_get_type) {
                 "1" -> {
                     "自动采集"
                 }
+
                 "2" -> {
                     "手动填写"
                 }
+
                 else -> {
                     ""
                 }
@@ -311,9 +565,9 @@ fun makeHeader(
 
 fun make3Col(
     parent: ViewGroup,
-    str1: String,
-    str2: String,
-    str3: String,
+    str1: String?,
+    str2: String?,
+    str3: String?,
     @ColorRes colorBg: Int = R.color.white
 ) {
     SuperTextView(parent.context).apply {
@@ -338,4 +592,10 @@ fun make3Col(
         )
         parent.addView(this)
     }
+}
+
+fun Bitmap.toByteArray(): ByteArray {
+    val bos = ByteArrayOutputStream()
+    compress(Bitmap.CompressFormat.PNG, 100, bos)
+    return bos.toByteArray()
 }

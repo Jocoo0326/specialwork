@@ -57,6 +57,7 @@ class WorkAuditActivity :
             toolbar.setNavigationOnClickListener {
                 onBackPressed()
             }
+            viewPager.isUserInputEnabled = false
             viewPager.adapter = WorkAuditViewPagerAdapter(this@WorkAuditActivity, frags)
         }
         viewModel.workId = workId

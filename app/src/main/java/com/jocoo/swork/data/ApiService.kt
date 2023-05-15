@@ -2,6 +2,7 @@ package com.jocoo.swork.data
 
 import com.gdmm.core.network.Php
 import com.jocoo.swork.bean.*
+import okhttp3.MultipartBody
 import retrofit2.http.*
 
 interface ApiService {
@@ -59,4 +60,10 @@ interface ApiService {
         @Query("ticket_id") id: String
     ): TicketInfoRes
 
+    @Php
+    @Multipart
+    @POST("apps/ticket/uploadImages.html")
+    suspend fun uploadImage(
+        @Part image: MultipartBody.Part
+    ): MMVoid
 }

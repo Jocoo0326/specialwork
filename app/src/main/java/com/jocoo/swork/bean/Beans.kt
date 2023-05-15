@@ -119,14 +119,15 @@ data class TicketDetailInfo(
     val charge_operator_id: Int? = 0,
     val relevance_ticket_types: List<String>? = null,
     val relevance_ticket_ids: List<String>? = null,
+    val relevance_tickets: List<RelevanceTicket>? = null,
     val worker_ids: List<String>? = null,
-    val cert_ids: String? = null,
+    val certs: List<CertInfo>? = null,
     val risk_res: String? = null,
     val check_res: String? = null,
     val data_get_type: String? = null,
     val start_time: String? = null,
     val end_time: String? = null,
-    val audit_department_ids: String? = null,
+    val audit_departments: List<AuditDepartment>? = null,
     val amendment: String? = null,
     val disclosure_sign: String? = null,
     val accept_disclosure_sign: String? = null,
@@ -141,33 +142,40 @@ data class TicketDetailInfo(
     val charge_operator_name: String? = null,
     val workers: List<Worker>? = null,
     val special_content_list: List<SpecialContentList>? = null,
-    val checkList: List<CheckList>? = null,
-    val addCheckList: List<AddCheckList>? = null,
+    val checkList: List<CheckInfo>? = null,
+    val addCheckList: List<CheckInfo>? = null,
     val startEndTime: List<String>? = null,
     val created_time: String? = null,
     val modified_time: String? = null,
     val org_name: String? = null,
     val processOpinions: List<ProcessOpinion>? = null,
-)
+) {
+    val auditDepartmentStr: String
+        get() {
+            return audit_departments?.map { it.name }?.joinToString(separator = ",") ?: ""
+        }
+}
 
 @JsonClass(generateAdapter = true)
-data class AddCheckList(
-    val content: String? = null,
-    val author: String? = null,
+data class CheckInfo(
     val id: Int? = 0,
-    val isHas: Int? = 0,
-    val checkRes: String? = null,
-    val sign: String? = null
-)
-
-@JsonClass(generateAdapter = true)
-data class CheckList(
-    val id: String? = null,
     val content: String? = null,
-    val isHas: String? = "0",
+    val isHas: String? = null,
     val checkRes: String? = null,
-    val sign: String? = null
-)
+    val sign: String? = null,
+    val author: String? = null,
+) {
+    var isSelected: Boolean = false
+    val isConfirmed: Boolean
+        get() {
+            return checkRes == "1"
+        }
+
+    val isHasStr: String
+        get() {
+            return if (isHas == "0") "否" else "是"
+        }
+}
 
 @JsonClass(generateAdapter = true)
 data class ProcessOpinion(
@@ -204,4 +212,24 @@ data class Worker(
     val operatorID: String? = null,
     val name: String? = null,
     val worker_type: String? = null,
+)
+
+@JsonClass(generateAdapter = true)
+data class CertInfo(
+    var cert_id: String? = null,
+    var name: String? = null,
+    var cert_no: String? = null,
+    var cert_type: String? = null,
+)
+
+@JsonClass(generateAdapter = true)
+data class RelevanceTicket(
+    var type_name: String? = null,
+    var no: String? = null,
+)
+
+@JsonClass(generateAdapter = true)
+data class AuditDepartment(
+    var id: String? = null,
+    var name: String? = null,
 )

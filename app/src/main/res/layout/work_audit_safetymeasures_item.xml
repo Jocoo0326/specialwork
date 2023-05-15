@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/container"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:background="@color/white"
@@ -20,6 +22,7 @@
         android:textAppearance="@style/Text.Body2.Primary" />
 
     <TextView
+        android:id="@+id/tv_content"
         android:layout_width="0.0dip"
         android:layout_height="wrap_content"
         android:layout_weight="1.0"
@@ -27,6 +30,7 @@
         android:textAppearance="@style/Text.Body2.Primary" />
 
     <TextView
+        android:id="@+id/tv_involved"
         android:layout_width="@dimen/dp_50"
         android:layout_height="wrap_content"
         android:gravity="center"

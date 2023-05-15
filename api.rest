@@ -42,7 +42,7 @@ GET :url/apps/ticket/get_list.html?pageType=audit&type_id=1&page=1&limit=10
 :xtoken
 
 #获取作业票详情
-GET :url/apps/ticket/get_info.html?ticket_id=30
+GET :url/apps/ticket/get_info.html?ticket_id=50
 :xtoken
 
 #获取审批阶段意见+签字项
@@ -52,3 +52,21 @@ GET :url/apps/ticket/getTicketOpinions.html?ticket_id=43
 #
 GET :url/base_api/getSensorDataType.html
 :xtoken
+
+#提交安全措施审核项
+POST :url/apps/ticket/set_checkres.html
+:xtoken
+
+#上传图片
+POST :url/apps/ticket/uploadImages.html
+:xtoken
+Content-Type: multipart/form-data
+
+< ~/Pictures/bird.jpg
+
+#上传图片
+POST http://httpbin.org/post
+:xtoken
+Content-Type: multipart/form-data
+
+< ~/Pictures/bird.jpg

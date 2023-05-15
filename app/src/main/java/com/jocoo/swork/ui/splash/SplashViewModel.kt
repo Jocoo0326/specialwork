@@ -17,7 +17,7 @@ data class SplashState(
     val countDownSeconds: Int = SPLASH_COUNT_DOWN_SECS
 ) : State
 
-const val SPLASH_COUNT_DOWN_SECS = 2
+const val SPLASH_COUNT_DOWN_SECS = 1
 
 @HiltViewModel
 class SplashViewModel @Inject constructor(

@@ -4,6 +4,9 @@ import com.gdmm.core.di.IoDispatcher
 import com.gdmm.core.extensions.safeApiCall
 import com.gdmm.core.network.ApiResponse
 import kotlinx.coroutines.flow.flow
+import okhttp3.MediaType.Companion.toMediaType
+import okhttp3.MultipartBody
+import okhttp3.RequestBody.Companion.toRequestBody
 import javax.inject.Inject
 import kotlin.coroutines.CoroutineContext
 
@@ -55,5 +58,13 @@ class ApiRepo @Inject constructor(
         id: String
     ) = flow {
         emit(ApiResponse.success(apiService.getTicketInfo(id)))
+    }.safeApiCall(ioDispatcher)
+
+    fun uploadImage(
+        imageByteArray: ByteArray
+    ) = flow {
+        val body = imageByteArray.toRequestBody("multipart/form-data".toMediaType())
+        val part = MultipartBody.Part.createFormData("image", "image", body)
+        emit(ApiResponse.success(apiService.uploadImage(part)))
     }.safeApiCall(ioDispatcher)
 }
