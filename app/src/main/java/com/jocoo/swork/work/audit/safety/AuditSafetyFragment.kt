@@ -39,7 +39,7 @@ class AuditSafetyFragment :
                     if (mAdapter.readyToSign && !item.isConfirmed && item.isSelected) {
                         XPopup.Builder(requireContext())
                             .enableDrag(false)
-                            .dismissOnTouchOutside(true)
+                            .dismissOnTouchOutside(false)
                             .asCustom(
                                 SignatureDialog(
                                     requireContext(),
@@ -62,13 +62,28 @@ class AuditSafetyFragment :
                 viewModel.signMode(true)
             }
             btnDone.setOnClickListener {
+                val list = mAdapter.data
+                val hasUnconfirmed = list.firstOrNull { it1 -> !it1.isConfirmed } != null
+                if (hasUnconfirmed) {
+                    Toaster.show("安全措施未全部审核")
+                    return@setOnClickListener
+                }
                 actViewModel.nextPage()
             }
             btnCancelAudit.setOnClickListener {
                 viewModel.signMode(false)
             }
             btnConfirm.setOnClickListener {
-
+                actViewModel.state.value.detail?.let {
+                    val ticketId = it.id
+                    val checkList =
+                        it.checkList?.filter { it1 -> !it1.isConfirmed && it1.isSelected }
+                    val addCheckList =
+                        it.addCheckList?.filter { it1 -> !it1.isConfirmed && it1.isSelected }
+                    val signImage =
+                        checkList?.firstOrNull()?.sign ?: addCheckList?.firstOrNull()?.sign
+                    viewModel.checkSafety(ticketId, signImage, checkList, addCheckList)
+                }
             }
         }
         actViewModel.state.observeWithLifecycle(this) {
@@ -76,12 +91,33 @@ class AuditSafetyFragment :
             checkList.addAll(it.detail?.checkList?.toList() ?: emptyList())
             checkList.addAll(it.detail?.addCheckList?.toList() ?: emptyList())
             mAdapter.setNewInstance(checkList)
-            viewModel.hasAuditTodo(checkList.indexOfFirst { it1 -> !it1.isConfirmed } > -1)
+            updateHasAuditTodo()
         }
     }
 
-    override fun bindListener() {
+    private fun updateHasAuditTodo() {
+        val list = mAdapter.data
+        viewModel.hasAuditTodo(list.indexOfFirst { it1 -> !it1.isConfirmed } > -1)
+    }
 
+    override fun bindListener() {
+        viewModel.uploadImageFlow.observeWithLifecycle(this) {
+            val list = mAdapter.data
+            val selectedList = list.filter { it1 -> !it1.isConfirmed && it1.isSelected }
+            selectedList.forEach { it1 ->
+                it1.sign = it
+            }
+            mAdapter.notifyDataSetChanged()
+        }
+        viewModel.checkSafetyFlow.observeWithLifecycle(this) {
+            val list = mAdapter.data
+            val selectedList = list.filter { it1 -> !it1.isConfirmed && it1.isSelected }
+            selectedList.forEach { it1 ->
+                it1.isConfirmed = true
+            }
+            viewModel.signMode(false)
+            updateHasAuditTodo()
+        }
     }
 
     override fun getViewBinding(

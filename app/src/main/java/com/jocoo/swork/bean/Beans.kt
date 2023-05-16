@@ -161,14 +161,17 @@ data class CheckInfo(
     val id: Int? = 0,
     val content: String? = null,
     val isHas: String? = null,
-    val checkRes: String? = null,
-    val sign: String? = null,
+    var checkRes: String? = null,
+    var sign: String? = null,
     val author: String? = null,
 ) {
     var isSelected: Boolean = false
-    val isConfirmed: Boolean
+    var isConfirmed: Boolean
         get() {
             return checkRes == "1"
+        }
+        set(value) {
+            checkRes = if (value) "1" else "0"
         }
 
     val isHasStr: String
@@ -232,4 +235,9 @@ data class RelevanceTicket(
 data class AuditDepartment(
     var id: String? = null,
     var name: String? = null,
+)
+
+@JsonClass(generateAdapter = true)
+data class UploadInfo(
+    var imageUrl: String? = null,
 )

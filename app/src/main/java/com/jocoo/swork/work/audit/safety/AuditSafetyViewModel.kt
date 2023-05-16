@@ -2,6 +2,7 @@ package com.jocoo.swork.work.audit.safety
 
 import com.gdmm.core.BaseViewModel
 import com.gdmm.core.State
+import com.jocoo.swork.bean.CheckInfo
 import com.jocoo.swork.data.ApiRepo
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.BufferOverflow
@@ -33,15 +34,48 @@ class AuditSafetyViewModel @Inject constructor(
 
     fun uploadImage(toByteArray: ByteArray) {
         launchAndCollectIn(repo.uploadImage(toByteArray)) {
-
+            onSuccess = {
+                _uploadImageFlow.tryEmit(it.imageUrl ?: "")
+            }
         }
     }
-    private val _uploadImageFlow = MutableSharedFlow<Boolean>(
+
+    private val _uploadImageFlow = MutableSharedFlow<String>(
         replay = 0,
         extraBufferCapacity = 1,
         onBufferOverflow = BufferOverflow.DROP_OLDEST
     )
     val uploadImageFlow = _uploadImageFlow.asSharedFlow()
 
+    fun checkSafety(
+        ticketId: String?,
+        signImage: String?,
+        checkList: List<CheckInfo>?,
+        addCheckList: List<CheckInfo>?
+    ) {
+        val params = mutableMapOf<String, String>()
+        params["ticket_id"] = "$ticketId"
+        params["sign"] = if (signImage.isNullOrEmpty()) "\"\"" else signImage
+        checkList?.forEachIndexed { index, it ->
+            params["check_res[$index][id]"] = "${it.id}"
+            params["check_res[$index][res]"] = "1"
+        }
+        addCheckList?.forEachIndexed { index, it ->
+            params["add_check_res[$index][id]"] = "${it.id}"
+            params["add_check_res[$index][res]"] = "1"
+        }
+        launchAndCollectIn(repo.checkSafety(params)) {
+            onSuccess = {
+                _checkSafetyFlow.tryEmit(true)
+            }
+        }
+    }
+
+    private val _checkSafetyFlow = MutableSharedFlow<Boolean>(
+        replay = 0,
+        extraBufferCapacity = 1,
+        onBufferOverflow = BufferOverflow.DROP_OLDEST
+    )
+    val checkSafetyFlow = _checkSafetyFlow.asSharedFlow()
 }
 

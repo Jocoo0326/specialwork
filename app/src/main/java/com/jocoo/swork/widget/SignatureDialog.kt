@@ -31,8 +31,8 @@ class SignatureDialog(
         okBtn.setOnClickListener {
             viewModel.uploadImage(signatureView.signatureBitmap.toByteArray())
         }
-        viewModel.state.observeWithLifecycle(viewLifecycleOwner) {
-
+        viewModel.uploadImageFlow.observeWithLifecycle(viewLifecycleOwner) {
+            dismiss()
         }
     }
 

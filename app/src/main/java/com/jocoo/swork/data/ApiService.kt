@@ -65,5 +65,12 @@ interface ApiService {
     @POST("apps/ticket/uploadImages.html")
     suspend fun uploadImage(
         @Part image: MultipartBody.Part
+    ): UploadInfo
+
+    @Php
+    @POST("apps/ticket/set_checkres.html")
+    @FormUrlEncoded
+    suspend fun checkSafety(
+        @FieldMap map: Map<String, String>
     ): MMVoid
 }

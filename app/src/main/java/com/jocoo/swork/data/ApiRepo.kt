@@ -67,4 +67,10 @@ class ApiRepo @Inject constructor(
         val part = MultipartBody.Part.createFormData("image", "image", body)
         emit(ApiResponse.success(apiService.uploadImage(part)))
     }.safeApiCall(ioDispatcher)
+
+    fun checkSafety(
+        map: Map<String, String>
+    ) = flow {
+        emit(ApiResponse.success(apiService.checkSafety(map)))
+    }.safeApiCall(ioDispatcher)
 }
