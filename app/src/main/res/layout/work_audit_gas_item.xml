@@ -68,6 +68,7 @@
             app:showDividerHorizontal="middle">
 
             <TextView
+                android:id="@+id/tv_1"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
@@ -77,6 +78,7 @@
                 app:layout_flexBasisPercent="36.0%" />
 
             <TextView
+                android:id="@+id/tv_2"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
@@ -86,6 +88,7 @@
                 app:layout_flexBasisPercent="29.999996%" />
 
             <TextView
+                android:id="@+id/tv_3"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"

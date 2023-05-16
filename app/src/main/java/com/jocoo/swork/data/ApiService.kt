@@ -73,4 +73,10 @@ interface ApiService {
     suspend fun checkSafety(
         @FieldMap map: Map<String, String>
     ): MMVoid
+
+    @Php
+    @GET("apps/ticket/getGasTableOptions.html")
+    suspend fun getGasTableOptions(
+        @Query("ticket_id") id: String
+    ): GasTableOptionsInfo
 }

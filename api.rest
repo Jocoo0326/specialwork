@@ -49,7 +49,7 @@ GET :url/apps/ticket/get_info.html?ticket_id=45
 GET :url/apps/ticket/getTicketOpinions.html?ticket_id=43
 :xtoken
 
-#
+#获取气体类型
 GET :url/base_api/getSensorDataType.html
 :xtoken
 
@@ -69,9 +69,31 @@ add_check_res[0][res]=0
 POST :url/apps/ticket/uploadImages.html
 :xtoken
 Content-Type: multipart/form-data
-
 < ~/Pictures/bird.jpg
 
+#添加气体数据
+POST :url/apps/ticket/add_gas_data.html
+:xtoken
+ticket_id=45
+gas_type_id=1
+gas_type_name=二氧化硫SO2
+concentration=19.9
+unit_type=1
+unit_name=ppm
+standard=20.8
+group_id=3
+group_name=氧气
+place=部位0002
+analysis_time=2023-05-16 10:30:11
+analysis_user=现场人员002
+
+#气体数据列表
+GET :url/apps/ticket/get_gas_data_list.html?ticket_id=45
+:xtoken
+
+#获取气体数据选项
+GET :url/apps/ticket/getGasTableOptions.html
+:xtoken
 
 #
 POST http://httpbin.org/post

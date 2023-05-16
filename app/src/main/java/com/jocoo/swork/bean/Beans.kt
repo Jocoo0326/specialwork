@@ -149,6 +149,7 @@ data class TicketDetailInfo(
     val modified_time: String? = null,
     val org_name: String? = null,
     val processOpinions: List<ProcessOpinion>? = null,
+    var sensorDataList: List<GasInfo>? = null,
 ) {
     val auditDepartmentStr: String
         get() {
@@ -241,3 +242,47 @@ data class AuditDepartment(
 data class UploadInfo(
     var imageUrl: String? = null,
 )
+
+@JsonClass(generateAdapter = true)
+data class GasInfo(
+    var id: String? = null,
+    var ticket_id: String? = null,
+    var gas_type_id: String? = null,
+    var gas_type_name: String? = null,
+    var concentration: String? = null,
+    var unit_type: String? = null,
+    var unit_name: String? = null,
+    var standard: String? = null,
+    var group_id: String? = null,
+    var group_name: String? = null,
+    var place: String? = null,
+    var analysis_time: String? = null,
+    var analysis_user: String? = null,
+    var status: String? = null,
+    var created: String? = null,
+    var modified: String? = null,
+    var created_by: String? = null,
+    var modified_by: String? = null
+)
+
+@JsonClass(generateAdapter = true)
+data class GasTableOptionsInfo(
+    var sensor_data_type: List<SensorDataType>? = null,
+    var gas_unit_type: List<GasUnitType>? = null,
+    var gas_group_type: List<GasUnitType>? = null,
+)
+
+@JsonClass(generateAdapter = true)
+data class SensorDataType(
+    var id: String? = null,
+    var type: String? = null,
+    var typeName: String? = null,
+    var name: String? = null,
+)
+
+@JsonClass(generateAdapter = true)
+data class GasUnitType(
+    var id: String? = null,
+    var name: String? = null,
+)
+
