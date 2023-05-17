@@ -278,11 +278,23 @@ data class SensorDataType(
     var type: String? = null,
     var typeName: String? = null,
     var name: String? = null,
-)
+) {
+    override fun toString(): String {
+        return name ?: ""
+    }
+}
 
 @JsonClass(generateAdapter = true)
 data class GasUnitType(
     var id: String? = null,
     var name: String? = null,
-)
+) {
+    override fun toString(): String {
+        return name ?: ""
+    }
+}
 
+@JsonClass(generateAdapter = true)
+data class GasListResp(
+    var list: List<GasInfo>? = null,
+)

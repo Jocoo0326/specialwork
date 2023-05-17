@@ -124,7 +124,8 @@ ext {
             'com.github.lygttpod:SuperTextView:2.4.6',
             'com.kyanogen.signatureview:signature-view:1.2',
             'com.google.android.flexbox:flexbox:3.0.0',
-            "com.github.bumptech.glide:glide:$glide_version"
+            "com.github.bumptech.glide:glide:$glide_version",
+            'com.contrarywind:Android-PickerView:4.1.9',
     ]
 
     ptrRefreshLibrary = [

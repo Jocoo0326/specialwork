@@ -12,6 +12,10 @@ class AuditGasAdapter(
     R.layout.work_audit_gas_item
 ) {
 
+    init {
+        addChildClickViewIds(R.id.tv_modify, R.id.tv_delete)
+    }
+
     override fun convert(holder: BaseViewHolder, item: GasInfo) {
         when {
             (workType == WorkType.LimitSpace_Id || workType == WorkType.Electric_Id) -> {

@@ -73,4 +73,20 @@ class ApiRepo @Inject constructor(
     ) = flow {
         emit(ApiResponse.success(apiService.checkSafety(map)))
     }.safeApiCall(ioDispatcher)
+
+    fun deleteGas(id: String) = flow {
+        emit(ApiResponse.success(apiService.deleteGas(id)))
+    }.safeApiCall(ioDispatcher)
+
+    fun addGas(params: Map<String, String>) = flow {
+        emit(ApiResponse.success(apiService.addGas(params)))
+    }.safeApiCall(ioDispatcher)
+
+    fun getGasList(id: String) = flow {
+        emit(ApiResponse.success(apiService.getGasList(id)))
+    }.safeApiCall(ioDispatcher)
+
+    fun getGasTableOptions(id: String) = flow {
+        emit(ApiResponse.success(apiService.getGasTableOptions(id)))
+    }.safeApiCall(ioDispatcher)
 }

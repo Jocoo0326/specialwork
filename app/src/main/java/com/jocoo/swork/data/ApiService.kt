@@ -79,4 +79,22 @@ interface ApiService {
     suspend fun getGasTableOptions(
         @Query("ticket_id") id: String
     ): GasTableOptionsInfo
+
+    @Php
+    @GET("apps/ticket/get_gas_data_list.html")
+    suspend fun getGasList(
+        @Query("ticket_id") id: String
+    ): GasListResp
+
+    @Php
+    @POST("apps/ticket/del_gas_data.html")
+    @FormUrlEncoded
+    suspend fun deleteGas(
+        @Field("gas_data_id") id: String
+    ): MMVoid
+
+    @Php
+    @POST("apps/ticket/add_gas_data.html")
+    @FormUrlEncoded
+    suspend fun addGas(@FieldMap params: Map<String, String>): MMVoid
 }

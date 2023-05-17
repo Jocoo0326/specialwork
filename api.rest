@@ -75,17 +75,22 @@ Content-Type: multipart/form-data
 POST :url/apps/ticket/add_gas_data.html
 :xtoken
 ticket_id=45
-gas_type_id=1
+gas_type_id=4
 gas_type_name=二氧化硫SO2
-concentration=19.9
-unit_type=1
-unit_name=ppm
-standard=20.8
-group_id=3
-group_name=氧气
-place=部位0002
-analysis_time=2023-05-16 10:30:11
-analysis_user=现场人员002
+concentration=29.9
+unit_type=3
+unit_name=%VOL
+standard=30.8
+group_id=1
+group_name=有毒有害气体
+place=部位0003
+analysis_time=2023-05-15 10:30:11
+analysis_user=现场人员003
+
+#
+POST :url/apps/ticket/del_gas_data.html
+:xtoken
+gas_data_id=5
 
 #气体数据列表
 GET :url/apps/ticket/get_gas_data_list.html?ticket_id=45
