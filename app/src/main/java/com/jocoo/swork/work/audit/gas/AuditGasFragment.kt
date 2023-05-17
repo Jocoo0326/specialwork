@@ -27,7 +27,7 @@ class AuditGasFragment :
     override fun initView(savedInstanceState: Bundle?) {
         binding.apply {
             recyclerView.divider {
-                setDivider(10, true)
+                setDivider(2, true)
             }
             mAdapter = AuditGasAdapter(actViewModel.workType)
             mAdapter.setOnItemChildClickListener { _, view, pos ->
@@ -45,10 +45,7 @@ class AuditGasFragment :
                                 it.dismiss()
                             }.positiveButton(text = "确定") {
                                 viewModel.deleteGas(item.id ?: "") {
-                                    val index = actViewModel.removeGasItem(item.id ?: "")
-                                    if (index > -1) {
-                                        mAdapter.notifyItemRemoved(index)
-                                    }
+                                    actViewModel.getTicketInfo()
                                 }
                             }.show()
                     }
@@ -87,7 +84,7 @@ class AuditGasFragment :
     }
 
     override fun bindListener() {
-        viewModel.modifyGasFlow.observeWithLifecycle(this) {
+        actViewModel.modifyGasFlow.observeWithLifecycle(this) {
             actViewModel.state.value.detail?.sensorDataList?.indexOfFirst { it1 -> it1.id == it }
                 ?.let {
                     mAdapter.notifyItemChanged(it)

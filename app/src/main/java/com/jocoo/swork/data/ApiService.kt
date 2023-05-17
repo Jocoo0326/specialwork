@@ -97,4 +97,9 @@ interface ApiService {
     @POST("apps/ticket/add_gas_data.html")
     @FormUrlEncoded
     suspend fun addGas(@FieldMap params: Map<String, String>): MMVoid
+
+    @Php
+    @POST("apps/ticket/edit_gas_data.html")
+    @FormUrlEncoded
+    suspend fun editGas(@FieldMap params: Map<String, String>): MMVoid
 }

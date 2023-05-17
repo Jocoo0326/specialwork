@@ -183,7 +183,8 @@ class GasAddDialog(
                 Toaster.show("分析人不能为空")
                 return@setOnClickListener
             }
-            gasItemOrNew(id).let { gas ->
+            val gas = gasItemOrNew(id)
+            gas.let { gas ->
                 gas.concentration = concentration
                 gas.standard = standard
                 gas.place = place
@@ -192,7 +193,7 @@ class GasAddDialog(
             if (id.isNullOrEmpty()) {
                 actViewModel.addGasItem()
             } else {
-                viewModel.gasModified(id)
+                actViewModel.gasModified(id, gas)
             }
             dismiss()
         }
