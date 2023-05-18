@@ -6,14 +6,15 @@ import androidx.lifecycle.LifecycleOwner
 import com.gdmm.core.extensions.observeWithLifecycle
 import com.jocoo.swork.R
 import com.jocoo.swork.util.toByteArray
-import com.jocoo.swork.work.audit.safety.AuditSafetyViewModel
+import com.jocoo.swork.work.audit.WorkAuditViewModel
 import com.kyanogen.signatureview.SignatureView
 import com.lxj.xpopup.core.BottomPopupView
 
 class SignatureDialog(
     context: Context,
-    private val viewModel: AuditSafetyViewModel,
+    private val actViewModel: WorkAuditViewModel,
     private val viewLifecycleOwner: LifecycleOwner,
+    private val callback: ((String) -> Unit)? = null
 ) : BottomPopupView(context) {
 
     override fun onCreate() {
@@ -29,9 +30,10 @@ class SignatureDialog(
             dismiss()
         }
         okBtn.setOnClickListener {
-            viewModel.uploadImage(signatureView.signatureBitmap.toByteArray())
+            actViewModel.uploadImage(signatureView.signatureBitmap.toByteArray())
         }
-        viewModel.uploadImageFlow.observeWithLifecycle(viewLifecycleOwner) {
+        actViewModel.uploadImageFlow.observeWithLifecycle(viewLifecycleOwner) {
+            callback?.invoke(it)
             dismiss()
         }
     }

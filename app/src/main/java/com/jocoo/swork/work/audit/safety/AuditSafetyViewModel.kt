@@ -32,21 +32,6 @@ class AuditSafetyViewModel @Inject constructor(
         }
     }
 
-    fun uploadImage(toByteArray: ByteArray) {
-        launchAndCollectIn(repo.uploadImage(toByteArray)) {
-            onSuccess = {
-                _uploadImageFlow.tryEmit(it.imageUrl ?: "")
-            }
-        }
-    }
-
-    private val _uploadImageFlow = MutableSharedFlow<String>(
-        replay = 0,
-        extraBufferCapacity = 1,
-        onBufferOverflow = BufferOverflow.DROP_OLDEST
-    )
-    val uploadImageFlow = _uploadImageFlow.asSharedFlow()
-
     fun checkSafety(
         ticketId: String?,
         signImage: String?,

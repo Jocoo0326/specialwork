@@ -11,8 +11,7 @@ import javax.inject.Inject
 import kotlin.coroutines.CoroutineContext
 
 class ApiRepo @Inject constructor(
-    @IoDispatcher private val ioDispatcher: CoroutineContext,
-    private val apiService: ApiService
+    @IoDispatcher private val ioDispatcher: CoroutineContext, private val apiService: ApiService
 ) {
 
     fun login(username: String, passwd: String) = flow {
@@ -24,16 +23,13 @@ class ApiRepo @Inject constructor(
     }.safeApiCall(ioDispatcher)
 
     fun getDepartmentList(
-        pageNum: Int,
-        pageSize: Int,
-        parentId: String
+        pageNum: Int, pageSize: Int, parentId: String
     ) = flow {
         emit(ApiResponse.success(apiService.getDepartmentList(pageNum, pageSize, parentId)))
     }.safeApiCall(ioDispatcher)
 
     fun getContractorList(
-        pageNum: Int,
-        pageSize: Int
+        pageNum: Int, pageSize: Int
     ) = flow {
         emit(ApiResponse.success(apiService.getContractorList(pageNum, pageSize)))
     }.safeApiCall(ioDispatcher)
@@ -92,5 +88,13 @@ class ApiRepo @Inject constructor(
 
     fun getGasTableOptions(id: String) = flow {
         emit(ApiResponse.success(apiService.getGasTableOptions(id)))
+    }.safeApiCall(ioDispatcher)
+
+    fun getTicketOpinions(id: String) = flow {
+        emit(ApiResponse.success(apiService.getTicketOpinions(id)))
+    }.safeApiCall(ioDispatcher)
+
+    fun setOpinions(params: Map<String, String>) = flow {
+        emit(ApiResponse.success(apiService.setOpinions(params)))
     }.safeApiCall(ioDispatcher)
 }

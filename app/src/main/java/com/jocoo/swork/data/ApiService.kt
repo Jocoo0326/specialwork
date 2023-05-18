@@ -102,4 +102,17 @@ interface ApiService {
     @POST("apps/ticket/edit_gas_data.html")
     @FormUrlEncoded
     suspend fun editGas(@FieldMap params: Map<String, String>): MMVoid
+
+    @Php
+    @GET("apps/ticket/getTicketOpinions.html")
+    suspend fun getTicketOpinions(
+        @Query("ticket_id") id: String
+    ): TicketOptionsResp
+
+    @Php
+    @POST("apps/ticket/set_opinions.html")
+    @FormUrlEncoded
+    suspend fun setOpinions(
+        @FieldMap params: Map<String, String>
+    ): MMVoid
 }

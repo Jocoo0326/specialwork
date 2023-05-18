@@ -37,17 +37,12 @@ class AuditSafetyFragment :
                 if (view.id == R.id.iv_signature) {
                     val item = mAdapter.getItem(pos)
                     if (mAdapter.readyToSign && !item.isConfirmed && item.isSelected) {
-                        XPopup.Builder(requireContext())
-                            .enableDrag(false)
-                            .dismissOnTouchOutside(false)
-                            .asCustom(
+                        XPopup.Builder(requireContext()).enableDrag(false)
+                            .dismissOnTouchOutside(false).asCustom(
                                 SignatureDialog(
-                                    requireContext(),
-                                    viewModel,
-                                    viewLifecycleOwner
+                                    requireContext(), actViewModel, viewLifecycleOwner
                                 )
-                            )
-                            .show()
+                            ).show()
                     }
                 }
             }
@@ -101,7 +96,7 @@ class AuditSafetyFragment :
     }
 
     override fun bindListener() {
-        viewModel.uploadImageFlow.observeWithLifecycle(this) {
+        actViewModel.uploadImageFlow.observeWithLifecycle(this) {
             val list = mAdapter.data
             val selectedList = list.filter { it1 -> !it1.isConfirmed && it1.isSelected }
             selectedList.forEach { it1 ->
@@ -121,8 +116,7 @@ class AuditSafetyFragment :
     }
 
     override fun getViewBinding(
-        inflater: LayoutInflater,
-        container: ViewGroup?
+        inflater: LayoutInflater, container: ViewGroup?
     ) = WorkAuditSafetymeasuresFragmentBinding.inflate(inflater, container, false)
 
     override fun onViewStateChange(state: AuditSafetyState) {

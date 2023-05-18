@@ -23,7 +23,7 @@ GET :url/apps/user/get_operator_list.html
 :xtoken
 
 #
-GET :url/apps/user/get_operator_list.html?name=\u627f\u5305\u55462223&contractor_id=1
+GET :url/apps/user/get_operator_list.html?name=u627fu5305u55462223&contractor_id=1
 :xtoken
 
 #
@@ -100,8 +100,15 @@ GET :url/apps/ticket/get_gas_data_list.html?ticket_id=45
 GET :url/apps/ticket/getGasTableOptions.html
 :xtoken
 
+#获取审批阶段意见+签字项
+GET :url/apps/ticket/getTicketOpinions.html?ticket_id=58
+:xtoken
+
+#
+GET :url/console/face_manage/get_list.html?org_id=1
+:xtoken
+
 #
 POST http://httpbin.org/post
 name=jocoo
-
 

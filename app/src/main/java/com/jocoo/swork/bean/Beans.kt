@@ -3,6 +3,7 @@ package com.jocoo.swork.bean
 import android.graphics.Color
 import com.drake.brv.item.ItemExpand
 import com.drake.brv.item.ItemHover
+import com.drake.brv.item.ItemPosition
 import com.gdmm.core.network.UserInfoItem
 import com.squareup.moshi.JsonClass
 
@@ -298,3 +299,31 @@ data class GasUnitType(
 data class GasListResp(
     var list: List<GasInfo>? = null,
 )
+
+@JsonClass(generateAdapter = true)
+data class TicketOptionsResp(
+    var signList: List<SignOption>? = null,
+    var opinions: List<OpinionOption>? = null,
+)
+
+@JsonClass(generateAdapter = true)
+data class SignOption(
+    var key: String? = null,
+    var name: String? = null,
+    override var comment: String? = null,
+    override var sign: String? = null,
+) : SignInfo
+
+@JsonClass(generateAdapter = true)
+data class OpinionOption(
+    var id: String? = null,
+    var name: String? = null,
+    var field: String? = null,
+    override var comment: String? = null,
+    override var sign: String? = null,
+) : SignInfo
+
+interface SignInfo {
+    var comment: String?
+    var sign: String?
+}
