@@ -40,7 +40,7 @@ class AuditSignatureFragment :
     private val _userInputFlow = MutableSharedFlow<String>(
         replay = 0, extraBufferCapacity = 1, onBufferOverflow = BufferOverflow.DROP_OLDEST
     )
-    val userInputFlow = _userInputFlow.asSharedFlow()
+    private val userInputFlow = _userInputFlow.asSharedFlow()
 
     override fun initView(savedInstanceState: Bundle?) {
         binding.apply {

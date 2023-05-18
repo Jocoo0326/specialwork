@@ -3,7 +3,6 @@ package com.jocoo.swork.bean
 import android.graphics.Color
 import com.drake.brv.item.ItemExpand
 import com.drake.brv.item.ItemHover
-import com.drake.brv.item.ItemPosition
 import com.gdmm.core.network.UserInfoItem
 import com.squareup.moshi.JsonClass
 
@@ -107,7 +106,7 @@ data class TicketDetailInfo(
     val org_id: String? = null,
     val type_id: Int? = 0,
     val no: String? = null,
-    val rate: String? = null,
+    val rate: Int? = 0,
     val department_id: String? = null,
     val apply_time: String? = null,
     val guardian: String? = null,
@@ -155,6 +154,32 @@ data class TicketDetailInfo(
     val auditDepartmentStr: String
         get() {
             return audit_departments?.map { it.name }?.joinToString(separator = ",") ?: ""
+        }
+
+    val statusStr: String
+        get() {
+            val s = rate ?: 0
+            return when {
+                (s < 20) -> {
+                    "待审核"
+                }
+
+                (s == 20) -> {
+                    "作业中"
+                }
+
+                (s == 99) -> {
+                    "已完结作业"
+                }
+
+                else -> ""
+            }
+        }
+
+    val isComplete: Boolean
+        get() {
+            val s = rate ?: 0
+            return s == 99
         }
 }
 
