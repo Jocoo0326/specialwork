@@ -34,6 +34,9 @@
         android:theme="@style/Theme.SpecialWork"
         tools:ignore="LockedOrientationActivity">
         <activity
+            android:name=".work.preview.complete.WorkCompleteActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.splash.SplashActivity"
             android:exported="true"
             android:screenOrientation="portrait">
@@ -46,6 +49,7 @@
         <activity
             android:name=".ui.main.MainActivity"
             android:exported="false"
+            android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.login.LoginActivity"

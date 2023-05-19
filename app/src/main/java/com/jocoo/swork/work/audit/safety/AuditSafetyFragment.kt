@@ -14,6 +14,7 @@ import com.jocoo.swork.R
 import com.jocoo.swork.bean.CheckInfo
 import com.jocoo.swork.databinding.WorkAuditSafetymeasuresFragmentBinding
 import com.jocoo.swork.widget.SignatureDialog
+import com.jocoo.swork.widget.UploadImageViewModel
 import com.jocoo.swork.work.audit.WorkAuditViewModel
 import com.lxj.xpopup.XPopup
 import dagger.hilt.android.AndroidEntryPoint
@@ -25,7 +26,7 @@ class AuditSafetyFragment :
     private lateinit var mAdapter: AuditSafetyAdapter
     override val viewModel: AuditSafetyViewModel by viewModels()
     private val actViewModel: WorkAuditViewModel by activityViewModels()
-
+    private val uploadImageViewModel: UploadImageViewModel by viewModels()
 
     override fun initView(savedInstanceState: Bundle?) {
         binding.apply {
@@ -40,7 +41,7 @@ class AuditSafetyFragment :
                         XPopup.Builder(requireContext()).enableDrag(false)
                             .dismissOnTouchOutside(false).asCustom(
                                 SignatureDialog(
-                                    requireContext(), actViewModel, viewLifecycleOwner
+                                    requireContext(), uploadImageViewModel, viewLifecycleOwner
                                 )
                             ).show()
                     }
@@ -96,7 +97,7 @@ class AuditSafetyFragment :
     }
 
     override fun bindListener() {
-        actViewModel.uploadImageFlow.observeWithLifecycle(this) {
+        uploadImageViewModel.uploadImageFlow.observeWithLifecycle(this) {
             val list = mAdapter.data
             val selectedList = list.filter { it1 -> !it1.isConfirmed && it1.isSelected }
             selectedList.forEach { it1 ->

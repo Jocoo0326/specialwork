@@ -23,6 +23,7 @@ import com.jocoo.swork.databinding.WorkAuditSignatureFragmentBinding
 import com.jocoo.swork.databinding.WorkAuditSignatureItemBinding
 import com.jocoo.swork.widget.CommonInputDialog
 import com.jocoo.swork.widget.SignatureDialog
+import com.jocoo.swork.widget.UploadImageViewModel
 import com.jocoo.swork.work.audit.WorkAuditViewModel
 import com.lxj.xpopup.XPopup
 import dagger.hilt.android.AndroidEntryPoint
@@ -37,6 +38,7 @@ class AuditSignatureFragment :
     private var curModel: SignInfo? = null
     override val viewModel: AuditSignatureViewModel by viewModels()
     private val actViewModel: WorkAuditViewModel by activityViewModels()
+    private val uploadImageViewModel: UploadImageViewModel by viewModels()
     private val _userInputFlow = MutableSharedFlow<String>(
         replay = 0, extraBufferCapacity = 1, onBufferOverflow = BufferOverflow.DROP_OLDEST
     )
@@ -55,7 +57,7 @@ class AuditSignatureFragment :
                     XPopup.Builder(requireContext()).enableDrag(false).dismissOnTouchOutside(false)
                         .asCustom(
                             SignatureDialog(
-                                requireContext(), actViewModel, viewLifecycleOwner
+                                requireContext(), uploadImageViewModel, viewLifecycleOwner
                             )
                         ).show()
                 }
@@ -103,7 +105,7 @@ class AuditSignatureFragment :
     }
 
     override fun bindListener() {
-        actViewModel.uploadImageFlow.observeWithLifecycle(this) {
+        uploadImageViewModel.uploadImageFlow.observeWithLifecycle(this) {
             if (curModel != null) {
                 curModel?.sign = it
                 val index =

@@ -97,4 +97,8 @@ class ApiRepo @Inject constructor(
     fun setOpinions(params: Map<String, String>) = flow {
         emit(ApiResponse.success(apiService.setOpinions(params)))
     }.safeApiCall(ioDispatcher)
+
+    fun setAccept(params: Map<String, String>) = flow {
+        emit(ApiResponse.success(apiService.setAccept(params)))
+    }.safeApiCall(ioDispatcher)
 }

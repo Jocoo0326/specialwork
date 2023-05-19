@@ -21,6 +21,7 @@ import com.jocoo.swork.R
 import com.jocoo.swork.bean.TicketDetailInfo
 import com.jocoo.swork.data.enum.WorkType
 import com.jocoo.swork.ui.login.LoginActivity
+import com.jocoo.swork.ui.main.MainActivity
 import com.lxj.xpopup.XPopup
 import com.lxj.xpopup.util.SmartGlideImageLoader
 import java.io.ByteArrayOutputStream
@@ -31,6 +32,10 @@ fun Context.reLogin() {
     })
     val sm = SessionManager.getInstance(BaseApplication.applicationContext())
     sm.clearAll()
+}
+
+fun Context.toMain() {
+    startActivity(Intent(this, MainActivity::class.java))
 }
 
 fun hasGas(workTypeId: Int): Boolean {

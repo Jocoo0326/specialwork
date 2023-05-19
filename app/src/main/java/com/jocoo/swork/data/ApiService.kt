@@ -115,4 +115,12 @@ interface ApiService {
     suspend fun setOpinions(
         @FieldMap params: Map<String, String>
     ): MMVoid
+
+    @Php
+    @POST("apps/ticket/set_accept.html")
+    @FormUrlEncoded
+    suspend fun setAccept(
+        @FieldMap params: Map<String, String>
+    ): MMVoid
+
 }

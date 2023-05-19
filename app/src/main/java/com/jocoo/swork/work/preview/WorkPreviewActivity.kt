@@ -60,6 +60,12 @@ class WorkPreviewActivity :
             TabLayoutMediator(tabLayout, viewPager) { tab, pos ->
                 tab.text = fragList[pos].first
             }.attach()
+            btnComplete.setOnClickListener {
+                ARouter.getInstance()
+                    .build(NavHub.WORK_COMPLETE)
+                    .withString(COMM_KEY_1, workId)
+                    .navigation()
+            }
         }
         viewModel.workId = workId
         viewModel.workType = workType
