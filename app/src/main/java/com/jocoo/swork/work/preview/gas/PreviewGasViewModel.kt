@@ -15,4 +15,11 @@ class PreviewGasViewModel @Inject constructor(
     private val repo: ApiRepo
 ) : BaseViewModel<PreviewGasState>(PreviewGasState()) {
 
+    fun deleteGas(id: String, callback: () -> Unit) {
+        launchAndCollectIn(repo.deleteGas(id)) {
+            onSuccess = {
+                callback()
+            }
+        }
+    }
 }

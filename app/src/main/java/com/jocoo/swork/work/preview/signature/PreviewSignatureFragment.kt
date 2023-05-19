@@ -17,14 +17,14 @@ import com.jocoo.swork.R
 import com.jocoo.swork.bean.ProcessOpinion
 import com.jocoo.swork.databinding.WorkPreviewSignatureFragmentBinding
 import com.jocoo.swork.databinding.WorkPreviewSignatureItemBinding
-import com.jocoo.swork.work.preview.WorkPreviewViewModel
+import com.jocoo.swork.work.audit.WorkAuditViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class PreviewSignatureFragment :
     BaseFragment<WorkPreviewSignatureFragmentBinding, PreviewSignatureState, PreviewSignatureViewModel>() {
     override val viewModel: PreviewSignatureViewModel by viewModels()
-    private val actViewModel: WorkPreviewViewModel by activityViewModels()
+    private val actViewModel: WorkAuditViewModel by activityViewModels()
 
     override fun initView(savedInstanceState: Bundle?) {
         binding.apply {

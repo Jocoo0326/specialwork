@@ -123,4 +123,25 @@ class WorkAuditViewModel @Inject constructor(
         }
     }
 
+    fun setStop(b: Boolean) {
+        launchAndCollectIn(
+            if (b) {
+                repo.setStop(workId)
+            } else {
+                repo.setContinue(workId)
+            }
+        ) {
+            onSuccess = {
+                _setStopFlow.tryEmit(b)
+            }
+        }
+    }
+
+    private val _setStopFlow = MutableSharedFlow<Boolean>(
+        replay = 0,
+        extraBufferCapacity = 1,
+        onBufferOverflow = BufferOverflow.DROP_OLDEST
+    )
+    val setStopFlow = _setStopFlow.asSharedFlow()
+
 }

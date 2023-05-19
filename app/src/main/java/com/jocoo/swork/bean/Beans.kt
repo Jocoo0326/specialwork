@@ -133,6 +133,7 @@ data class TicketDetailInfo(
     val accept_disclosure_sign: String? = null,
     val author: String? = null,
     val status: String? = null,
+    var is_stop: String? = null,
     val created: String? = null,
     val modified: String? = null,
     val createdBy: String? = null,
@@ -178,7 +179,7 @@ data class TicketDetailInfo(
 
     val isComplete: Boolean
         get() {
-            val s = rate ?: 0
+            val s = rate ?: 99
             return s == 99
         }
 }

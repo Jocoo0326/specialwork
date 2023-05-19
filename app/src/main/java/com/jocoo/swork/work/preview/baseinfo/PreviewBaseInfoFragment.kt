@@ -10,7 +10,7 @@ import com.gdmm.core.extensions.observeWithLifecycle
 import com.jocoo.swork.databinding.WorkPreviewBaseinfoFragmentBinding
 import com.jocoo.swork.util.fillBaseInfo
 import com.jocoo.swork.util.getTicketTitle
-import com.jocoo.swork.work.preview.WorkPreviewViewModel
+import com.jocoo.swork.work.audit.WorkAuditViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -18,7 +18,7 @@ class PreviewBaseInfoFragment :
     BaseFragment<WorkPreviewBaseinfoFragmentBinding, PreviewBaseInfoState, PreviewBaseInfoViewModel>() {
 
     override val viewModel: PreviewBaseInfoViewModel by viewModels()
-    private val actViewModel: WorkPreviewViewModel by activityViewModels()
+    private val actViewModel: WorkAuditViewModel by activityViewModels()
 
     override fun initView(savedInstanceState: Bundle?) {
         actViewModel.state.observeWithLifecycle(this) {

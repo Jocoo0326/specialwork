@@ -10,12 +10,15 @@ import com.alibaba.android.arouter.facade.annotation.Autowired
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
 import com.gdmm.core.BaseCompatActivity
+import com.gdmm.core.extensions.observeWithLifecycle
 import com.google.android.material.tabs.TabLayoutMediator
 import com.jocoo.swork.data.COMM_KEY_1
 import com.jocoo.swork.data.COMM_KEY_2
 import com.jocoo.swork.data.NavHub
 import com.jocoo.swork.databinding.ActivityWorkPreviewBinding
 import com.jocoo.swork.util.hasGas
+import com.jocoo.swork.work.audit.WorkAuditState
+import com.jocoo.swork.work.audit.WorkAuditViewModel
 import com.jocoo.swork.work.preview.baseinfo.PreviewBaseInfoFragment
 import com.jocoo.swork.work.preview.gas.PreviewGasFragment
 import com.jocoo.swork.work.preview.safety.PreviewSafetyFragment
@@ -25,9 +28,9 @@ import dagger.hilt.android.AndroidEntryPoint
 @Route(path = NavHub.WORK_PREVIEW)
 @AndroidEntryPoint
 class WorkPreviewActivity :
-    BaseCompatActivity<ActivityWorkPreviewBinding, WorkPreviewState, WorkPreviewViewModel>() {
+    BaseCompatActivity<ActivityWorkPreviewBinding, WorkAuditState, WorkAuditViewModel>() {
 
-    override val viewModel: WorkPreviewViewModel by viewModels()
+    override val viewModel: WorkAuditViewModel by viewModels()
 
     @JvmField
     @Autowired(name = COMM_KEY_1)
@@ -66,6 +69,12 @@ class WorkPreviewActivity :
                     .withString(COMM_KEY_1, workId)
                     .navigation()
             }
+            btnInterrupt.setOnClickListener {
+                viewModel.setStop(true)
+            }
+            btnRestore.setOnClickListener {
+                viewModel.setStop(false)
+            }
         }
         viewModel.workId = workId
         viewModel.workType = workType
@@ -73,15 +82,37 @@ class WorkPreviewActivity :
     }
 
     override fun bindListener() {
+        viewModel.setStopFlow.observeWithLifecycle(this) {
+            if (it) {
+                mBinding.btnRestore.visibility = View.VISIBLE
+                mBinding.btnInterrupt.visibility = View.GONE
+                mBinding.btnComplete.visibility = View.GONE
+                viewModel.state.value.detail?.is_stop = "1"
+            } else {
+                mBinding.btnRestore.visibility = View.GONE
+                mBinding.btnInterrupt.visibility = View.VISIBLE
+                mBinding.btnComplete.visibility = View.VISIBLE
+                viewModel.state.value.detail?.is_stop = "0"
+            }
+        }
     }
 
-    override fun onViewStateChange(state: WorkPreviewState) {
+    override fun onViewStateChange(state: WorkAuditState) {
         mBinding.apply {
             toolbar.title = state.detail?.statusStr
-            if (state.detail?.isComplete == true) {
+            if (state.detail == null || state.detail.isComplete) {
                 mBinding.llAction.visibility = View.GONE
             } else {
                 mBinding.llAction.visibility = View.VISIBLE
+                if (state.detail.is_stop == "0") {
+                    mBinding.btnInterrupt.visibility = View.VISIBLE
+                    mBinding.btnRestore.visibility = View.GONE
+                    mBinding.btnComplete.visibility = View.VISIBLE
+                } else {
+                    mBinding.btnInterrupt.visibility = View.GONE
+                    mBinding.btnRestore.visibility = View.VISIBLE
+                    mBinding.btnComplete.visibility = View.GONE
+                }
             }
         }
     }

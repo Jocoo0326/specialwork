@@ -17,14 +17,12 @@ import com.jocoo.swork.data.TIME_PATTERN
 import com.jocoo.swork.data.enum.WorkType
 import com.jocoo.swork.work.audit.WorkAuditState
 import com.jocoo.swork.work.audit.WorkAuditViewModel
-import com.jocoo.swork.work.audit.gas.AuditGasViewModel
 import com.lxj.xpopup.core.BottomPopupView
 import java.util.*
 
 class GasAddDialog(
     context: Context,
     private val id: String?,
-    private val viewModel: AuditGasViewModel,
     private val actViewModel: WorkAuditViewModel,
     private val viewLifecycleOwner: LifecycleOwner,
 ) : BottomPopupView(context) {
@@ -99,8 +97,8 @@ class GasAddDialog(
                 }
             }.build<GasUnitType>()
             picker.setPicker(list)
-            if (!id.isNullOrEmpty() && !list.isNullOrEmpty()) {
-                actViewModel.state.value.getCurGasItem(id)?.let {
+            if (!list.isNullOrEmpty()) {
+                gasItemOrNew(id).let {
                     picker.setSelectOptions(list.indexOfFirst { it1 -> it1.id == it.unit_type })
                 }
             }
@@ -116,8 +114,8 @@ class GasAddDialog(
                 }
             }.build<GasUnitType>()
             picker.setPicker(list)
-            if (!id.isNullOrEmpty() && !list.isNullOrEmpty()) {
-                actViewModel.state.value.getCurGasItem(id)?.let {
+            if (!list.isNullOrEmpty()) {
+                gasItemOrNew(id).let {
                     picker.setSelectOptions(list.indexOfFirst { it1 -> it1.id == it.group_id })
                 }
             }
@@ -129,7 +127,7 @@ class GasAddDialog(
                 gasItemOrNew(id).updateContent()
             }.build()
             if (!id.isNullOrEmpty()) {
-                actViewModel.state.value.getCurGasItem(id)?.let {
+                gasItemOrNew(id).let {
                     val ca = Calendar.getInstance()
                     ca.time = TimeUtils.string2Date(it.analysis_time, TIME_PATTERN)
                     picker.setDate(ca)

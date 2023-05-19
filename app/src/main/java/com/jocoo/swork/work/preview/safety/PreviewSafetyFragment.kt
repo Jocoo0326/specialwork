@@ -2,6 +2,7 @@ package com.jocoo.swork.work.preview.safety
 
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
@@ -15,14 +16,14 @@ import com.jocoo.swork.R
 import com.jocoo.swork.bean.CheckInfo
 import com.jocoo.swork.databinding.WorkPreviewSafetymeasuresFragmentBinding
 import com.jocoo.swork.databinding.WorkPreviewSafetymeasuresItemBinding
-import com.jocoo.swork.work.preview.WorkPreviewViewModel
+import com.jocoo.swork.work.audit.WorkAuditViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class PreviewSafetyFragment :
     BaseFragment<WorkPreviewSafetymeasuresFragmentBinding, PreviewSafetyState, PreviewSafetyViewModel>() {
     override val viewModel: PreviewSafetyViewModel by viewModels()
-    private val actViewModel: WorkPreviewViewModel by activityViewModels()
+    private val actViewModel: WorkAuditViewModel by activityViewModels()
 
     override fun initView(savedInstanceState: Bundle?) {
         binding.apply {

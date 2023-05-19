@@ -101,4 +101,12 @@ class ApiRepo @Inject constructor(
     fun setAccept(params: Map<String, String>) = flow {
         emit(ApiResponse.success(apiService.setAccept(params)))
     }.safeApiCall(ioDispatcher)
+
+    fun setStop(id: String) = flow {
+        emit(ApiResponse.success(apiService.setStop(id)))
+    }.safeApiCall(ioDispatcher)
+
+    fun setContinue(id: String) = flow {
+        emit(ApiResponse.success(apiService.setContinue(id)))
+    }.safeApiCall(ioDispatcher)
 }

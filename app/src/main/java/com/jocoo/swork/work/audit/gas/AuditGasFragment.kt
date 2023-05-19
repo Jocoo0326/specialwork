@@ -68,7 +68,7 @@ class AuditGasFragment :
         XPopup.Builder(requireActivity()).enableDrag(false).isViewMode(true)
             .dismissOnTouchOutside(true).asCustom(
                 GasAddDialog(
-                    requireActivity(), id, viewModel, actViewModel, viewLifecycleOwner
+                    requireActivity(), id, actViewModel, viewLifecycleOwner
                 )
             ).show()
     }

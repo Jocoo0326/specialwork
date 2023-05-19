@@ -123,4 +123,17 @@ interface ApiService {
         @FieldMap params: Map<String, String>
     ): MMVoid
 
+    @Php
+    @POST("apps/ticket/set_stop.html")
+    @FormUrlEncoded
+    suspend fun setStop(
+        @Field("ticket_id") id: String
+    ): MMVoid
+
+    @Php
+    @POST("apps/ticket/set_continue.html")
+    @FormUrlEncoded
+    suspend fun setContinue(
+        @Field("ticket_id") id: String
+    ): MMVoid
 }

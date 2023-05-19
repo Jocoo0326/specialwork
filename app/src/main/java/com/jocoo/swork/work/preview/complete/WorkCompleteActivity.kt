@@ -9,6 +9,7 @@ import com.alibaba.android.arouter.launcher.ARouter
 import com.bumptech.glide.Glide
 import com.gdmm.core.BaseCompatActivity
 import com.gdmm.core.extensions.observeWithLifecycle
+import com.gdmm.core.extensions.setupActionBar
 import com.hjq.toast.Toaster
 import com.jocoo.swork.data.COMM_KEY_1
 import com.jocoo.swork.data.NavHub
@@ -46,6 +47,7 @@ class WorkCompleteActivity :
 
     override fun initView(savedInstanceState: Bundle?) {
         mBinding.apply {
+            setupActionBar(toolbar)
             flSignature.setOnClickListener {
                 XPopup.Builder(this@WorkCompleteActivity).enableDrag(false)
                     .dismissOnTouchOutside(false)
