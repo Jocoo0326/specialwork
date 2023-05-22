@@ -8,8 +8,11 @@ import com.alibaba.android.arouter.launcher.ARouter
 import com.chad.library.adapter.base.viewholder.BaseViewHolder
 import com.drake.brv.utils.divider
 import com.gdmm.core.BaseCompatActivity
+import com.gdmm.core.extensions.observeWithLifecycle
 import com.gdmm.core.extensions.simpleActionBar
 import com.jocoo.swork.R
+import com.jocoo.swork.bean.AppEvent
+import com.jocoo.swork.bean.AppEventType
 import com.jocoo.swork.bean.WorkInfo
 import com.jocoo.swork.data.COMM_KEY_1
 import com.jocoo.swork.data.COMM_KEY_2
@@ -20,6 +23,8 @@ import com.jocoo.swork.data.enum.WorkType
 import com.jocoo.swork.databinding.ActivityWorkListBinding
 import com.jocoo.swork.util.PaginationDelegation
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.MutableSharedFlow
+import javax.inject.Inject
 
 @Route(path = NavHub.WORK_LIST)
 @AndroidEntryPoint
@@ -41,6 +46,9 @@ class WorkListActivity :
     @JvmField
     @Autowired(name = COMM_KEY_3)
     var typeName: String = ""
+
+    @Inject
+    lateinit var mEventFlow: MutableSharedFlow<AppEvent>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         ARouter.getInstance().inject(this)
@@ -81,6 +89,7 @@ class WorkListActivity :
         pg = PaginationDelegation(mAdapter) { page ->
             viewModel.getTicketList(workMode, typeId, page)
         }
+        viewModel.getTicketList(workMode, typeId)
     }
 
     override fun onLoadCompleted() {
@@ -91,13 +100,12 @@ class WorkListActivity :
         }
     }
 
-    override fun onResume() {
-        super.onResume()
-        viewModel.getTicketList(workMode, typeId)
-    }
-
     override fun bindListener() {
-
+        mEventFlow.observeWithLifecycle(this) {
+            if (it.type == AppEventType.START_WORK) {
+                viewModel.getTicketList(workMode, typeId)
+            }
+        }
     }
 
     override fun onViewStateChange(state: WorkListState) {

@@ -4,6 +4,8 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Color
+import android.graphics.Matrix
+import android.util.Base64
 import android.view.Gravity
 import android.view.ViewGroup
 import android.widget.LinearLayout
@@ -25,6 +27,8 @@ import com.jocoo.swork.ui.main.MainActivity
 import com.lxj.xpopup.XPopup
 import com.lxj.xpopup.util.SmartGlideImageLoader
 import java.io.ByteArrayOutputStream
+import java.math.BigDecimal
+import kotlin.math.min
 
 fun Context.reLogin() {
     startActivity(Intent(this, LoginActivity::class.java).also {
@@ -599,8 +603,39 @@ fun make3Col(
     }
 }
 
-fun Bitmap.toByteArray(): ByteArray {
-    val bos = ByteArrayOutputStream()
-    compress(Bitmap.CompressFormat.PNG, 100, bos)
-    return bos.toByteArray()
+fun Bitmap.toByteArray(): ByteArray? {
+    try {
+        val bos = ByteArrayOutputStream()
+        compress(Bitmap.CompressFormat.PNG, 100, bos)
+        return bos.toByteArray()
+    } catch (e: Exception) {
+        e.printStackTrace()
+    }
+    return null
+}
+
+fun Bitmap.toBase64String(): String {
+    try {
+        val bos = ByteArrayOutputStream()
+        compress(Bitmap.CompressFormat.PNG, 60, bos)
+        val ba = bos.toByteArray()
+        val result = Base64.encodeToString(ba, Base64.DEFAULT)
+        bos.close()
+        return result
+    } catch (e: Exception) {
+        e.printStackTrace()
+    }
+    return ""
+}
+
+fun Bitmap.scale(w: Int, h: Int): Bitmap {
+    if (width < w && height < h) {
+        return this
+    }
+    val ws = BigDecimal(w).divide(BigDecimal(width), 4, 1).toFloat()
+    val hs = BigDecimal(h).divide(BigDecimal(height), 4, 1).toFloat()
+    val s = min(ws, hs)
+    val matrix = Matrix()
+    matrix.postScale(s, s)
+    return Bitmap.createBitmap(this, 0, 0, width, height, matrix, true)
 }

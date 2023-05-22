@@ -11,16 +11,14 @@ interface ApiService {
     @POST("apps/user/login.html")
     @FormUrlEncoded
     suspend fun login(
-        @Field("username") username: String,
-        @Field("password") passwd: String
+        @Field("username") username: String, @Field("password") passwd: String
     ): LoginItem
 
     @Php
     @POST("apps/user/change_pwd.html")
     @FormUrlEncoded
     suspend fun changePassword(
-        @Field("old_pwd") oldPwd: String,
-        @Field("new_pwd") newPwd: String
+        @Field("old_pwd") oldPwd: String, @Field("new_pwd") newPwd: String
     ): MMVoid
 
     @Php
@@ -34,8 +32,7 @@ interface ApiService {
     @Php
     @GET("apps/user/get_contractor_list.html")
     suspend fun getContractorList(
-        @Query("page") pageNum: Int,
-        @Query("limit") pageSize: Int
+        @Query("page") pageNum: Int, @Query("limit") pageSize: Int
     ): PageItem<WorkUnitItem>
 
     @Php
@@ -136,4 +133,33 @@ interface ApiService {
     suspend fun setContinue(
         @Field("ticket_id") id: String
     ): MMVoid
+
+    @Php
+    @POST("apps/face/create_face.html")
+    @FormUrlEncoded
+    suspend fun createFace(
+        @Field("operator_id") id: String,
+        @Field("image") imageBase64: String
+    ): MMVoid
+
+    @Php
+    @POST("apps/face/match_face.html")
+    @FormUrlEncoded
+    suspend fun matchFace(
+        @Field("operator_id") id: String,
+        @Field("image") imageBase64: String
+    ): MMVoid
+
+    @Php
+    @POST("apps/face/search_face.html")
+    @FormUrlEncoded
+    suspend fun searchFace(
+        @Field("image") imageBase64: String
+    ): MMVoid
+
+    @Php
+    @GET("console/face_manage/get_list.html")
+    suspend fun getFaceConfigs(
+        @Query("org_id") id: String
+    ): FaceConfigResp
 }

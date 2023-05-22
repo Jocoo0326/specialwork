@@ -11,7 +11,7 @@ username=tiszy
 password=asdasd1
 
 #
-GET :url/apps/user/get_department_list.html?parent_id=0&limit=1
+GET :url/apps/user/get_department_list.html?parent_id=3&limit=1
 :xtoken
 
 #
@@ -19,7 +19,7 @@ GET :url/apps/user/get_contractor_list.html
 :xtoken
 
 #
-GET :url/apps/user/get_operator_list.html
+GET :url/apps/user/get_operator_list.html?name=&department_id=2
 :xtoken
 
 #
@@ -42,7 +42,7 @@ GET :url/apps/ticket/get_list.html?pageType=audit&type_id=1&page=1&limit=10
 :xtoken
 
 #获取作业票详情
-GET :url/apps/ticket/get_info.html?ticket_id=45
+GET :url/apps/ticket/get_info.html?ticket_id=57
 :xtoken
 
 #获取审批阶段意见+签字项
@@ -105,7 +105,7 @@ GET :url/apps/ticket/getTicketOpinions.html?ticket_id=58
 :xtoken
 
 #
-GET :url/console/face_manage/get_list.html?org_id=1
+GET :url/console/face_manage/get_list.html?org_id=2
 :xtoken
 
 #完工验收提交
@@ -119,3 +119,15 @@ sign=
 POST http://httpbin.org/post
 name=jocoo
 
+#
+POST http://115.29.224.73:7699/erp/pda/ticketApproveFaceConfig/listAll
+deviceId: 2a1da9c0f163f3a1da0f57006fe01cfd0
+token: b1dae79f1a22a451d8d0a2312ff96928
+Content-Type: application/json; charset=UTF-8
+{"pageNumber":1,"pageSize":20,"userId":"20211215104836656873582376653854","userName":"13700001111"}
+
+#
+POST :url/apps/face/create_face.html
+:xtoken
+operator_id=1
+image=asdasdasdasd

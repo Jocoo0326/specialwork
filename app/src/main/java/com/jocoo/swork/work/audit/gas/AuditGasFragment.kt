@@ -12,6 +12,8 @@ import com.gdmm.core.extensions.observeWithLifecycle
 import com.jocoo.swork.R
 import com.jocoo.swork.databinding.WorkAuditGasFragmentBinding
 import com.jocoo.swork.widget.GasAddDialog
+import com.jocoo.swork.widget.face.FaceCreateDialog
+import com.jocoo.swork.widget.face.FaceViewModel
 import com.jocoo.swork.work.audit.WorkAuditViewModel
 import com.lxj.xpopup.XPopup
 import dagger.hilt.android.AndroidEntryPoint
@@ -23,6 +25,7 @@ class AuditGasFragment :
     private lateinit var mAdapter: AuditGasAdapter
     override val viewModel: AuditGasViewModel by viewModels()
     private val actViewModel: WorkAuditViewModel by activityViewModels()
+    private val faceViewModel: FaceViewModel by viewModels()
 
     override fun initView(savedInstanceState: Bundle?) {
         binding.apply {
@@ -53,7 +56,13 @@ class AuditGasFragment :
             }
             recyclerView.adapter = mAdapter
             btnDone.setOnClickListener {
-                actViewModel.nextPage()
+                faceViewModel.faceType = FaceViewModel.SEARCH_FACE
+                XPopup.Builder(requireContext())
+                    .enableDrag(false)
+                    .dismissOnTouchOutside(false)
+                    .asCustom(
+                        FaceCreateDialog(requireActivity(), faceViewModel)
+                    ).show()
             }
             btnManualAdd.setOnClickListener {
                 popGasDialog()
@@ -89,6 +98,11 @@ class AuditGasFragment :
                 ?.let {
                     mAdapter.notifyItemChanged(it)
                 }
+        }
+        faceViewModel.faceFlow.observeWithLifecycle(this) {
+            if (it == FaceViewModel.success_msg) {
+                actViewModel.nextPage()
+            }
         }
     }
 

@@ -14,6 +14,7 @@ import com.gdmm.core.extensions.observeWithLifecycle
 import com.google.android.material.tabs.TabLayoutMediator
 import com.jocoo.swork.data.COMM_KEY_1
 import com.jocoo.swork.data.COMM_KEY_2
+import com.jocoo.swork.data.COMM_KEY_3
 import com.jocoo.swork.data.NavHub
 import com.jocoo.swork.databinding.ActivityWorkPreviewBinding
 import com.jocoo.swork.util.hasGas
@@ -64,9 +65,12 @@ class WorkPreviewActivity :
                 tab.text = fragList[pos].first
             }.attach()
             btnComplete.setOnClickListener {
+                val fireRank = viewModel.state.value.detail?.special_content?.fire_rank ?: ""
                 ARouter.getInstance()
                     .build(NavHub.WORK_COMPLETE)
                     .withString(COMM_KEY_1, workId)
+                    .withInt(COMM_KEY_2, workType)
+                    .withString(COMM_KEY_3, fireRank)
                     .navigation()
             }
             btnInterrupt.setOnClickListener {

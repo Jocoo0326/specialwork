@@ -63,6 +63,7 @@ class WorkAuditActivity :
         viewModel.workId = workId
         viewModel.workType = workType
         viewModel.getTicketInfo()
+        viewModel.getFaceConfigs()
     }
 
     override fun onBackPressed() {

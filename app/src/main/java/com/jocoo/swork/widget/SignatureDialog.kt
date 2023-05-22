@@ -29,7 +29,9 @@ class SignatureDialog(
             dismiss()
         }
         okBtn.setOnClickListener {
-            actViewModel.uploadImage(signatureView.signatureBitmap.toByteArray())
+            signatureView.signatureBitmap.toByteArray()?.let {
+                actViewModel.uploadImage(it)
+            }
         }
         actViewModel.uploadImageFlow.observeWithLifecycle(viewLifecycleOwner) {
             callback?.invoke(it)

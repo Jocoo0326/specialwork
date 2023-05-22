@@ -15,6 +15,8 @@ import com.jocoo.swork.bean.CheckInfo
 import com.jocoo.swork.databinding.WorkAuditSafetymeasuresFragmentBinding
 import com.jocoo.swork.widget.SignatureDialog
 import com.jocoo.swork.widget.UploadImageViewModel
+import com.jocoo.swork.widget.face.FaceCreateDialog
+import com.jocoo.swork.widget.face.FaceViewModel
 import com.jocoo.swork.work.audit.WorkAuditViewModel
 import com.lxj.xpopup.XPopup
 import dagger.hilt.android.AndroidEntryPoint
@@ -27,6 +29,7 @@ class AuditSafetyFragment :
     override val viewModel: AuditSafetyViewModel by viewModels()
     private val actViewModel: WorkAuditViewModel by activityViewModels()
     private val uploadImageViewModel: UploadImageViewModel by viewModels()
+    private val faceViewModel: FaceViewModel by viewModels()
 
     override fun initView(savedInstanceState: Bundle?) {
         binding.apply {
@@ -55,7 +58,13 @@ class AuditSafetyFragment :
                     Toaster.show("请至少选择一项安全措施")
                     return@setOnClickListener
                 }
-                viewModel.signMode(true)
+                faceViewModel.faceType = FaceViewModel.SEARCH_FACE
+                XPopup.Builder(requireContext())
+                    .enableDrag(false)
+                    .dismissOnTouchOutside(false)
+                    .asCustom(
+                        FaceCreateDialog(requireActivity(), faceViewModel)
+                    ).show()
             }
             btnDone.setOnClickListener {
                 val list = mAdapter.data
@@ -113,6 +122,11 @@ class AuditSafetyFragment :
             }
             viewModel.signMode(false)
             updateHasAuditTodo()
+        }
+        faceViewModel.faceFlow.observeWithLifecycle(this) {
+            if (it == FaceViewModel.success_msg) {
+                viewModel.signMode(true)
+            }
         }
     }
 

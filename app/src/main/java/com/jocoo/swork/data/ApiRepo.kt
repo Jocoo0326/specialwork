@@ -109,4 +109,26 @@ class ApiRepo @Inject constructor(
     fun setContinue(id: String) = flow {
         emit(ApiResponse.success(apiService.setContinue(id)))
     }.safeApiCall(ioDispatcher)
+
+    fun createFace(
+        id: String, imageBase64: String
+    ) = flow {
+        emit(ApiResponse.success(apiService.createFace(id, imageBase64)))
+    }.safeApiCall(ioDispatcher)
+
+    fun matchFace(
+        id: String, imageBase64: String
+    ) = flow {
+        emit(ApiResponse.success(apiService.matchFace(id, imageBase64)))
+    }.safeApiCall(ioDispatcher)
+
+    fun searchFace(
+        imageBase64: String
+    ) = flow {
+        emit(ApiResponse.success(apiService.searchFace(imageBase64)))
+    }.safeApiCall(ioDispatcher)
+
+    fun getFaceConfigs(id: String) = flow {
+        emit(ApiResponse.success(apiService.getFaceConfigs(id)))
+    }.safeApiCall(ioDispatcher)
 }

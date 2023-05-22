@@ -11,8 +11,11 @@ import com.drake.brv.utils.linear
 import com.drake.brv.utils.models
 import com.drake.brv.utils.setup
 import com.gdmm.core.BaseCompatActivity
+import com.gdmm.core.extensions.observeWithLifecycle
 import com.gdmm.core.extensions.simpleActionBar
 import com.jocoo.swork.R
+import com.jocoo.swork.bean.AppEvent
+import com.jocoo.swork.bean.AppEventType
 import com.jocoo.swork.bean.OperatorInfo
 import com.jocoo.swork.data.COMM_KEY_1
 import com.jocoo.swork.data.COMM_KEY_2
@@ -21,6 +24,8 @@ import com.jocoo.swork.data.NavHub
 import com.jocoo.swork.databinding.StaffListActivityBinding
 import com.jocoo.swork.databinding.StaffListItemBinding
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.MutableSharedFlow
+import javax.inject.Inject
 
 @Route(path = NavHub.STAFF_LIST)
 @AndroidEntryPoint
@@ -41,6 +46,9 @@ class StaffListActivity :
 
     override val viewModel: StaffListViewModel by viewModels()
 
+    @Inject
+    lateinit var mEventFlow: MutableSharedFlow<AppEvent>
+
     override fun onCreate(savedInstanceState: Bundle?) {
         ARouter.getInstance().inject(this)
         super.onCreate(savedInstanceState)
@@ -56,7 +64,9 @@ class StaffListActivity :
                 R.id.staffListItem.onClick {
                     val model = getModel<OperatorInfo>()
                     ARouter.getInstance().build(NavHub.STAFF_DETAIL)
-                        .withString(COMM_KEY_1, model.name).withInt(COMM_KEY_2, model.is_face!!)
+                        .withString(COMM_KEY_1, model.name)
+                        .withInt(COMM_KEY_2, model.is_face!!)
+                        .withString(COMM_KEY_3, model.id)
                         .navigation()
                 }
                 onBind {
@@ -86,7 +96,11 @@ class StaffListActivity :
     }
 
     override fun bindListener() {
-
+        mEventFlow.observeWithLifecycle(this) {
+            if (it.type == AppEventType.CREATE_FACE) {
+                viewModel.fetchOperatorList(type, name, id)
+            }
+        }
     }
 
     override fun onViewStateChange(state: StaffListState) {

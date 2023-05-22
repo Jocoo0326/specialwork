@@ -15,21 +15,24 @@ import com.drake.brv.utils.models
 import com.drake.brv.utils.setup
 import com.gdmm.core.BaseFragment
 import com.gdmm.core.extensions.observeWithLifecycle
+import com.gdmm.core.network.SessionManager
+import com.hjq.toast.Toaster
 import com.jocoo.swork.R
-import com.jocoo.swork.bean.OpinionOption
-import com.jocoo.swork.bean.SignInfo
-import com.jocoo.swork.bean.SignOption
+import com.jocoo.swork.bean.*
 import com.jocoo.swork.databinding.WorkAuditSignatureFragmentBinding
 import com.jocoo.swork.databinding.WorkAuditSignatureItemBinding
 import com.jocoo.swork.widget.CommonInputDialog
 import com.jocoo.swork.widget.SignatureDialog
 import com.jocoo.swork.widget.UploadImageViewModel
+import com.jocoo.swork.widget.face.FaceCreateDialog
+import com.jocoo.swork.widget.face.FaceViewModel
 import com.jocoo.swork.work.audit.WorkAuditViewModel
 import com.lxj.xpopup.XPopup
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class AuditSignatureFragment :
@@ -44,6 +47,11 @@ class AuditSignatureFragment :
     )
     private val userInputFlow = _userInputFlow.asSharedFlow()
 
+    @Inject
+    lateinit var mEventFlow: MutableSharedFlow<AppEvent>
+
+    private val faceViewModel: FaceViewModel by viewModels()
+
     override fun initView(savedInstanceState: Bundle?) {
         binding.apply {
             recyclerView.divider {
@@ -54,12 +62,19 @@ class AuditSignatureFragment :
                 R.id.fl_signature.onClick {
                     val model = getModel<Any>() as SignInfo
                     curModel = model
-                    XPopup.Builder(requireContext()).enableDrag(false).dismissOnTouchOutside(false)
-                        .asCustom(
-                            SignatureDialog(
-                                requireContext(), uploadImageViewModel, viewLifecycleOwner
-                            )
-                        ).show()
+                    if (model.isFace && model.sign.isNullOrEmpty()) {
+                        faceViewModel.faceType = FaceViewModel.SEARCH_FACE
+                        faceViewModel.faceUserId =
+                            SessionManager.getInstance(requireContext()).userInfo?.user_id ?: ""
+                        XPopup.Builder(requireContext())
+                            .enableDrag(false)
+                            .dismissOnTouchOutside(false)
+                            .asCustom(
+                                FaceCreateDialog(requireActivity(), faceViewModel)
+                            ).show()
+                    } else {
+                        showSignatureDialog()
+                    }
                 }
                 R.id.tv_comment.onClick {
                     val model = getModel<Any>() as SignInfo
@@ -104,6 +119,17 @@ class AuditSignatureFragment :
         viewModel.getTicketOpinions(actViewModel.workId)
     }
 
+    private fun showSignatureDialog() {
+        XPopup.Builder(requireContext()).enableDrag(false)
+            .dismissOnTouchOutside(false)
+            .asCustom(
+                SignatureDialog(
+                    requireContext(), uploadImageViewModel, viewLifecycleOwner
+                )
+            ).show()
+
+    }
+
     override fun bindListener() {
         uploadImageViewModel.uploadImageFlow.observeWithLifecycle(this) {
             if (curModel != null) {
@@ -129,9 +155,22 @@ class AuditSignatureFragment :
         }
         viewModel.setOpinionFlow.observeWithLifecycle(this) {
             requireActivity().finish()
+            mEventFlow.tryEmit(AppEvent(AppEventType.START_WORK))
         }
         binding.btnDone.setOnClickListener {
-            viewModel.setOpinions(actViewModel.workId, binding.recyclerView.models)
+            val list = binding.recyclerView.models
+            list?.filterIsInstance<OpinionOption>()?.firstOrNull { item ->
+                item.isFace && item.sign.isNullOrEmpty()
+            }?.let {
+                Toaster.show("请先进行签名: ${it.name}")
+                return@setOnClickListener
+            }
+            viewModel.setOpinions(actViewModel.workId, list)
+        }
+        faceViewModel.faceFlow.observeWithLifecycle(this) {
+            if (it == FaceViewModel.success_msg) {
+                showSignatureDialog()
+            }
         }
     }
 
@@ -142,7 +181,21 @@ class AuditSignatureFragment :
     override fun onViewStateChange(state: AuditSignatureState) {
         val list = mutableListOf<SignInfo>()
         list.addAll(state.optionsList?.signList?.toList() ?: emptyList())
-        list.addAll(state.optionsList?.opinions?.toList() ?: emptyList())
+        val newOpinionList = state.optionsList?.opinions?.toList() ?: emptyList()
+        // todo
+        actViewModel.state.value.faceConfigs?.filter {
+            val fireRank = actViewModel.state.value.detail?.special_content?.fire_rank ?: ""
+            it.isSameWorkType(actViewModel.workType) && it.level == fireRank
+        }?.let {
+            newOpinionList.forEach { op ->
+                it.firstOrNull { config ->
+                    config.approveTarget == op.id
+                }?.let { config ->
+                    op.isFace = config.isFace == "1"
+                }
+            }
+        }
+        list.addAll(newOpinionList)
         binding.recyclerView.models = list
     }
 }

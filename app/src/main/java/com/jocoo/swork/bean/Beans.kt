@@ -338,6 +338,7 @@ data class SignOption(
     var name: String? = null,
     override var comment: String? = null,
     override var sign: String? = null,
+    override var isFace: Boolean = false
 ) : SignInfo
 
 @JsonClass(generateAdapter = true)
@@ -347,9 +348,39 @@ data class OpinionOption(
     var field: String? = null,
     override var comment: String? = null,
     override var sign: String? = null,
+    override var isFace: Boolean = false
 ) : SignInfo
 
 interface SignInfo {
     var comment: String?
     var sign: String?
+    var isFace: Boolean
+}
+
+data class AppEvent(
+    val type: Int,
+)
+
+annotation class AppEventType {
+    companion object {
+        const val CREATE_FACE = 0
+        const val START_WORK = 1
+    }
+}
+
+@JsonClass(generateAdapter = true)
+data class FaceConfigResp(
+    var lists: List<FaceConfigInfo>? = null
+)
+
+@JsonClass(generateAdapter = true)
+data class FaceConfigInfo(
+    var workType: String? = null,
+    var level: String? = null,
+    var isFace: String? = null,
+    var approveTarget: String? = null
+) {
+    fun isSameWorkType(workTypeInt: Int): Boolean {
+        return workType == "${workTypeInt - 1}"
+    }
 }
