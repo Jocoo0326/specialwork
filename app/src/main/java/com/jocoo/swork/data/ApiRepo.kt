@@ -131,4 +131,10 @@ class ApiRepo @Inject constructor(
     fun getFaceConfigs(id: String) = flow {
         emit(ApiResponse.success(apiService.getFaceConfigs(id)))
     }.safeApiCall(ioDispatcher)
+
+    fun checkProcess(
+        params: Map<String, String>
+    ) = flow {
+        emit(ApiResponse.success(apiService.checkProcess(params)))
+    }.safeApiCall(ioDispatcher)
 }

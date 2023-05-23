@@ -213,9 +213,16 @@ data class ProcessOpinion(
     val id: Int? = 0,
     val name: String? = null,
     val field: String? = null,
+    var is_need_face: String? = null,
     val content: String? = null,
-    val sign: String? = null,
-)
+    override var sign: String? = null
+) : SignInfo {
+    override var comment: String? = null
+    override var isFace: Boolean = false
+        get() {
+            return is_need_face == "1"
+        }
+}
 
 @JsonClass(generateAdapter = true)
 data class SpecialContent(

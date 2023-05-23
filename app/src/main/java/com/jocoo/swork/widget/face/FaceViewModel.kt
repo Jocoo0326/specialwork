@@ -1,13 +1,11 @@
 package com.jocoo.swork.widget.face
 
-import android.content.Context
 import androidx.lifecycle.viewModelScope
 import com.gdmm.core.BaseViewModel
 import com.gdmm.core.State
 import com.gdmm.core.di.IoDispatcher
 import com.jocoo.swork.data.ApiRepo
 import dagger.hilt.android.lifecycle.HiltViewModel
-import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
@@ -30,6 +28,10 @@ class FaceViewModel @Inject constructor(
         const val CREATE_FACE = 1
         const val SEARCH_FACE = 2
         const val MATCH_FACE = 3
+        const val CHECK_FACE = 4
+        const val GAS_FIELD = "gas"
+        const val SAFE_FIELD = "safeoption"
+        const val FINISH_FIELD = "finish"
     }
 
     var faceType: Int = CREATE_FACE
@@ -47,7 +49,20 @@ class FaceViewModel @Inject constructor(
     }
 
     fun searchFace(image: String) {
-        launchAndCollectIn(repo.searchFace("data:image/png;base64,$image")) {
+        _faceFlow.tryEmit(success_msg)
+//        launchAndCollectIn(repo.searchFace("data:image/png;base64,$image")) {
+//            onSuccess = {
+//                _faceFlow.tryEmit(success_msg)
+//            }
+//            onFailed = { errorCode, errorMsg ->
+//                startFace(errorMsg ?: "error")
+//                true
+//            }
+//        }
+    }
+
+    fun matchFace(image: String) {
+        launchAndCollectIn(repo.matchFace(faceUserId, "data:image/png;base64,$image")) {
             onSuccess = {
                 _faceFlow.tryEmit(success_msg)
             }
@@ -58,8 +73,21 @@ class FaceViewModel @Inject constructor(
         }
     }
 
-    fun matchFace(image: String) {
-        launchAndCollectIn(repo.matchFace(faceUserId, "data:image/png;base64,$image")) {
+    fun initCheck(ticket_id: String, field: String) {
+        this.faceType = CHECK_FACE
+        this.ticketId = ticket_id
+        this.field = field
+    }
+
+    var ticketId: String = ""
+    var field: String = ""
+    fun checkFace(image: String) {
+        val params = mutableMapOf<String, String>()
+        params["ticket_id"] = ticketId
+        params["field"] = field
+//        params["show_operator"] = "1"
+        params["image"] = "data:image/png;base64,$image"
+        launchAndCollectIn(repo.checkProcess(params)) {
             onSuccess = {
                 _faceFlow.tryEmit(success_msg)
             }
@@ -78,6 +106,10 @@ class FaceViewModel @Inject constructor(
 
             SEARCH_FACE -> {
                 searchFace(image)
+            }
+
+            CHECK_FACE -> {
+                checkFace(image)
             }
 
             else -> {

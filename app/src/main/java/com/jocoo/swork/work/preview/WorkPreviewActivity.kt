@@ -14,10 +14,10 @@ import com.gdmm.core.extensions.observeWithLifecycle
 import com.google.android.material.tabs.TabLayoutMediator
 import com.jocoo.swork.data.COMM_KEY_1
 import com.jocoo.swork.data.COMM_KEY_2
-import com.jocoo.swork.data.COMM_KEY_3
 import com.jocoo.swork.data.NavHub
 import com.jocoo.swork.databinding.ActivityWorkPreviewBinding
 import com.jocoo.swork.util.hasGas
+import com.jocoo.swork.widget.face.FaceViewModel
 import com.jocoo.swork.work.audit.WorkAuditState
 import com.jocoo.swork.work.audit.WorkAuditViewModel
 import com.jocoo.swork.work.preview.baseinfo.PreviewBaseInfoFragment
@@ -65,12 +65,14 @@ class WorkPreviewActivity :
                 tab.text = fragList[pos].first
             }.attach()
             btnComplete.setOnClickListener {
-                val fireRank = viewModel.state.value.detail?.special_content?.fire_rank ?: ""
+                val isNeedFace =
+                    viewModel.state.value.detail?.processOpinions?.firstOrNull { item ->
+                        item.field == FaceViewModel.FINISH_FIELD
+                    }?.isFace ?: false
                 ARouter.getInstance()
                     .build(NavHub.WORK_COMPLETE)
                     .withString(COMM_KEY_1, workId)
-                    .withInt(COMM_KEY_2, workType)
-                    .withString(COMM_KEY_3, fireRank)
+                    .withBoolean(COMM_KEY_2, isNeedFace)
                     .navigation()
             }
             btnInterrupt.setOnClickListener {

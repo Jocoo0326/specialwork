@@ -9,12 +9,10 @@ import com.alibaba.android.arouter.launcher.ARouter
 import com.bumptech.glide.Glide
 import com.gdmm.core.BaseCompatActivity
 import com.gdmm.core.extensions.observeWithLifecycle
-import com.gdmm.core.extensions.setupActionBar
-import com.gdmm.core.network.SessionManager
+import com.gdmm.core.extensions.simpleActionBar
 import com.hjq.toast.Toaster
 import com.jocoo.swork.data.COMM_KEY_1
 import com.jocoo.swork.data.COMM_KEY_2
-import com.jocoo.swork.data.COMM_KEY_3
 import com.jocoo.swork.data.NavHub
 import com.jocoo.swork.databinding.ActivityWorkCompleteBinding
 import com.jocoo.swork.util.toMain
@@ -34,7 +32,6 @@ import kotlinx.coroutines.flow.asSharedFlow
 class WorkCompleteActivity :
     BaseCompatActivity<ActivityWorkCompleteBinding, WorkCompleteState, WorkCompleteViewModel>() {
 
-    private var needFace: Boolean = false
     override val viewModel: WorkCompleteViewModel by viewModels()
     private val uploadImageViewModel: UploadImageViewModel by viewModels()
     private val _userInputFlow = MutableSharedFlow<String>(
@@ -48,11 +45,7 @@ class WorkCompleteActivity :
 
     @JvmField
     @Autowired(name = COMM_KEY_2)
-    var workType: Int = 0
-
-    @JvmField
-    @Autowired(name = COMM_KEY_3)
-    var fireRank: String = ""
+    var needFace: Boolean = false
 
     private val faceViewModel: FaceViewModel by viewModels()
 
@@ -63,13 +56,10 @@ class WorkCompleteActivity :
 
     override fun initView(savedInstanceState: Bundle?) {
         mBinding.apply {
-            setupActionBar(toolbar)
+            simpleActionBar(toolbar)
             flSignature.setOnClickListener {
                 if (needFace) {
-                    faceViewModel.faceType = FaceViewModel.MATCH_FACE
-                    faceViewModel.faceUserId =
-                        SessionManager.getInstance(this@WorkCompleteActivity).userInfo?.user_id
-                            ?: ""
+                    faceViewModel.initCheck(workId, FaceViewModel.FINISH_FIELD)
                     XPopup.Builder(this@WorkCompleteActivity)
                         .enableDrag(false)
                         .dismissOnTouchOutside(false)
@@ -139,11 +129,6 @@ class WorkCompleteActivity :
     }
 
     override fun onViewStateChange(state: WorkCompleteState) {
-        state.faceConfigs?.filter {
-            it.isSameWorkType(workType) && it.level == fireRank && it.approveTarget == "6"
-        }?.let {
-            needFace = true
-        }
     }
 
     override fun getViewBinding() = ActivityWorkCompleteBinding.inflate(layoutInflater)

@@ -58,7 +58,7 @@ class AuditSafetyFragment :
                     Toaster.show("请至少选择一项安全措施")
                     return@setOnClickListener
                 }
-                faceViewModel.faceType = FaceViewModel.SEARCH_FACE
+                faceViewModel.initCheck(actViewModel.workId, FaceViewModel.SAFE_FIELD)
                 XPopup.Builder(requireContext())
                     .enableDrag(false)
                     .dismissOnTouchOutside(false)

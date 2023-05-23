@@ -56,7 +56,7 @@ class AuditGasFragment :
             }
             recyclerView.adapter = mAdapter
             btnDone.setOnClickListener {
-                faceViewModel.faceType = FaceViewModel.SEARCH_FACE
+                faceViewModel.initCheck(actViewModel.workId, FaceViewModel.GAS_FIELD)
                 XPopup.Builder(requireContext())
                     .enableDrag(false)
                     .dismissOnTouchOutside(false)

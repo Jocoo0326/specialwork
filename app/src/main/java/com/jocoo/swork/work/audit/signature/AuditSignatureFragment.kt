@@ -58,14 +58,12 @@ class AuditSignatureFragment :
                 setDivider(10, true)
             }.setup {
                 addType<SignOption>(R.layout.work_audit_signature_item)
-                addType<OpinionOption>(R.layout.work_audit_signature_item)
+                addType<ProcessOpinion>(R.layout.work_audit_signature_item)
                 R.id.fl_signature.onClick {
                     val model = getModel<Any>() as SignInfo
                     curModel = model
-                    if (model.isFace && model.sign.isNullOrEmpty()) {
-                        faceViewModel.faceType = FaceViewModel.SEARCH_FACE
-                        faceViewModel.faceUserId =
-                            SessionManager.getInstance(requireContext()).userInfo?.user_id ?: ""
+                    if (model is ProcessOpinion && model.isFace && model.sign.isNullOrEmpty()) {
+                        faceViewModel.initCheck(actViewModel.workId, model.field ?: "")
                         XPopup.Builder(requireContext())
                             .enableDrag(false)
                             .dismissOnTouchOutside(false)
@@ -97,7 +95,7 @@ class AuditSignatureFragment :
                             }
                         }
 
-                        is OpinionOption -> {
+                        is ProcessOpinion -> {
                             getBinding<WorkAuditSignatureItemBinding>().apply {
                                 tvTitle.text = model.name
                                 tvComment.visibility = View.VISIBLE
@@ -181,20 +179,10 @@ class AuditSignatureFragment :
     override fun onViewStateChange(state: AuditSignatureState) {
         val list = mutableListOf<SignInfo>()
         list.addAll(state.optionsList?.signList?.toList() ?: emptyList())
-        val newOpinionList = state.optionsList?.opinions?.toList() ?: emptyList()
-        // todo
-        actViewModel.state.value.faceConfigs?.filter {
-            val fireRank = actViewModel.state.value.detail?.special_content?.fire_rank ?: ""
-            it.isSameWorkType(actViewModel.workType) && it.level == fireRank
-        }?.let {
-            newOpinionList.forEach { op ->
-                it.firstOrNull { config ->
-                    config.approveTarget == op.id
-                }?.let { config ->
-                    op.isFace = config.isFace == "1"
-                }
-            }
-        }
+        val newOpinionList = actViewModel.state.value.detail?.processOpinions?.filter {
+            if (it.id == 1) it.is_need_face = "1"
+            it.field != FaceViewModel.FINISH_FIELD
+        } ?: emptyList()
         list.addAll(newOpinionList)
         binding.recyclerView.models = list
     }

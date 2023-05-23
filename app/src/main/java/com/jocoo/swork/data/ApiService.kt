@@ -162,4 +162,11 @@ interface ApiService {
     suspend fun getFaceConfigs(
         @Query("org_id") id: String
     ): FaceConfigResp
+
+    @Php
+    @POST("apps/face/check_process.html")
+    @FormUrlEncoded
+    suspend fun checkProcess(
+        @FieldMap params: Map<String, String>
+    ): MMVoid
 }

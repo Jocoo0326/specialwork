@@ -6,6 +6,7 @@ import androidx.lifecycle.LifecycleOwner
 import com.allen.library.SuperTextView
 import com.bigkoo.pickerview.builder.OptionsPickerBuilder
 import com.bigkoo.pickerview.builder.TimePickerBuilder
+import com.blankj.utilcode.util.KeyboardUtils
 import com.blankj.utilcode.util.TimeUtils
 import com.gdmm.core.extensions.observeWithLifecycle
 import com.hjq.toast.Toaster
@@ -71,6 +72,7 @@ class GasAddDialog(
             }
         }
         stvType.setOnClickListener {
+            KeyboardUtils.hideSoftInput(it)
             val list = actViewModel.state.value.gasConfig?.sensor_data_type
             val picker = OptionsPickerBuilder(context) { op1, _, _, _ ->
                 list?.getOrNull(op1)?.let {
@@ -88,6 +90,7 @@ class GasAddDialog(
             picker.show()
         }
         stvUnit.setOnClickListener {
+            KeyboardUtils.hideSoftInput(it)
             val list = actViewModel.state.value.gasConfig?.gas_unit_type
             val picker = OptionsPickerBuilder(context) { op1, _, _, _ ->
                 list?.getOrNull(op1)?.let {
@@ -105,6 +108,7 @@ class GasAddDialog(
             picker.show()
         }
         stvGroup.setOnClickListener {
+            KeyboardUtils.hideSoftInput(it)
             val list = actViewModel.state.value.gasConfig?.gas_group_type
             val picker = OptionsPickerBuilder(context) { op1, _, _, _ ->
                 list?.getOrNull(op1)?.let {
@@ -122,10 +126,11 @@ class GasAddDialog(
             picker.show()
         }
         stvTime.setOnClickListener {
+            KeyboardUtils.hideSoftInput(it)
             val picker = TimePickerBuilder(context) { date, _ ->
                 gasItemOrNew(id).analysis_time = TimeUtils.date2String(date, TIME_PATTERN)
                 gasItemOrNew(id).updateContent()
-            }.build()
+            }.setType(booleanArrayOf(true, true, true, true, true, true)).build()
             if (!id.isNullOrEmpty()) {
                 gasItemOrNew(id).let {
                     val ca = Calendar.getInstance()

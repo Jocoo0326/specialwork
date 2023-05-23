@@ -104,7 +104,7 @@ GET :url/apps/ticket/getGasTableOptions.html
 GET :url/apps/ticket/getTicketOpinions.html?ticket_id=58
 :xtoken
 
-#
+#人脸配置列表
 GET :url/console/face_manage/get_list.html?org_id=2
 :xtoken
 

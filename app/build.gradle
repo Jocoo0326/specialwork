@@ -81,7 +81,7 @@ android {
             outputFileName = outputFileName.replace(".apk",
                 "-V${variant.versionName}-C${variant.versionCode}-${currentTimestamp()}.apk")
             outputFileName = outputFileName.replace("app", "specialwork")
-            variant.getPackageApplicationProvider().get().outputDirectory = new File(getHomeDirectory(apk_dir))
+            variant.packageApplication.outputDirectory = new File(getHomeDirectory(apk_dir))
         }
     }
 
