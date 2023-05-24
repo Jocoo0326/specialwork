@@ -7,7 +7,8 @@ import com.jocoo.swork.bean.GasInfo
 import com.jocoo.swork.data.enum.WorkType
 
 class PreviewGasAdapter(
-    private val workType: Int
+    private val workType: Int,
+    private val isComplete: Boolean
 ) : BaseQuickAdapter<GasInfo, BaseViewHolder>(
     R.layout.work_audit_gas_item
 ) {

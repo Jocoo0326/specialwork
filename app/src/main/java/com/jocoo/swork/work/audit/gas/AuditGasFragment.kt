@@ -22,6 +22,7 @@ import dagger.hilt.android.AndroidEntryPoint
 class AuditGasFragment :
     BaseFragment<WorkAuditGasFragmentBinding, AuditGasState, AuditGasViewModel>() {
 
+    private var facePassed: Boolean = false
     private lateinit var mAdapter: AuditGasAdapter
     override val viewModel: AuditGasViewModel by viewModels()
     private val actViewModel: WorkAuditViewModel by activityViewModels()
@@ -34,6 +35,10 @@ class AuditGasFragment :
             }
             mAdapter = AuditGasAdapter(actViewModel.workType)
             mAdapter.setOnItemChildClickListener { _, view, pos ->
+                if (!facePassed) {
+                    popFaceDialog()
+                    return@setOnItemChildClickListener
+                }
                 val item = mAdapter.data[pos]
                 when (view.id) {
                     R.id.tv_modify -> {
@@ -56,21 +61,30 @@ class AuditGasFragment :
             }
             recyclerView.adapter = mAdapter
             btnDone.setOnClickListener {
-                faceViewModel.initCheck(actViewModel.workId, FaceViewModel.GAS_FIELD)
-                XPopup.Builder(requireContext())
-                    .enableDrag(false)
-                    .dismissOnTouchOutside(false)
-                    .asCustom(
-                        FaceCreateDialog(requireActivity(), faceViewModel)
-                    ).show()
+                actViewModel.nextPage()
             }
             btnManualAdd.setOnClickListener {
+                if (!facePassed) {
+                    popFaceDialog()
+                    return@setOnClickListener
+                }
                 popGasDialog()
             }
         }
         actViewModel.state.observeWithLifecycle(this) {
             mAdapter.setNewInstance(it.detail?.sensorDataList?.toMutableList())
         }
+    }
+
+    private fun popFaceDialog() {
+        faceViewModel.initCheck(actViewModel.workId, FaceViewModel.GAS_FIELD)
+        XPopup.Builder(requireContext())
+            .enableDrag(false)
+            .dismissOnTouchOutside(false)
+            .asCustom(
+                FaceCreateDialog(requireActivity(), faceViewModel)
+            ).show()
+
     }
 
     private fun showGasDialog(id: String? = null) {
@@ -101,7 +115,7 @@ class AuditGasFragment :
         }
         faceViewModel.faceFlow.observeWithLifecycle(this) {
             if (it == FaceViewModel.success_msg) {
-                actViewModel.nextPage()
+                facePassed = true
             }
         }
     }

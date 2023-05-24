@@ -25,8 +25,6 @@ class WorkListAdapter(
 
     override fun convert(holder: BaseViewHolder, item: WorkInfo) {
         val str = buildString {
-            append("id: ")
-            append(item.id)
             append("部门: ")
             append(item.department_name)
             append("\n")

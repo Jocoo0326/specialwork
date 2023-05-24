@@ -13,6 +13,8 @@ import com.gdmm.core.extensions.observeWithLifecycle
 import com.jocoo.swork.R
 import com.jocoo.swork.databinding.WorkPreviewGasFragmentBinding
 import com.jocoo.swork.widget.GasAddDialog
+import com.jocoo.swork.widget.face.FaceCreateDialog
+import com.jocoo.swork.widget.face.FaceViewModel
 import com.jocoo.swork.work.audit.WorkAuditViewModel
 import com.lxj.xpopup.XPopup
 import dagger.hilt.android.AndroidEntryPoint
@@ -24,14 +26,22 @@ class PreviewGasFragment :
     private lateinit var mAdapter: PreviewGasAdapter
     override val viewModel: PreviewGasViewModel by viewModels()
     private val actViewModel: WorkAuditViewModel by activityViewModels()
+    private val faceViewModel: FaceViewModel by viewModels()
+    private var facePassed: Boolean = false
 
     override fun initView(savedInstanceState: Bundle?) {
         binding.apply {
             recyclerView.divider {
                 setDivider(2, true)
             }
-            mAdapter = PreviewGasAdapter(actViewModel.workType)
+            val isComplete = actViewModel.state.value.detail?.isComplete ?: true
+            btnManualAdd.visibility = if (isComplete) View.GONE else View.VISIBLE
+            mAdapter = PreviewGasAdapter(actViewModel.workType, isComplete)
             mAdapter.setOnItemChildClickListener { _, view, pos ->
+                if (!facePassed) {
+                    popFaceDialog()
+                    return@setOnItemChildClickListener
+                }
                 val item = mAdapter.data[pos]
                 when (view.id) {
                     R.id.tv_modify -> {
@@ -55,12 +65,27 @@ class PreviewGasFragment :
             recyclerView.adapter = mAdapter
             btnDone.visibility = View.GONE
             btnManualAdd.setOnClickListener {
+                if (!facePassed) {
+                    popFaceDialog()
+                    return@setOnClickListener
+                }
                 popGasDialog()
             }
         }
         actViewModel.state.observeWithLifecycle(this) {
             mAdapter.setNewInstance(it.detail?.sensorDataList?.toMutableList())
         }
+    }
+
+    private fun popFaceDialog() {
+        faceViewModel.initCheck(actViewModel.workId, FaceViewModel.GAS_FIELD)
+        XPopup.Builder(requireContext())
+            .enableDrag(false)
+            .dismissOnTouchOutside(false)
+            .asCustom(
+                FaceCreateDialog(requireActivity(), faceViewModel)
+            ).show()
+
     }
 
     private fun showGasDialog(id: String? = null) {
