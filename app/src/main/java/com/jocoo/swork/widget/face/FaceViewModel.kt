@@ -4,6 +4,7 @@ import androidx.lifecycle.viewModelScope
 import com.gdmm.core.BaseViewModel
 import com.gdmm.core.State
 import com.gdmm.core.di.IoDispatcher
+import com.hjq.toast.Toaster
 import com.jocoo.swork.data.ApiRepo
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.BufferOverflow
@@ -25,6 +26,7 @@ class FaceViewModel @Inject constructor(
     companion object {
         const val start_msg = "start"
         const val success_msg = "success"
+        const val no_permission_msg = "no_permission"
         const val CREATE_FACE = 1
         const val SEARCH_FACE = 2
         const val MATCH_FACE = 3
@@ -81,7 +83,7 @@ class FaceViewModel @Inject constructor(
 
     var ticketId: String = ""
     var field: String = ""
-    fun checkFace(image: String) {
+    private fun checkFace(image: String) {
         val params = mutableMapOf<String, String>()
         params["ticket_id"] = ticketId
         params["field"] = field
@@ -92,7 +94,16 @@ class FaceViewModel @Inject constructor(
                 _faceFlow.tryEmit(success_msg)
             }
             onFailed = { errorCode, errorMsg ->
-                startFace(errorMsg ?: "error")
+                when (errorCode) {
+                    11013 -> {
+                        startFace(no_permission_msg)
+                        Toaster.showLong(errorMsg)
+                    }
+
+                    else -> {
+                        startFace(errorMsg ?: "error")
+                    }
+                }
                 true
             }
         }
@@ -120,7 +131,19 @@ class FaceViewModel @Inject constructor(
 
     fun startFace(msg: String = start_msg) {
         flow {
-            delay(500)
+            when (msg) {
+                start_msg -> {
+                    delay(1500)
+                }
+
+                no_permission_msg -> {
+                    delay(2000)
+                }
+
+                else -> {
+                    delay(1000)
+                }
+            }
             emit(1)
         }.flowOn(io).onEach {
             _faceFlow.tryEmit(msg)

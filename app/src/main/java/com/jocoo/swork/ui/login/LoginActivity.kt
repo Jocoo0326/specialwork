@@ -60,6 +60,10 @@ class LoginActivity : BaseCompatActivity<ActivityLoginBinding, LoginState, Login
         }
     }
 
+    override fun delayLoading(): Boolean {
+        return false
+    }
+
     override fun getViewBinding() = ActivityLoginBinding.inflate(layoutInflater)
 
 }

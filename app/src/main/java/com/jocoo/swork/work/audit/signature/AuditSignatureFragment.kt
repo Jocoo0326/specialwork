@@ -15,7 +15,6 @@ import com.drake.brv.utils.models
 import com.drake.brv.utils.setup
 import com.gdmm.core.BaseFragment
 import com.gdmm.core.extensions.observeWithLifecycle
-import com.gdmm.core.network.SessionManager
 import com.hjq.toast.Toaster
 import com.jocoo.swork.R
 import com.jocoo.swork.bean.*
@@ -157,7 +156,7 @@ class AuditSignatureFragment :
         }
         binding.btnDone.setOnClickListener {
             val list = binding.recyclerView.models
-            list?.filterIsInstance<OpinionOption>()?.firstOrNull { item ->
+            list?.filterIsInstance<ProcessOpinion>()?.firstOrNull { item ->
                 item.isFace && item.sign.isNullOrEmpty()
             }?.let {
                 Toaster.show("请先进行签名: ${it.name}")

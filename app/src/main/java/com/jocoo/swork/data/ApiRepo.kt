@@ -3,6 +3,7 @@ package com.jocoo.swork.data
 import com.gdmm.core.di.IoDispatcher
 import com.gdmm.core.extensions.safeApiCall
 import com.gdmm.core.network.ApiResponse
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.flow
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MultipartBody
@@ -31,6 +32,7 @@ class ApiRepo @Inject constructor(
     fun getContractorList(
         pageNum: Int, pageSize: Int
     ) = flow {
+        delay(300)
         emit(ApiResponse.success(apiService.getContractorList(pageNum, pageSize)))
     }.safeApiCall(ioDispatcher)
 
@@ -41,6 +43,7 @@ class ApiRepo @Inject constructor(
     }.safeApiCall(ioDispatcher)
 
     fun getStatistic() = flow {
+        delay(300)
         emit(ApiResponse.success(apiService.getStatistic()))
     }.safeApiCall(ioDispatcher)
 

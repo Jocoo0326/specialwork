@@ -22,6 +22,8 @@ import dagger.hilt.android.AndroidEntryPoint
 class AuditGasFragment :
     BaseFragment<WorkAuditGasFragmentBinding, AuditGasState, AuditGasViewModel>() {
 
+    private var mTargetId: String? = ""
+    private var mAction: String = ""
     private var facePassed: Boolean = false
     private lateinit var mAdapter: AuditGasAdapter
     override val viewModel: AuditGasViewModel by viewModels()
@@ -35,27 +37,25 @@ class AuditGasFragment :
             }
             mAdapter = AuditGasAdapter(actViewModel.workType)
             mAdapter.setOnItemChildClickListener { _, view, pos ->
-                if (!facePassed) {
-                    popFaceDialog()
-                    return@setOnItemChildClickListener
-                }
                 val item = mAdapter.data[pos]
+                mTargetId = item.id
                 when (view.id) {
                     R.id.tv_modify -> {
+                        mAction = "mod"
+                        if (!facePassed) {
+                            popFaceDialog()
+                            return@setOnItemChildClickListener
+                        }
                         popGasDialog(item.id)
-                        mAdapter.notifyItemChanged(pos)
                     }
 
                     R.id.tv_delete -> {
-                        val dialog = MaterialDialog(requireContext())
-                        dialog.title(text = "提示").message(text = "确认删除吗?")
-                            .negativeButton(text = "取消") {
-                                it.dismiss()
-                            }.positiveButton(text = "确定") {
-                                viewModel.deleteGas(item.id ?: "") {
-                                    actViewModel.getTicketInfo()
-                                }
-                            }.show()
+                        mAction = "del"
+                        if (!facePassed) {
+                            popFaceDialog()
+                            return@setOnItemChildClickListener
+                        }
+                        popDeleteDialog(item.id)
                     }
                 }
             }
@@ -64,6 +64,7 @@ class AuditGasFragment :
                 actViewModel.nextPage()
             }
             btnManualAdd.setOnClickListener {
+                mAction = "add"
                 if (!facePassed) {
                     popFaceDialog()
                     return@setOnClickListener
@@ -74,6 +75,18 @@ class AuditGasFragment :
         actViewModel.state.observeWithLifecycle(this) {
             mAdapter.setNewInstance(it.detail?.sensorDataList?.toMutableList())
         }
+    }
+
+    private fun popDeleteDialog(id: String?) {
+        val dialog = MaterialDialog(requireContext())
+        dialog.title(text = "提示").message(text = "确认删除吗?")
+            .negativeButton(text = "取消") {
+                it.dismiss()
+            }.positiveButton(text = "确定") {
+                viewModel.deleteGas(id ?: "") {
+                    actViewModel.getTicketInfo()
+                }
+            }.show()
     }
 
     private fun popFaceDialog() {
@@ -116,6 +129,17 @@ class AuditGasFragment :
         faceViewModel.faceFlow.observeWithLifecycle(this) {
             if (it == FaceViewModel.success_msg) {
                 facePassed = true
+                when (mAction) {
+                    "add" -> {
+                        popGasDialog()
+                    }
+                    "mod" -> {
+                        popGasDialog(mTargetId)
+                    }
+                    "del" -> {
+                        popDeleteDialog(mTargetId)
+                    }
+                }
             }
         }
     }

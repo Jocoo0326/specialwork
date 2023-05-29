@@ -62,8 +62,15 @@ abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
         }
     }
 
+    open fun delayLoading() = true
     open fun onLoadCompleted() {
-        progress?.dismiss()
+        if (delayLoading()) {
+            window.decorView.postDelayed({
+                progress?.dismiss()
+            }, 300)
+        } else {
+            progress?.dismiss()
+        }
     }
 
     override fun onDestroy() {

@@ -42,7 +42,7 @@ GET :url/apps/ticket/get_list.html?pageType=audit&type_id=1&page=1&limit=10
 :xtoken
 
 #获取作业票详情
-GET :url/apps/ticket/get_info.html?ticket_id=57
+GET :url/apps/ticket/get_info.html?ticket_id=1
 :xtoken
 
 #获取审批阶段意见+签字项

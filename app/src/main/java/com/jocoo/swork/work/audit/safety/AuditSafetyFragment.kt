@@ -41,12 +41,7 @@ class AuditSafetyFragment :
                 if (view.id == R.id.iv_signature) {
                     val item = mAdapter.getItem(pos)
                     if (mAdapter.readyToSign && !item.isConfirmed && item.isSelected) {
-                        XPopup.Builder(requireContext()).enableDrag(false)
-                            .dismissOnTouchOutside(false).asCustom(
-                                SignatureDialog(
-                                    requireContext(), uploadImageViewModel, viewLifecycleOwner
-                                )
-                            ).show()
+                        showSignatureDialog()
                     }
                 }
             }
@@ -87,6 +82,10 @@ class AuditSafetyFragment :
                         it.addCheckList?.filter { it1 -> !it1.isConfirmed && it1.isSelected }
                     val signImage =
                         checkList?.firstOrNull()?.sign ?: addCheckList?.firstOrNull()?.sign
+                    if (signImage.isNullOrEmpty()) {
+                        Toaster.show("签名不能为空")
+                        return@setOnClickListener
+                    }
                     viewModel.checkSafety(ticketId, signImage, checkList, addCheckList)
                 }
             }
@@ -98,6 +97,15 @@ class AuditSafetyFragment :
             mAdapter.setNewInstance(checkList)
             updateHasAuditTodo()
         }
+    }
+
+    private fun showSignatureDialog() {
+        XPopup.Builder(requireContext()).enableDrag(false)
+            .dismissOnTouchOutside(false).asCustom(
+                SignatureDialog(
+                    requireContext(), uploadImageViewModel, viewLifecycleOwner
+                )
+            ).show()
     }
 
     private fun updateHasAuditTodo() {
@@ -126,6 +134,7 @@ class AuditSafetyFragment :
         faceViewModel.faceFlow.observeWithLifecycle(this) {
             if (it == FaceViewModel.success_msg) {
                 viewModel.signMode(true)
+                showSignatureDialog()
             }
         }
     }

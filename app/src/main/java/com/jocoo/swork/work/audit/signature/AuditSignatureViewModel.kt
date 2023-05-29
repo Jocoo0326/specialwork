@@ -2,7 +2,7 @@ package com.jocoo.swork.work.audit.signature
 
 import com.gdmm.core.BaseViewModel
 import com.gdmm.core.State
-import com.jocoo.swork.bean.OpinionOption
+import com.jocoo.swork.bean.ProcessOpinion
 import com.jocoo.swork.bean.SignOption
 import com.jocoo.swork.bean.TicketOptionsResp
 import com.jocoo.swork.data.ApiRepo
@@ -38,16 +38,17 @@ class AuditSignatureViewModel @Inject constructor(
         list.filterIsInstance<SignOption>().forEach {
             params["signList[${it.key}]"] = "${it.sign}"
         }
-        list.filterIsInstance<OpinionOption>().forEachIndexed { index, it ->
+        list.filterIsInstance<ProcessOpinion>().forEachIndexed { index, it ->
             params["opinions[${index}][id]"] = "${it.id}"
             params["opinions[${index}][sign]"] = "${it.sign}"
             params["opinions[${index}][content]"] = "${it.comment}"
         }
-        launchAndCollectIn(repo.setOpinions(params)) {
-            onSuccess = {
-                _setOpinionFlow.tryEmit(true)
-            }
-        }
+        println(params)
+//        launchAndCollectIn(repo.setOpinions(params)) {
+//            onSuccess = {
+//                _setOpinionFlow.tryEmit(true)
+//            }
+//        }
     }
 
     private val _setOpinionFlow = MutableSharedFlow<Boolean>(

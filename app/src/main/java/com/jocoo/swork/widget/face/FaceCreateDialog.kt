@@ -48,7 +48,7 @@ class FaceCreateDialog(
             viewModel.startFace()
         }
         viewModel.faceFlow.observeWithLifecycle(this) {
-            if (it == FaceViewModel.success_msg) {
+            if (it == FaceViewModel.success_msg || it == FaceViewModel.no_permission_msg) {
                 dismiss()
             } else {
                 tvTips.text = if (it == FaceViewModel.start_msg) "请保持人脸在框内" else it
