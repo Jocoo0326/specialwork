@@ -89,24 +89,25 @@ class FaceViewModel @Inject constructor(
         params["field"] = field
 //        params["show_operator"] = "1"
         params["image"] = "data:image/png;base64,$image"
-        launchAndCollectIn(repo.checkProcess(params)) {
-            onSuccess = {
-                _faceFlow.tryEmit(success_msg)
-            }
-            onFailed = { errorCode, errorMsg ->
-                when (errorCode) {
-                    11013 -> {
-                        startFace(no_permission_msg)
-                        Toaster.showLong(errorMsg)
-                    }
-
-                    else -> {
-                        startFace(errorMsg ?: "error")
-                    }
-                }
-                true
-            }
-        }
+        _faceFlow.tryEmit(success_msg)
+//        launchAndCollectIn(repo.checkProcess(params)) {
+//            onSuccess = {
+//                _faceFlow.tryEmit(success_msg)
+//            }
+//            onFailed = { errorCode, errorMsg ->
+//                when (errorCode) {
+//                    11013 -> {
+//                        startFace(no_permission_msg)
+//                        Toaster.showLong(errorMsg)
+//                    }
+//
+//                    else -> {
+//                        startFace(errorMsg ?: "error")
+//                    }
+//                }
+//                true
+//            }
+//        }
     }
 
     fun requestFace(image: String) {

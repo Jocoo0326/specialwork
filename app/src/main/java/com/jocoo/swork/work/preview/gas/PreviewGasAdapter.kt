@@ -17,6 +17,8 @@ class PreviewGasAdapter(
     }
 
     override fun convert(holder: BaseViewHolder, item: GasInfo) {
+        holder.setGone(R.id.tv_modify, isComplete)
+        holder.setGone(R.id.tv_delete, isComplete)
         when {
             (workType == WorkType.LimitSpace_Id || workType == WorkType.Electric_Id) -> {
                 holder.setGone(R.id.tv_gas_group, false)

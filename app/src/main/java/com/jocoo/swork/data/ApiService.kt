@@ -80,7 +80,8 @@ interface ApiService {
     @Php
     @GET("apps/ticket/get_gas_data_list.html")
     suspend fun getGasList(
-        @Query("ticket_id") id: String
+        @Query("ticket_id") id: String,
+        @Query("type_id") type_id: String,
     ): GasListResp
 
     @Php

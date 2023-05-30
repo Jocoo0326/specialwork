@@ -19,6 +19,8 @@ import javax.inject.Inject
 data class WorkAuditState(
     val detail: TicketDetailInfo? = null,
     val gasConfig: GasTableOptionsInfo? = null,
+    val gasList: List<GasInfo>? = null,
+    val isStop: Boolean = false,
     val newGasItem: GasInfo = GasInfo(),
     val faceConfigs: List<FaceConfigInfo>? = null
 ) : State {
@@ -40,7 +42,7 @@ class WorkAuditViewModel @Inject constructor(
         launchAndCollectIn(repo.getTicketInfo(workId)) {
             onSuccess = {
                 setState { state ->
-                    state.copy(detail = it.info)
+                    state.copy(detail = it.info, isStop = it.info.is_stop == "1")
                 }
             }
         }
@@ -71,6 +73,7 @@ class WorkAuditViewModel @Inject constructor(
     fun addGasItem() {
         val params = mutableMapOf<String, String>()
         params["ticket_id"] = workId
+        params["type_id"] = if (state.value.isStop) "2" else "1"
         state.value.newGasItem.let {
             params["gas_type_id"] = "${it.gas_type_id}"
             params["gas_type_name"] = "${it.gas_type_name}"
@@ -87,6 +90,16 @@ class WorkAuditViewModel @Inject constructor(
         launchAndCollectIn(repo.addGas(params)) {
             onSuccess = {
                 getTicketInfo()
+            }
+        }
+    }
+
+    fun gasList(type: String) {
+        launchAndCollectIn(repo.getGasList(workId, type)) {
+            onSuccess = {
+                setState { state ->
+                    state.copy(gasList = it.list)
+                }
             }
         }
     }
@@ -139,6 +152,10 @@ class WorkAuditViewModel @Inject constructor(
         ) {
             onSuccess = {
                 _setStopFlow.tryEmit(b)
+                setState { state ->
+                    state.copy(isStop = b)
+                }
+                gasList(if (b) "2" else "1")
             }
         }
     }
