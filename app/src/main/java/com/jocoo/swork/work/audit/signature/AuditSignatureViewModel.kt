@@ -43,12 +43,11 @@ class AuditSignatureViewModel @Inject constructor(
             params["opinions[${index}][sign]"] = "${it.sign}"
             params["opinions[${index}][content]"] = "${it.comment}"
         }
-        println(params)
-//        launchAndCollectIn(repo.setOpinions(params)) {
-//            onSuccess = {
-//                _setOpinionFlow.tryEmit(true)
-//            }
-//        }
+        launchAndCollectIn(repo.setOpinions(params)) {
+            onSuccess = {
+                _setOpinionFlow.tryEmit(true)
+            }
+        }
     }
 
     private val _setOpinionFlow = MutableSharedFlow<Boolean>(
