@@ -93,7 +93,7 @@ POST :url/apps/ticket/del_gas_data.html
 gas_data_id=5
 
 #气体数据列表
-GET :url/apps/ticket/get_gas_data_list.html?ticket_id=45
+GET :url/apps/ticket/get_gas_data_list.html?ticket_id=3&type_id=2
 :xtoken
 
 #获取气体数据选项

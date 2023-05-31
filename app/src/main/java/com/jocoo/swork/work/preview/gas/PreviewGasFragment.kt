@@ -77,11 +77,6 @@ class PreviewGasFragment :
         actViewModel.state.observeWithLifecycle(this) {
             mAdapter.setNewInstance(it.gasList?.toMutableList())
         }
-        fetchGasList()
-    }
-
-    private fun fetchGasList() {
-        actViewModel.gasList(if (actViewModel.state.value.detail?.is_stop == "0") "1" else "2")
     }
 
     private fun popDeleteDialog(id: String?) {
@@ -128,7 +123,7 @@ class PreviewGasFragment :
 
     override fun bindListener() {
         actViewModel.modifyGasFlow.observeWithLifecycle(this) {
-            actViewModel.state.value.detail?.sensorDataList?.indexOfFirst { it1 -> it1.id == it }
+            actViewModel.state.value.gasList?.indexOfFirst { it1 -> it1.id == it }
                 ?.let {
                     mAdapter.notifyItemChanged(it)
                 }

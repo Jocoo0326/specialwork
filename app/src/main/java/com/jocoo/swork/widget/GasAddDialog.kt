@@ -207,7 +207,7 @@ class GasAddDialog(
     }
 
     private fun WorkAuditState.getCurGasItem(id: String?): GasInfo? {
-        return this.detail?.sensorDataList?.firstOrNull {
+        return this.gasList?.firstOrNull {
             it.id == id
         }
     }

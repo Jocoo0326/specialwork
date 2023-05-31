@@ -330,7 +330,7 @@ data class GasUnitType(
 
 @JsonClass(generateAdapter = true)
 data class GasListResp(
-    var list: List<GasInfo>? = null,
+    var lists: List<GasInfo>? = null,
 )
 
 @JsonClass(generateAdapter = true)

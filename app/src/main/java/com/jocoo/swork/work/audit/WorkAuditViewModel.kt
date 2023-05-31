@@ -42,6 +42,7 @@ class WorkAuditViewModel @Inject constructor(
         launchAndCollectIn(repo.getTicketInfo(workId)) {
             onSuccess = {
                 setState { state ->
+                    gasList(if (it.info.is_stop == "0") "1" else "2")
                     state.copy(detail = it.info, isStop = it.info.is_stop == "1")
                 }
             }
@@ -94,11 +95,11 @@ class WorkAuditViewModel @Inject constructor(
         }
     }
 
-    fun gasList(type: String) {
+    private fun gasList(type: String) {
         launchAndCollectIn(repo.getGasList(workId, type)) {
             onSuccess = {
                 setState { state ->
-                    state.copy(gasList = it.list)
+                    state.copy(gasList = it.lists)
                 }
             }
         }
