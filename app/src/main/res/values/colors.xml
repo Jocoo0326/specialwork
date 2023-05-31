@@ -7,7 +7,7 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="colorAccent">#ffbd081b</color>
+    <color name="colorAccent">#ff2087AF</color>
     <color name="colorBackground">#fff2f2f2</color>
     <color name="colorControlActivated">#ffffffff</color>
     <color name="colorControlHighlight">#ffffffff</color>
@@ -15,8 +15,8 @@
     <color name="colorOnPrimary">#ffffffff</color>
     <color name="colorOnSecondary">#ffffffff</color>
     <color name="colorOnSurface">#ff000000</color>
-    <color name="colorPrimary">#ffbd081b</color>
-    <color name="colorPrimaryDark">#ff95000f</color>
+    <color name="colorPrimary">#ff2087AF</color>
+    <color name="colorPrimaryDark">#ff1087AF</color>
     <color name="colorPrimaryDisable">#ffffebee</color>
     <color name="colorPrimaryLight">#ffea3347</color>
     <color name="colorSecondary">#ffbd081b</color>
@@ -53,12 +53,12 @@
     <color name="white_transparent_90p">#e6ffffff</color>
     <color name="yellow_500">#ffffeb3b</color>
     <color name="btn_action_disable">#ffcecece</color>
-    <color name="btn_action_normal">#ffbd081b</color>
-    <color name="btn_action_pressed">#ff95000f</color>
+    <color name="btn_action_normal">@color/colorPrimary</color>
+    <color name="btn_action_pressed">@color/colorPrimaryDark</color>
     <color name="btn_action_txt_disable">#ffffffff</color>
     <color name="btn_action_txt_normal">#ffffffff</color>
     <color name="btn_action_txt_pressed">#ffffffff</color>
-    <color name="colorStatusBar">#FF800000</color>
+    <color name="colorStatusBar">#ff0087AF</color>
     <color name="divider_line">#ffe1e1e1</color>
     <color name="divider_line_deep">#ffdddddd</color>
     <color name="textColorDisable">#ffc0c0c0</color>

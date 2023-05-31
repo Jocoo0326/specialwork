@@ -14,7 +14,7 @@
             android:id="@+id/ctoolbar"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:background="#ffbc0303"
+            android:background="@color/colorPrimary"
             app:contentScrim="@color/colorPrimary"
             app:layout_scrollFlags="noScroll"
             app:statusBarScrim="@color/transparent"

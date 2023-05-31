@@ -2,11 +2,13 @@ package com.jocoo.swork.ui.splash
 
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.lifecycle.Lifecycle
 import com.gdmm.core.BaseCompatActivity
 import com.gdmm.core.extensions.observeWithLifecycle
+import com.gdmm.core.extensions.setStatusBar
 import com.hjq.toast.Toaster
 import com.jocoo.swork.databinding.ActivitySplashBinding
 import com.jocoo.swork.ui.login.LoginActivity
@@ -40,6 +42,10 @@ class SplashActivity : BaseCompatActivity<ActivitySplashBinding, SplashState, Sp
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         behaviorSubject.onNext(ActivityEvent.CREATE)
+        setStatusBar(
+            statusBarColor = Color.TRANSPARENT,
+            isFullscreen = true
+        )
     }
 
     override fun onDestroy() {
