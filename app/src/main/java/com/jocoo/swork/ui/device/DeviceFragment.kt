@@ -11,7 +11,9 @@ class DeviceFragment : BaseFragment<FragmentDeviceBinding, DeviceState, DeviceVi
     override val viewModel: DeviceViewModel by viewModels()
 
     override fun initView(savedInstanceState: Bundle?) {
-
+        binding.toolbar.setNavigationOnClickListener {
+            requireActivity().onBackPressed()
+        }
     }
 
     override fun bindListener() {

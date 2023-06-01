@@ -11,7 +11,9 @@ class MonitorFragment : BaseFragment<FragmentMonitorBinding, MonitorState, Monit
     override val viewModel: MonitorViewModel by viewModels()
 
     override fun initView(savedInstanceState: Bundle?) {
-
+        binding.toolbar.setNavigationOnClickListener {
+            requireActivity().onBackPressed()
+        }
     }
 
     override fun bindListener() {
