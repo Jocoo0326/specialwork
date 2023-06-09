@@ -41,6 +41,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeState, HomeViewModel>
                         tvTitle.setTextColor(model.contentColor ?: Color.BLACK)
                         tvDot.visibility = if ((model.total ?: 0) > 0) View.VISIBLE else View.GONE
                         tvDot.text = "${model.total}"
+                        tvDot.setBackgroundResource(model.dotBgRes)
                     }
                 }
                 R.id.cv_content.onClick {

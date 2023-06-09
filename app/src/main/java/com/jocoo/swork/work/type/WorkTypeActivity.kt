@@ -57,6 +57,7 @@ class WorkTypeActivity :
                         )
                         tvDot.visibility = if ((model.total ?: 0) > 0) View.VISIBLE else View.GONE
                         tvDot.text = "${model.total}"
+                        tvDot.setBackgroundResource(WorkMode.parseWorkMode(workMode).dotBgRes)
                     }
                 }
                 R.id.cl_content.onClick {

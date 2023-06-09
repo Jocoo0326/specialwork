@@ -32,7 +32,8 @@ class HomeViewModel @Inject constructor(
                 WorkMode.Todo.id,
                 null,
                 WorkMode.Todo.bgResId,
-                WorkMode.Todo.textColor
+                WorkMode.Todo.textColor,
+                WorkMode.Todo.dotBgRes,
             ),
             HomeItem(
                 WorkMode.Doing.name,
@@ -40,7 +41,8 @@ class HomeViewModel @Inject constructor(
                 WorkMode.Doing.id,
                 null,
                 WorkMode.Doing.bgResId,
-                WorkMode.Doing.textColor
+                WorkMode.Doing.textColor,
+                WorkMode.Doing.dotBgRes,
             ),
             HomeItem(
                 WorkMode.Done.name,
@@ -48,7 +50,8 @@ class HomeViewModel @Inject constructor(
                 WorkMode.Done.id,
                 null,
                 WorkMode.Done.bgResId,
-                WorkMode.Done.textColor
+                WorkMode.Done.textColor,
+                WorkMode.Done.dotBgRes,
             ),
         )
         setState { state ->

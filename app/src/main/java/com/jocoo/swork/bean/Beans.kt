@@ -4,6 +4,7 @@ import android.graphics.Color
 import com.drake.brv.item.ItemExpand
 import com.drake.brv.item.ItemHover
 import com.gdmm.core.network.UserInfoItem
+import com.jocoo.swork.R
 import com.squareup.moshi.JsonClass
 
 
@@ -63,7 +64,8 @@ data class HomeItem(
     var id: Int? = 0,
     var data: List<WorkTypeInfo>? = null,
     var bgResId: Int? = 0,
-    var contentColor: Int? = Color.BLACK
+    var contentColor: Int? = Color.BLACK,
+    var dotBgRes: Int = R.drawable.shape_dot_grey
 )
 
 @JsonClass(generateAdapter = true)
