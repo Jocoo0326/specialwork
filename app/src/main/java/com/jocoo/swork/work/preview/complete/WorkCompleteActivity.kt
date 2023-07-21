@@ -15,11 +15,13 @@ import com.jocoo.swork.data.COMM_KEY_1
 import com.jocoo.swork.data.COMM_KEY_2
 import com.jocoo.swork.data.NavHub
 import com.jocoo.swork.databinding.ActivityWorkCompleteBinding
+import com.jocoo.swork.util.showProcessLimits
 import com.jocoo.swork.util.toMain
 import com.jocoo.swork.widget.CommonInputDialog
 import com.jocoo.swork.widget.SignatureDialog
 import com.jocoo.swork.widget.UploadImageViewModel
 import com.jocoo.swork.widget.face.FaceCreateDialog
+import com.jocoo.swork.widget.face.FaceResult
 import com.jocoo.swork.widget.face.FaceViewModel
 import com.lxj.xpopup.XPopup
 import dagger.hilt.android.AndroidEntryPoint
@@ -32,6 +34,7 @@ import kotlinx.coroutines.flow.asSharedFlow
 class WorkCompleteActivity :
     BaseCompatActivity<ActivityWorkCompleteBinding, WorkCompleteState, WorkCompleteViewModel>() {
 
+    private var lastFaceResult: FaceResult? = null
     override val viewModel: WorkCompleteViewModel by viewModels()
     private val uploadImageViewModel: UploadImageViewModel by viewModels()
     private val _userInputFlow = MutableSharedFlow<String>(
@@ -60,12 +63,14 @@ class WorkCompleteActivity :
             flSignature.setOnClickListener {
                 if (needFace) {
                     faceViewModel.initCheck(workId, FaceViewModel.FINISH_FIELD)
-                    XPopup.Builder(this@WorkCompleteActivity)
-                        .enableDrag(false)
-                        .dismissOnTouchOutside(false)
-                        .asCustom(
-                            FaceCreateDialog(this@WorkCompleteActivity, faceViewModel)
-                        ).show()
+                    showProcessLimits(faceViewModel) {
+                        XPopup.Builder(this@WorkCompleteActivity)
+                            .enableDrag(false)
+                            .dismissOnTouchOutside(false)
+                            .asCustom(
+                                FaceCreateDialog(this@WorkCompleteActivity, faceViewModel)
+                            ).show()
+                    }
                 } else {
                     showSignatureDialog()
                 }
@@ -88,7 +93,7 @@ class WorkCompleteActivity :
                     Toaster.show("请进行签名")
                     return@setOnClickListener
                 }
-                viewModel.setAccept(workId)
+                viewModel.setAccept(workId, lastFaceResult)
             }
         }
         viewModel.getFaceConfigs()
@@ -122,7 +127,8 @@ class WorkCompleteActivity :
             toMain()
         }
         faceViewModel.faceFlow.observeWithLifecycle(this) {
-            if (it == FaceViewModel.success_msg) {
+            if (it.msg == FaceViewModel.success_msg) {
+                lastFaceResult = it
                 showSignatureDialog()
             }
         }

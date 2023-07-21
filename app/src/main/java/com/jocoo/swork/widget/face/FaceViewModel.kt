@@ -5,6 +5,7 @@ import com.gdmm.core.BaseViewModel
 import com.gdmm.core.State
 import com.gdmm.core.di.IoDispatcher
 import com.hjq.toast.Toaster
+import com.jocoo.swork.bean.GetProcessLimitsInfo
 import com.jocoo.swork.data.ApiRepo
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.BufferOverflow
@@ -25,14 +26,15 @@ class FaceViewModel @Inject constructor(
 
     companion object {
         const val start_msg = "start"
-        const val success_msg = "success"
-        const val no_permission_msg = "no_permission"
+        const val success_msg = "_success_"
+        const val no_permission_msg = "_no_permission_"
         const val CREATE_FACE = 1
         const val SEARCH_FACE = 2
         const val MATCH_FACE = 3
         const val CHECK_FACE = 4
         const val GAS_FIELD = "gas"
         const val SAFE_FIELD = "safeoption"
+        const val SAFE_WORKER_FIELD = "workers"
         const val FINISH_FIELD = "finish"
     }
 
@@ -41,7 +43,7 @@ class FaceViewModel @Inject constructor(
     fun createFace(image: String) {
         launchAndCollectIn(repo.createFace(faceUserId, "data:image/png;base64,$image")) {
             onSuccess = {
-                _faceFlow.tryEmit(success_msg)
+                _faceFlow.tryEmit(FaceResult(msg = success_msg))
             }
             onFailed = { errorCode, errorMsg ->
                 startFace(errorMsg ?: "error")
@@ -51,7 +53,7 @@ class FaceViewModel @Inject constructor(
     }
 
     fun searchFace(image: String) {
-        _faceFlow.tryEmit(success_msg)
+        _faceFlow.tryEmit(FaceResult(msg = success_msg))
 //        launchAndCollectIn(repo.searchFace("data:image/png;base64,$image")) {
 //            onSuccess = {
 //                _faceFlow.tryEmit(success_msg)
@@ -66,7 +68,7 @@ class FaceViewModel @Inject constructor(
     fun matchFace(image: String) {
         launchAndCollectIn(repo.matchFace(faceUserId, "data:image/png;base64,$image")) {
             onSuccess = {
-                _faceFlow.tryEmit(success_msg)
+                _faceFlow.tryEmit(FaceResult(msg = success_msg))
             }
             onFailed = { errorCode, errorMsg ->
                 startFace(errorMsg ?: "error")
@@ -87,11 +89,17 @@ class FaceViewModel @Inject constructor(
         val params = mutableMapOf<String, String>()
         params["ticket_id"] = ticketId
         params["field"] = field
-//        params["show_operator"] = "1"
+        params["show_operator"] = "1"
         params["image"] = "data:image/png;base64,$image"
         launchAndCollectIn(repo.checkProcess(params)) {
             onSuccess = {
-                _faceFlow.tryEmit(success_msg)
+                _faceFlow.tryEmit(
+                    FaceResult(
+                        msg = success_msg,
+                        operatorId = it.operator?.id,
+                        facePath = it.operator?.face_path
+                    )
+                )
             }
             onFailed = { errorCode, errorMsg ->
                 when (errorCode) {
@@ -146,14 +154,25 @@ class FaceViewModel @Inject constructor(
             }
             emit(1)
         }.flowOn(io).onEach {
-            _faceFlow.tryEmit(msg)
+            _faceFlow.tryEmit(FaceResult(msg = msg))
         }.launchIn(viewModelScope)
     }
 
-    private val _faceFlow = MutableSharedFlow<String>(
+    private val _faceFlow = MutableSharedFlow<FaceResult>(
         replay = 0,
         extraBufferCapacity = 1,
         onBufferOverflow = BufferOverflow.DROP_OLDEST
     )
     val faceFlow = _faceFlow.asSharedFlow()
+
+    fun getProcessLimits(callback: (GetProcessLimitsInfo) -> Unit) {
+        val params = mutableMapOf<String, String>()
+        params["ticket_id"] = ticketId
+        params["field"] = field
+        launchAndCollectIn(repo.getProcessLimits(params)) {
+            onSuccess = {
+                callback(it)
+            }
+        }
+    }
 }

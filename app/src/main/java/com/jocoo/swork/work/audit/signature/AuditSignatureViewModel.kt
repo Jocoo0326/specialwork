@@ -42,6 +42,8 @@ class AuditSignatureViewModel @Inject constructor(
             params["opinions[${index}][id]"] = "${it.id}"
             params["opinions[${index}][sign]"] = "${it.sign}"
             params["opinions[${index}][content]"] = "${it.comment}"
+            params["opinions[${index}][operator_id]"] = "${it.faceResult?.operatorId}"
+            params["opinions[${index}][face_path]"] = "${it.faceResult?.facePath}"
         }
         launchAndCollectIn(repo.setOpinions(params)) {
             onSuccess = {

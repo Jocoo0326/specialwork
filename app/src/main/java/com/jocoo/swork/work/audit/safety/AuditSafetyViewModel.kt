@@ -4,6 +4,7 @@ import com.gdmm.core.BaseViewModel
 import com.gdmm.core.State
 import com.jocoo.swork.bean.CheckInfo
 import com.jocoo.swork.data.ApiRepo
+import com.jocoo.swork.widget.face.FaceResult
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -36,7 +37,8 @@ class AuditSafetyViewModel @Inject constructor(
         ticketId: String?,
         signImage: String?,
         checkList: List<CheckInfo>?,
-        addCheckList: List<CheckInfo>?
+        addCheckList: List<CheckInfo>?,
+        faceResult: FaceResult?
     ) {
         val params = mutableMapOf<String, String>()
         params["ticket_id"] = "$ticketId"
@@ -48,6 +50,10 @@ class AuditSafetyViewModel @Inject constructor(
         addCheckList?.forEachIndexed { index, it ->
             params["add_check_res[$index][id]"] = "${it.id}"
             params["add_check_res[$index][res]"] = "1"
+        }
+        faceResult?.let {
+            params["operator_id"] = "${it.operatorId}"
+            params["face_path"] = "${it.facePath}"
         }
         launchAndCollectIn(repo.checkSafety(params)) {
             onSuccess = {

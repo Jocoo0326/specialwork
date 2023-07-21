@@ -94,6 +94,14 @@
             app:layout_flexGrow="1.0" />
 
         <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_worker_sign"
+            style="@style/Button.BottomAction.Primary"
+            android:tag="binding_2"
+            android:visibility="gone"
+            android:text="施工人员签名"
+            app:layout_flexGrow="1.0" />
+
+        <com.google.android.material.button.MaterialButton
             android:id="@id/btn_done"
             style="@style/Button.BottomAction.Primary"
             android:tag="binding_3"

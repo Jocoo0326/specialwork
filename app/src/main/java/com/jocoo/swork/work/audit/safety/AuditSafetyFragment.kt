@@ -13,9 +13,11 @@ import com.hjq.toast.Toaster
 import com.jocoo.swork.R
 import com.jocoo.swork.bean.CheckInfo
 import com.jocoo.swork.databinding.WorkAuditSafetymeasuresFragmentBinding
+import com.jocoo.swork.util.showProcessLimits
 import com.jocoo.swork.widget.SignatureDialog
 import com.jocoo.swork.widget.UploadImageViewModel
 import com.jocoo.swork.widget.face.FaceCreateDialog
+import com.jocoo.swork.widget.face.FaceResult
 import com.jocoo.swork.widget.face.FaceViewModel
 import com.jocoo.swork.work.audit.WorkAuditViewModel
 import com.lxj.xpopup.XPopup
@@ -25,6 +27,7 @@ import dagger.hilt.android.AndroidEntryPoint
 class AuditSafetyFragment :
     BaseFragment<WorkAuditSafetymeasuresFragmentBinding, AuditSafetyState, AuditSafetyViewModel>() {
 
+    private var lastFaceResult: FaceResult? = null
     private lateinit var mAdapter: AuditSafetyAdapter
     override val viewModel: AuditSafetyViewModel by viewModels()
     private val actViewModel: WorkAuditViewModel by activityViewModels()
@@ -54,12 +57,14 @@ class AuditSafetyFragment :
                     return@setOnClickListener
                 }
                 faceViewModel.initCheck(actViewModel.workId, FaceViewModel.SAFE_FIELD)
-                XPopup.Builder(requireContext())
-                    .enableDrag(false)
-                    .dismissOnTouchOutside(false)
-                    .asCustom(
-                        FaceCreateDialog(requireActivity(), faceViewModel)
-                    ).show()
+                requireContext().showProcessLimits(faceViewModel) {
+                    XPopup.Builder(requireContext())
+                        .enableDrag(false)
+                        .dismissOnTouchOutside(false)
+                        .asCustom(
+                            FaceCreateDialog(requireActivity(), faceViewModel)
+                        ).show()
+                }
             }
             btnDone.setOnClickListener {
                 val list = mAdapter.data
@@ -86,8 +91,17 @@ class AuditSafetyFragment :
                         Toaster.show("签名不能为空")
                         return@setOnClickListener
                     }
-                    viewModel.checkSafety(ticketId, signImage, checkList, addCheckList)
+                    viewModel.checkSafety(
+                        ticketId,
+                        signImage,
+                        checkList,
+                        addCheckList,
+                        lastFaceResult
+                    )
                 }
+            }
+            btnWorkerSign.setOnClickListener {
+
             }
         }
         actViewModel.state.observeWithLifecycle(this) {
@@ -132,7 +146,8 @@ class AuditSafetyFragment :
             updateHasAuditTodo()
         }
         faceViewModel.faceFlow.observeWithLifecycle(this) {
-            if (it == FaceViewModel.success_msg) {
+            if (it.msg == FaceViewModel.success_msg) {
+                lastFaceResult = it
                 viewModel.signMode(true)
                 showSignatureDialog()
             }
@@ -147,6 +162,8 @@ class AuditSafetyFragment :
         binding.apply {
             btnAudit.visibility =
                 if (!state.showOkCancel && state.showAudit) View.VISIBLE else View.GONE
+            btnWorkerSign.visibility =
+                if (!state.showOkCancel && !state.showAudit) View.VISIBLE else View.GONE
             btnDone.visibility =
                 if (!state.showOkCancel && state.showNext) View.VISIBLE else View.GONE
             btnCancelAudit.visibility = if (state.showOkCancel) View.VISIBLE else View.GONE

@@ -6,6 +6,7 @@ import com.gdmm.core.State
 import com.gdmm.core.network.SessionManager
 import com.jocoo.swork.bean.FaceConfigInfo
 import com.jocoo.swork.data.ApiRepo
+import com.jocoo.swork.widget.face.FaceResult
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.channels.BufferOverflow
@@ -23,11 +24,15 @@ class WorkCompleteViewModel @Inject constructor(
     @ApplicationContext private val appContext: Context
 ) : BaseViewModel<WorkCompleteState>(WorkCompleteState()) {
 
-    fun setAccept(id: String) {
+    fun setAccept(id: String, faceResult: FaceResult?) {
         val params = mutableMapOf<String, String>()
         params["ticket_id"] = id
         params["content"] = comment
         params["sign"] = sign
+        faceResult?.let {
+            params["operator_id"] = "${faceResult.operatorId}"
+            params["face_path"] = "${faceResult.facePath}"
+        }
         launchAndCollectIn(repo.setAccept(params)) {
             onSuccess = {
                 _setAcceptFlow.tryEmit(true)

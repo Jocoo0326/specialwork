@@ -48,10 +48,10 @@ class FaceCreateDialog(
             viewModel.startFace()
         }
         viewModel.faceFlow.observeWithLifecycle(this) {
-            if (it == FaceViewModel.success_msg || it == FaceViewModel.no_permission_msg) {
+            if (it.msg == FaceViewModel.success_msg || it.msg == FaceViewModel.no_permission_msg) {
                 dismiss()
             } else {
-                tvTips.text = if (it == FaceViewModel.start_msg) "请保持人脸在框内" else it
+                tvTips.text = if (it.msg == FaceViewModel.start_msg) "请保持人脸在框内" else it.msg
                 preview.bitmap?.let { bm ->
                     viewModel.requestFace(bm.scale(720, 720).toBase64String())
                 } ?: viewModel.startFace()

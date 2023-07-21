@@ -169,5 +169,12 @@ interface ApiService {
     @FormUrlEncoded
     suspend fun checkProcess(
         @FieldMap params: Map<String, String>
-    ): MMVoid
+    ): CheckProcessInfo
+
+    @Php
+    @POST("apps/face/get_process_limits.html")
+    @FormUrlEncoded
+    suspend fun getProcessLimits(
+        @FieldMap params: Map<String, String>
+    ): GetProcessLimitsInfo
 }

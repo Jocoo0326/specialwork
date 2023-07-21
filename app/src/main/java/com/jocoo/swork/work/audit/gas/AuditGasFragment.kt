@@ -11,6 +11,7 @@ import com.gdmm.core.BaseFragment
 import com.gdmm.core.extensions.observeWithLifecycle
 import com.jocoo.swork.R
 import com.jocoo.swork.databinding.WorkAuditGasFragmentBinding
+import com.jocoo.swork.util.showProcessLimits
 import com.jocoo.swork.widget.GasAddDialog
 import com.jocoo.swork.widget.face.FaceCreateDialog
 import com.jocoo.swork.widget.face.FaceViewModel
@@ -91,13 +92,14 @@ class AuditGasFragment :
 
     private fun popFaceDialog() {
         faceViewModel.initCheck(actViewModel.workId, FaceViewModel.GAS_FIELD)
-        XPopup.Builder(requireContext())
-            .enableDrag(false)
-            .dismissOnTouchOutside(false)
-            .asCustom(
-                FaceCreateDialog(requireActivity(), faceViewModel)
-            ).show()
-
+        requireContext().showProcessLimits(faceViewModel) {
+            XPopup.Builder(requireContext())
+                .enableDrag(false)
+                .dismissOnTouchOutside(false)
+                .asCustom(
+                    FaceCreateDialog(requireActivity(), faceViewModel)
+                ).show()
+        }
     }
 
     private fun showGasDialog(id: String? = null) {
@@ -127,15 +129,17 @@ class AuditGasFragment :
                 }
         }
         faceViewModel.faceFlow.observeWithLifecycle(this) {
-            if (it == FaceViewModel.success_msg) {
+            if (it.msg == FaceViewModel.success_msg) {
                 facePassed = true
                 when (mAction) {
                     "add" -> {
                         popGasDialog()
                     }
+
                     "mod" -> {
                         popGasDialog(mTargetId)
                     }
+
                     "del" -> {
                         popDeleteDialog(mTargetId)
                     }

@@ -20,6 +20,7 @@ import com.jocoo.swork.R
 import com.jocoo.swork.bean.*
 import com.jocoo.swork.databinding.WorkAuditSignatureFragmentBinding
 import com.jocoo.swork.databinding.WorkAuditSignatureItemBinding
+import com.jocoo.swork.util.showProcessLimits
 import com.jocoo.swork.widget.CommonInputDialog
 import com.jocoo.swork.widget.SignatureDialog
 import com.jocoo.swork.widget.UploadImageViewModel
@@ -63,12 +64,14 @@ class AuditSignatureFragment :
                     curModel = model
                     if (model is ProcessOpinion && model.isFace && model.sign.isNullOrEmpty()) {
                         faceViewModel.initCheck(actViewModel.workId, model.field ?: "")
-                        XPopup.Builder(requireContext())
-                            .enableDrag(false)
-                            .dismissOnTouchOutside(false)
-                            .asCustom(
-                                FaceCreateDialog(requireActivity(), faceViewModel)
-                            ).show()
+                        requireContext().showProcessLimits(faceViewModel) {
+                            XPopup.Builder(requireContext())
+                                .enableDrag(false)
+                                .dismissOnTouchOutside(false)
+                                .asCustom(
+                                    FaceCreateDialog(requireActivity(), faceViewModel)
+                                ).show()
+                        }
                     } else {
                         showSignatureDialog()
                     }
@@ -165,7 +168,10 @@ class AuditSignatureFragment :
             viewModel.setOpinions(actViewModel.workId, list)
         }
         faceViewModel.faceFlow.observeWithLifecycle(this) {
-            if (it == FaceViewModel.success_msg) {
+            if (it.msg == FaceViewModel.success_msg) {
+                if (curModel != null) {
+                    curModel?.faceResult = it
+                }
                 showSignatureDialog()
             }
         }

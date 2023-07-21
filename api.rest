@@ -49,6 +49,12 @@ GET :url/apps/ticket/get_info.html?ticket_id=1
 GET :url/apps/ticket/getTicketOpinions.html?ticket_id=45
 :xtoken
 
+#验证人脸范围提醒
+POST :url/apps/face/get_process_limits.html
+:xtoken
+ticket_id=74
+field=finish
+
 #获取气体类型
 GET :url/base_api/getSensorDataType.html
 :xtoken

@@ -12,6 +12,7 @@ import android.widget.LinearLayout
 import androidx.annotation.ColorRes
 import androidx.appcompat.widget.LinearLayoutCompat
 import androidx.core.content.ContextCompat
+import com.afollestad.materialdialogs.MaterialDialog
 import com.allen.library.SuperTextView
 import com.blankj.utilcode.util.SizeUtils
 import com.blankj.utilcode.util.SpanUtils
@@ -24,11 +25,25 @@ import com.jocoo.swork.bean.TicketDetailInfo
 import com.jocoo.swork.data.enum.WorkType
 import com.jocoo.swork.ui.login.LoginActivity
 import com.jocoo.swork.ui.main.MainActivity
+import com.jocoo.swork.widget.face.FaceViewModel
 import com.lxj.xpopup.XPopup
 import com.lxj.xpopup.util.SmartGlideImageLoader
 import java.io.ByteArrayOutputStream
 import java.math.BigDecimal
 import kotlin.math.min
+
+fun Context.showProcessLimits(faceViewModel: FaceViewModel, callback: () -> Unit) {
+    faceViewModel.getProcessLimits {
+        val dialog = MaterialDialog(this)
+        dialog.title(text = "即将进入人脸验证")
+        dialog.message(text = "验证类型：${it.types}\n验证范围：${it.names?.joinToString(separator = ", ")}")
+        dialog.cancelable(false)
+        dialog.positiveButton(text = "确定") {
+            callback()
+        }
+        dialog.show()
+    }
+}
 
 fun Context.reLogin() {
     startActivity(Intent(this, LoginActivity::class.java).also {

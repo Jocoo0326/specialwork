@@ -79,7 +79,7 @@ class StaffDetailActivity :
 
     override fun bindListener() {
         faceViewModel.faceFlow.observeWithLifecycle(this) {
-            if (it == FaceViewModel.success_msg) {
+            if (it.msg == FaceViewModel.success_msg) {
                 mBinding.siFace.setRightText("已认证")
                 mBinding.btnEnterFaceId.visibility = View.GONE
                 Toaster.show("人脸信息录入成功")

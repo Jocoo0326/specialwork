@@ -5,6 +5,7 @@ import com.drake.brv.item.ItemExpand
 import com.drake.brv.item.ItemHover
 import com.gdmm.core.network.UserInfoItem
 import com.jocoo.swork.R
+import com.jocoo.swork.widget.face.FaceResult
 import com.squareup.moshi.JsonClass
 
 
@@ -217,7 +218,8 @@ data class ProcessOpinion(
     val field: String? = null,
     var is_need_face: String? = null,
     val content: String? = null,
-    override var sign: String? = null
+    override var sign: String? = null,
+    override var faceResult: FaceResult? = null
 ) : SignInfo {
     override var comment: String? = null
     override var isFace: Boolean = false
@@ -347,7 +349,8 @@ data class SignOption(
     var name: String? = null,
     override var comment: String? = null,
     override var sign: String? = null,
-    override var isFace: Boolean = false
+    override var isFace: Boolean = false,
+    override var faceResult: FaceResult? = null
 ) : SignInfo
 
 @JsonClass(generateAdapter = true)
@@ -357,13 +360,15 @@ data class OpinionOption(
     var field: String? = null,
     override var comment: String? = null,
     override var sign: String? = null,
-    override var isFace: Boolean = false
+    override var isFace: Boolean = false,
+    override var faceResult: FaceResult? = null
 ) : SignInfo
 
 interface SignInfo {
     var comment: String?
     var sign: String?
     var isFace: Boolean
+    var faceResult: FaceResult?
 }
 
 data class AppEvent(
@@ -393,3 +398,20 @@ data class FaceConfigInfo(
         return workType == "${workTypeInt - 1}"
     }
 }
+
+@JsonClass(generateAdapter = true)
+data class CheckProcessInfo(
+    var operator: CheckProcessOperator? = null,
+)
+
+@JsonClass(generateAdapter = true)
+data class CheckProcessOperator(
+    var id: String? = null,
+    var face_path: String? = null,
+)
+
+@JsonClass(generateAdapter = true)
+data class GetProcessLimitsInfo(
+    var types: String? = null,
+    var names: List<String>? = null
+)

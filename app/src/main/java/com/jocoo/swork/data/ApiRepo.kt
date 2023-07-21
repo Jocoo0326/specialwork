@@ -140,4 +140,10 @@ class ApiRepo @Inject constructor(
     ) = flow {
         emit(ApiResponse.success(apiService.checkProcess(params)))
     }.safeApiCall(ioDispatcher)
+
+    fun getProcessLimits(
+        params: Map<String, String>
+    ) = flow {
+        emit(ApiResponse.success(apiService.getProcessLimits(params)))
+    }.safeApiCall(ioDispatcher)
 }
