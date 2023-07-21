@@ -177,4 +177,11 @@ interface ApiService {
     suspend fun getProcessLimits(
         @FieldMap params: Map<String, String>
     ): GetProcessLimitsInfo
+
+    @Php
+    @POST("apps/ticket/set_workers_sign.html")
+    @FormUrlEncoded
+    suspend fun setWorkersSign(
+        @FieldMap params: Map<String, String>
+    ): MMVoid
 }

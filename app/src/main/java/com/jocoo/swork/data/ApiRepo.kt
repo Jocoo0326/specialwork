@@ -146,4 +146,10 @@ class ApiRepo @Inject constructor(
     ) = flow {
         emit(ApiResponse.success(apiService.getProcessLimits(params)))
     }.safeApiCall(ioDispatcher)
+
+    fun setWorkersSign(
+        params: Map<String, String>
+    ) = flow {
+        emit(ApiResponse.success(apiService.setWorkersSign(params)))
+    }.safeApiCall(ioDispatcher)
 }

@@ -154,6 +154,7 @@ data class TicketDetailInfo(
     val org_name: String? = null,
     val processOpinions: List<ProcessOpinion>? = null,
     var sensorDataList: List<GasInfo>? = null,
+    val work_sign_list: List<WorkSign>? = null,
 ) {
     val auditDepartmentStr: String
         get() {
@@ -414,4 +415,11 @@ data class CheckProcessOperator(
 data class GetProcessLimitsInfo(
     var types: String? = null,
     var names: List<String>? = null
+)
+
+@JsonClass(generateAdapter = true)
+data class WorkSign(
+    var id: String? = null,
+    var operator_id: String? = null,
+    var sign: String? = null,
 )

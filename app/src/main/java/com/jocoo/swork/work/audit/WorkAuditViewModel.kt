@@ -9,6 +9,7 @@ import com.jocoo.swork.bean.GasInfo
 import com.jocoo.swork.bean.GasTableOptionsInfo
 import com.jocoo.swork.bean.TicketDetailInfo
 import com.jocoo.swork.data.ApiRepo
+import com.jocoo.swork.widget.face.FaceResult
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.channels.BufferOverflow
@@ -176,6 +177,21 @@ class WorkAuditViewModel @Inject constructor(
                 setState { state ->
                     state.copy(faceConfigs = it.lists)
                 }
+            }
+        }
+    }
+
+    fun workerSign(sign: String, faceResult: FaceResult?) {
+        val params = mutableMapOf<String, String>()
+        params["ticket_id"] = workId
+        params["sign"] = sign
+        faceResult?.let {
+            params["operator_id"] = "${it.operatorId}"
+            params["face_path"] = "${it.facePath}"
+        }
+        launchAndCollectIn(repo.setWorkersSign(params)) {
+            onSuccess = {
+                getTicketInfo()
             }
         }
     }

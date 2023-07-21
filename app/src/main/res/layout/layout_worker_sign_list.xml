@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/table_header_grey">
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tv_2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:paddingVertical="@dimen/dp_17"
+        android:text="施工人员签名"
+        android:textAppearance="@style/Text.Subtitle1.Primary"
+        android:textSize="@dimen/comm_ui_sp_20"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tv_3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:paddingVertical="@dimen/dp_20"
+        android:text="暂无数据"
+        android:textColor="@color/black"
+        android:textSize="@dimen/comm_ui_sp_13"
+        android:visibility="gone"
+        app:layout_constraintLeft_toLeftOf="@id/rv_worker_sign"
+        app:layout_constraintRight_toRightOf="@id/rv_worker_sign"
+        app:layout_constraintTop_toBottomOf="@id/tv_2" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_worker_sign"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="@dimen/dp_10"
+        android:paddingBottom="10dp"
+        app:layout_constraintTop_toBottomOf="@+id/tv_2" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

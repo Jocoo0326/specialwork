@@ -6,12 +6,20 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import com.bumptech.glide.Glide
+import com.drake.brv.annotaion.DividerOrientation
 import com.drake.brv.utils.divider
+import com.drake.brv.utils.grid
+import com.drake.brv.utils.models
+import com.drake.brv.utils.setup
 import com.gdmm.core.BaseFragment
 import com.gdmm.core.extensions.observeWithLifecycle
 import com.hjq.toast.Toaster
 import com.jocoo.swork.R
 import com.jocoo.swork.bean.CheckInfo
+import com.jocoo.swork.bean.WorkSign
+import com.jocoo.swork.databinding.LayoutWorkerSignItemBinding
+import com.jocoo.swork.databinding.LayoutWorkerSignListBinding
 import com.jocoo.swork.databinding.WorkAuditSafetymeasuresFragmentBinding
 import com.jocoo.swork.util.showProcessLimits
 import com.jocoo.swork.widget.SignatureDialog
@@ -33,13 +41,34 @@ class AuditSafetyFragment :
     private val actViewModel: WorkAuditViewModel by activityViewModels()
     private val uploadImageViewModel: UploadImageViewModel by viewModels()
     private val faceViewModel: FaceViewModel by viewModels()
+    private val mWorkerSignViewBinding: LayoutWorkerSignListBinding by lazy {
+        LayoutWorkerSignListBinding.inflate(LayoutInflater.from(requireContext()))
+    }
 
     override fun initView(savedInstanceState: Bundle?) {
+        mWorkerSignViewBinding.apply {
+            rvWorkerSign
+                .grid(spanCount = 2)
+                .divider {
+                    setDivider(10, true)
+                    orientation = DividerOrientation.GRID
+                }
+                .setup {
+                    addType<WorkSign>(R.layout.layout_worker_sign_item)
+                    onBind {
+                        val model = getModel<WorkSign>()
+                        getBinding<LayoutWorkerSignItemBinding>().let {
+                            Glide.with(it.tv1).load(model.sign).into(it.tv1)
+                        }
+                    }
+                }
+        }
         binding.apply {
             recyclerView.divider {
                 setColorRes(R.color.divider_line)
             }
             mAdapter = AuditSafetyAdapter()
+            mAdapter.addFooterView(mWorkerSignViewBinding.root)
             mAdapter.setOnItemChildClickListener { _, view, pos ->
                 if (view.id == R.id.iv_signature) {
                     val item = mAdapter.getItem(pos)
@@ -73,6 +102,11 @@ class AuditSafetyFragment :
                     Toaster.show("安全措施未全部审核")
                     return@setOnClickListener
                 }
+
+                if (actViewModel.state.value.detail?.work_sign_list.isNullOrEmpty()) {
+                    Toaster.show("施工人员未签名")
+                    return@setOnClickListener
+                }
                 actViewModel.nextPage()
             }
             btnCancelAudit.setOnClickListener {
@@ -101,7 +135,15 @@ class AuditSafetyFragment :
                 }
             }
             btnWorkerSign.setOnClickListener {
-
+                faceViewModel.initCheck(actViewModel.workId, FaceViewModel.SAFE_WORKER_FIELD)
+                requireContext().showProcessLimits(faceViewModel) {
+                    XPopup.Builder(requireContext())
+                        .enableDrag(false)
+                        .dismissOnTouchOutside(false)
+                        .asCustom(
+                            FaceCreateDialog(requireActivity(), faceViewModel)
+                        ).show()
+                }
             }
         }
         actViewModel.state.observeWithLifecycle(this) {
@@ -110,6 +152,9 @@ class AuditSafetyFragment :
             checkList.addAll(it.detail?.addCheckList?.toList() ?: emptyList())
             mAdapter.setNewInstance(checkList)
             updateHasAuditTodo()
+            mWorkerSignViewBinding.rvWorkerSign.models = it.detail?.work_sign_list
+            mWorkerSignViewBinding.tv3.visibility =
+                if (it.detail?.work_sign_list.isNullOrEmpty()) View.VISIBLE else View.GONE
         }
     }
 
@@ -129,12 +174,16 @@ class AuditSafetyFragment :
 
     override fun bindListener() {
         uploadImageViewModel.uploadImageFlow.observeWithLifecycle(this) {
-            val list = mAdapter.data
-            val selectedList = list.filter { it1 -> !it1.isConfirmed && it1.isSelected }
-            selectedList.forEach { it1 ->
-                it1.sign = it
+            if (faceViewModel.field == FaceViewModel.SAFE_FIELD) {
+                val list = mAdapter.data
+                val selectedList = list.filter { it1 -> !it1.isConfirmed && it1.isSelected }
+                selectedList.forEach { it1 ->
+                    it1.sign = it
+                }
+                mAdapter.notifyDataSetChanged()
+            } else if (faceViewModel.field == FaceViewModel.SAFE_WORKER_FIELD) {
+                actViewModel.workerSign(it, lastFaceResult)
             }
-            mAdapter.notifyDataSetChanged()
         }
         viewModel.checkSafetyFlow.observeWithLifecycle(this) {
             val list = mAdapter.data
@@ -148,7 +197,9 @@ class AuditSafetyFragment :
         faceViewModel.faceFlow.observeWithLifecycle(this) {
             if (it.msg == FaceViewModel.success_msg) {
                 lastFaceResult = it
-                viewModel.signMode(true)
+                if (faceViewModel.field == FaceViewModel.SAFE_FIELD) {
+                    viewModel.signMode(true)
+                }
                 showSignatureDialog()
             }
         }
