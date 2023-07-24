@@ -34,17 +34,9 @@ class PreviewSafetyFragment :
             }.setup {
                 addType<CheckInfo>(R.layout.work_preview_safetymeasures_item)
                 addType<Footer>(R.layout.layout_worker_sign_list)
-                onBind {
-                    when (val model = getModel<Any>()) {
-                        is CheckInfo -> {
-                            getBinding<WorkPreviewSafetymeasuresItemBinding>().apply {
-                                tvNumber.text = "${modelPosition + 1}"
-                                tv1.text = model.content
-                                tv2.text = model.isHasStr
-                                Glide.with(ivSignature).load(model.sign).into(ivSignature)
-                            }
-                        }
-                        is Footer -> {
+                onCreate {
+                    when (itemViewType) {
+                        R.layout.layout_worker_sign_list -> {
                             getBinding<LayoutWorkerSignListBinding>().apply {
                                 rvWorkerSign
                                     .grid(spanCount = 2)
@@ -57,10 +49,31 @@ class PreviewSafetyFragment :
                                         onBind {
                                             val modelWorkSign = getModel<WorkSign>()
                                             getBinding<LayoutWorkerSignItemBinding>().let {
-                                                Glide.with(it.tv1).load(modelWorkSign.sign).into(it.tv1)
+                                                Glide.with(it.tv1).load(modelWorkSign.sign)
+                                                    .into(it.tv1)
                                             }
                                         }
-                                    }.models = model.workSignList
+                                    }
+                            }
+                        }
+                        else -> {
+
+                        }
+                    }
+                }
+                onBind {
+                    when (val model = getModel<Any>()) {
+                        is CheckInfo -> {
+                            getBinding<WorkPreviewSafetymeasuresItemBinding>().apply {
+                                tvNumber.text = "${modelPosition + 1}"
+                                tv1.text = model.content
+                                tv2.text = model.isHasStr
+                                Glide.with(ivSignature).load(model.sign).into(ivSignature)
+                            }
+                        }
+                        is Footer -> {
+                            getBinding<LayoutWorkerSignListBinding>().apply {
+                                rvWorkerSign.models = model.workSignList
                                 tv3.visibility =
                                     if (model.workSignList.isNullOrEmpty()) View.VISIBLE else View.GONE
                             }
@@ -77,6 +90,7 @@ class PreviewSafetyFragment :
             checkList.addAll(it.detail?.checkList?.toList() ?: emptyList())
             checkList.addAll(it.detail?.addCheckList?.toList() ?: emptyList())
             binding.recyclerView.models = checkList
+            binding.recyclerView.bindingAdapter.removeFooterAt()
             binding.recyclerView.bindingAdapter.addFooter(Footer(it.detail?.work_sign_list))
         }
     }
