@@ -2,6 +2,7 @@ package com.jocoo.swork.work.list
 
 import android.os.Bundle
 import androidx.activity.viewModels
+import androidx.lifecycle.Lifecycle
 import com.alibaba.android.arouter.facade.annotation.Autowired
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
@@ -58,7 +59,8 @@ class WorkListActivity :
     override fun initView(savedInstanceState: Bundle?) {
         mBinding.apply {
             simpleActionBar(toolbar)
-            toolbar.title = "作业票列表$typeName"
+            changeTitle()
+            toolbar.subtitle = typeName
             smart.setEnableLoadMore(false)
             smart.setOnRefreshListener {
                 viewModel.getTicketList(workMode, typeId)
@@ -101,11 +103,19 @@ class WorkListActivity :
     }
 
     override fun bindListener() {
-        mEventFlow.observeWithLifecycle(this) {
+        mEventFlow.observeWithLifecycle(this, minActiveState = Lifecycle.State.CREATED) {
             if (it.type == AppEventType.START_WORK) {
-                viewModel.getTicketList(workMode, typeId)
+                workMode = WorkMode.Doing_Id
+            } else if (it.type == AppEventType.CHANGE_TO_DONE_WORK_TYPE) {
+                workMode = WorkMode.Done_Id
             }
+            changeTitle()
+            viewModel.getTicketList(workMode, typeId)
         }
+    }
+
+    private fun changeTitle() {
+        mBinding.toolbar.title = WorkMode.parseWorkMode(workMode).name + "列表"
     }
 
     override fun onViewStateChange(state: WorkListState) {

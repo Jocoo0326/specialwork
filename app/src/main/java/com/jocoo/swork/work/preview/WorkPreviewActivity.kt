@@ -5,6 +5,7 @@ import android.view.View
 import androidx.activity.viewModels
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
+import androidx.lifecycle.Lifecycle
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.alibaba.android.arouter.facade.annotation.Autowired
 import com.alibaba.android.arouter.facade.annotation.Route
@@ -12,6 +13,8 @@ import com.alibaba.android.arouter.launcher.ARouter
 import com.gdmm.core.BaseCompatActivity
 import com.gdmm.core.extensions.observeWithLifecycle
 import com.google.android.material.tabs.TabLayoutMediator
+import com.jocoo.swork.bean.AppEvent
+import com.jocoo.swork.bean.AppEventType
 import com.jocoo.swork.data.COMM_KEY_1
 import com.jocoo.swork.data.COMM_KEY_2
 import com.jocoo.swork.data.NavHub
@@ -25,6 +28,8 @@ import com.jocoo.swork.work.preview.gas.PreviewGasFragment
 import com.jocoo.swork.work.preview.safety.PreviewSafetyFragment
 import com.jocoo.swork.work.preview.signature.PreviewSignatureFragment
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.MutableSharedFlow
+import javax.inject.Inject
 
 @Route(path = NavHub.WORK_PREVIEW)
 @AndroidEntryPoint
@@ -40,6 +45,9 @@ class WorkPreviewActivity :
     @JvmField
     @Autowired(name = COMM_KEY_2)
     var workId: String = ""
+
+    @Inject
+    lateinit var mEventFlow: MutableSharedFlow<AppEvent>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         ARouter.getInstance().inject(this)
@@ -99,6 +107,11 @@ class WorkPreviewActivity :
                 mBinding.btnInterrupt.visibility = View.VISIBLE
                 mBinding.btnComplete.visibility = View.VISIBLE
                 viewModel.state.value.detail?.is_stop = "0"
+            }
+        }
+        mEventFlow.observeWithLifecycle(this, minActiveState = Lifecycle.State.CREATED) {
+            if (it.type == AppEventType.CHANGE_TO_DONE_WORK_TYPE) {
+                finish()
             }
         }
     }

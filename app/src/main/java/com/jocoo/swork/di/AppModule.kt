@@ -24,6 +24,6 @@ class AppModule {
     @Provides
     @Singleton
     fun provideEventFlow(): MutableSharedFlow<AppEvent> {
-        return MutableSharedFlow(1, 0, BufferOverflow.DROP_OLDEST)
+        return MutableSharedFlow(0, 1, BufferOverflow.DROP_OLDEST)
     }
 }

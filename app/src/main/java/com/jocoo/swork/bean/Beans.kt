@@ -380,6 +380,8 @@ annotation class AppEventType {
     companion object {
         const val CREATE_FACE = 0
         const val START_WORK = 1
+        const val CHANGE_TO_DOING_WORK_TYPE = 2
+        const val CHANGE_TO_DONE_WORK_TYPE = 3
     }
 }
 

@@ -11,12 +11,13 @@ import com.gdmm.core.BaseCompatActivity
 import com.gdmm.core.extensions.observeWithLifecycle
 import com.gdmm.core.extensions.simpleActionBar
 import com.hjq.toast.Toaster
+import com.jocoo.swork.bean.AppEvent
+import com.jocoo.swork.bean.AppEventType
 import com.jocoo.swork.data.COMM_KEY_1
 import com.jocoo.swork.data.COMM_KEY_2
 import com.jocoo.swork.data.NavHub
 import com.jocoo.swork.databinding.ActivityWorkCompleteBinding
 import com.jocoo.swork.util.showProcessLimits
-import com.jocoo.swork.util.toMain
 import com.jocoo.swork.widget.CommonInputDialog
 import com.jocoo.swork.widget.SignatureDialog
 import com.jocoo.swork.widget.UploadImageViewModel
@@ -28,6 +29,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
+import javax.inject.Inject
 
 @Route(path = NavHub.WORK_COMPLETE)
 @AndroidEntryPoint
@@ -51,6 +53,9 @@ class WorkCompleteActivity :
     var needFace: Boolean = false
 
     private val faceViewModel: FaceViewModel by viewModels()
+
+    @Inject
+    lateinit var mEventFlow: MutableSharedFlow<AppEvent>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         ARouter.getInstance().inject(this)
@@ -124,7 +129,8 @@ class WorkCompleteActivity :
         }
         viewModel.setAcceptFlow.observeWithLifecycle(this) {
             Toaster.show("验收成功")
-            toMain()
+            mEventFlow.tryEmit(AppEvent(AppEventType.CHANGE_TO_DONE_WORK_TYPE))
+            finish()
         }
         faceViewModel.faceFlow.observeWithLifecycle(this) {
             if (it.msg == FaceViewModel.success_msg) {
