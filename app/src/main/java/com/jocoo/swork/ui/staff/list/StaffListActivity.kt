@@ -3,6 +3,7 @@ package com.jocoo.swork.ui.staff.list
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.widget.SearchView
+import androidx.lifecycle.Lifecycle
 import com.alibaba.android.arouter.facade.annotation.Autowired
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
@@ -96,7 +97,7 @@ class StaffListActivity :
     }
 
     override fun bindListener() {
-        mEventFlow.observeWithLifecycle(this) {
+        mEventFlow.observeWithLifecycle(this, minActiveState = Lifecycle.State.CREATED) {
             if (it.type == AppEventType.CREATE_FACE) {
                 viewModel.fetchOperatorList(type, name, id)
             }

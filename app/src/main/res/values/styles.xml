@@ -46,6 +46,9 @@
         <item name="android:elevation">@dimen/dp_2</item>
         <item name="navigationIcon">@drawable/svg_arrow_back</item>
         <item name="titleCentered">true</item>
+        <item name="subtitleCentered">true</item>
+        <item name="titleTextColor">#333</item>
+        <item name="subtitleTextColor">#333</item>
     </style>
 
     <style name="Text.Body1.Primary" parent="@style/TextAppearance.MaterialComponents.Body1">
