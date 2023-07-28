@@ -115,7 +115,7 @@ fun fillRoadBaseInfo(ll: LinearLayout, info: TicketDetailInfo) {
                         it,
                         it1.name,
                         "",
-                        "https://t7.baidu.com/it/u=1797337163,4088130314&fm=193&f=GIF"/*it1.value*/
+                        it1.value
                     )
                 } else {
                     make2Col(it, it1.name, it1.value)
