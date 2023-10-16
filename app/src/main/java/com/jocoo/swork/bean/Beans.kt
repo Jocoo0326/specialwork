@@ -16,8 +16,11 @@ data class StaffGroupItem(
     override var itemExpand: Boolean = true
 
     override var itemGroupPosition: Int = 0
+    override fun getItemSublist(): List<Any?>? {
+        return _itemSublist
+    }
 
-    override var itemSublist: List<Any?>? = null
+    var _itemSublist: List<Any?>? = null
 
     override var itemHover: Boolean = true
 }

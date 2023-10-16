@@ -65,7 +65,7 @@ class StaffViewModel @Inject constructor(
                     item.isDepartment = true
                 }
                 val staffList = state.value.staffGroupList?.toList()
-                staffList?.getOrNull(0)?.itemSublist = it.lists
+                staffList?.getOrNull(0)?._itemSublist = it.lists
                 setState { state ->
                     state.copy(staffGroupList = staffList)
                 }
@@ -108,7 +108,7 @@ class StaffViewModel @Inject constructor(
                     item.isDepartment = false
                 }
                 val staffList = state.value.staffGroupList?.toList()
-                staffList?.getOrNull(1)?.itemSublist = it.lists
+                staffList?.getOrNull(1)?._itemSublist = it.lists
                 setState { state ->
                     state.copy(staffGroupList = staffList)
                 }
@@ -121,7 +121,7 @@ class StaffViewModel @Inject constructor(
             item.isDepartment = true
         }
         val staffList = state.value.staffGroupList?.toList()
-        staffList?.getOrNull(0)?.itemSublist = lists
+        staffList?.getOrNull(0)?._itemSublist = lists
         setState { state ->
             state.copy(staffGroupList = staffList)
         }

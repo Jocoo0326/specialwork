@@ -14,4 +14,4 @@ getLatestApk:
 	@echo "new Apk: $(shell ls -t ${apkDir}/*.apk | head -n1 | cut -d/ -f5)"
 
 clear:
-	rm ~/Temp/specialwork*.apk
+	rm -f ~/Temp/specialwork*.apk

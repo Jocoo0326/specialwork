@@ -117,7 +117,7 @@ ext {
             'com.github.tbruyelle:rxpermissions:0.12',
             'io.reactivex.rxjava3:rxjava:3.0.4',
             'com.blankj:utilcodex:1.31.1',
-            'com.github.liangjingkanji:BRV:1.4.1',
+            'com.github.liangjingkanji:BRV:1.5.3',
             'com.trello.rxlifecycle4:rxlifecycle:4.0.2',
             'com.trello.rxlifecycle4:rxlifecycle-android:4.0.2',
             'com.afollestad.material-dialogs:core:3.3.0',
